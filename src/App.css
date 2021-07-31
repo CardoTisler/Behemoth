@@ -20,15 +20,6 @@ body {
   display: flex;
   flex-direction: row;
 }
-.banner{
-  text-align: left;
-  padding: 20px;
-
-  border-bottom: solid;
-  border-bottom-width: 1px;
-  border-color: white;
-
-}
 
 nav{
   list-style-type: none;
@@ -37,7 +28,5 @@ nav{
   border-right: solid;
   border-right-width: 1px;
   border-color: white;
-
-  height: 50vh;
 }
 
