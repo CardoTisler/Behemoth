@@ -13,9 +13,13 @@ body {
 }
 
 .App {
-  text-align: center;
+  flex-flow: column;
 }
 
+.content{
+  display: flex;
+  flex-direction: row;
+}
 .banner{
   text-align: left;
   padding: 20px;
@@ -29,11 +33,11 @@ body {
 nav{
   list-style-type: none;
   padding: 10px;
-  width: 200px;
+  display: inline-block;
   border-right: solid;
   border-right-width: 1px;
   border-color: white;
 
-  height: 90vh;
+  height: 50vh;
 }
 

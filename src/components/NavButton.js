@@ -12,6 +12,7 @@ const NavButton = (props) => {
           color: 'white',
           height: 48,
           padding: '0 30px',
+          width: '100%'
         },
     });
     const classes = useStyles();

@@ -1,7 +1,9 @@
 import './App.css';
+import {useState} from 'react'
 import Banner from './components/Banner'
 import NavigationBar from './components/NavigationBar'
-import {useState} from 'react'
+import Dashboard from './components/dashboard/Dashboard'
+import DateFilter from './components/dashboard/DateFilter'
 
 function App() {
   const [bannerTitle, setBannerTitle] = useState('Dashboard')
@@ -14,9 +16,15 @@ function App() {
   return (
     <div className="App">
       <Banner title={bannerTitle}/>
-      <NavigationBar onButtonClick={handleBannerText}/>
+      
+      <div className='content'>
+        <NavigationBar onButtonClick={handleBannerText}/>
+        <Dashboard />
+      </div>
     </div>
   );
+
+
 }
 
 export default App;
