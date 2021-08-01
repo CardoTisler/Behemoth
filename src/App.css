@@ -10,6 +10,8 @@
 
 body {
   font-family: 'Roboto', sans-serif;
+  height: 100vh;
+  background-color: whitesmoke;
 }
 
 .App {
@@ -23,10 +25,14 @@ body {
 
 nav{
   list-style-type: none;
-  padding: 10px;
   display: inline-block;
   border-right: solid;
   border-right-width: 1px;
   border-color: white;
+}
+
+.frame{
+  margin: 50px;
+  width: 100%;
 }
 

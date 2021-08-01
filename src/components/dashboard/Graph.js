@@ -3,7 +3,7 @@ import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Responsive
 
 const data = [
     {
-        name: 'Category 1', uv: 4000, pv: 24000, amt: 2400
+        name: 'Category 1', uv: 4000, pv: 12000, amt: 2400
     },
     {
 		name: 'Category 2', uv: 3000, pv: 1398, amt: 2210,

@@ -11,6 +11,9 @@ const useStyles = makeStyles({
         textAlign: 'center',
         width: '100%',
         padding: 10
+    },
+    value: {
+        fontSize: '1.1rem'
     }
 })
 
@@ -23,7 +26,8 @@ const SummaryElement = (props) => {
             <Typography gutterBottom variant="body1" component="h2">
                 {props.text}
             </Typography>
-            <Typography gutterBottom variant='h6' component='h2' color={props.color}>
+            <Typography gutterBottom variant='h6' component='h2'
+            color={props.color} className={classes.value}>
                 {props.value}
             </Typography>
 

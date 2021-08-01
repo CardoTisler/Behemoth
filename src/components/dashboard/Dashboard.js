@@ -14,7 +14,7 @@ const useStyles = makeStyles({
         borderColor: 'white',
         textAlign: 'center',
         width: '100%',
-        padding: '20px'
+        padding: '20px',
     },
     header: {
         display: 'flex',
