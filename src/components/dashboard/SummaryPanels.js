@@ -6,6 +6,7 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import {PropTypes} from 'prop-types'
 
 const useStyles = makeStyles({
     root: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles({
     }
 })
 
-const Summary = () => {
+const SummaryPanels = () => {
     const classes = useStyles();
 
     return (
@@ -59,4 +60,4 @@ const Summary = () => {
     )
 }
 
-export default Summary
+export default SummaryPanels

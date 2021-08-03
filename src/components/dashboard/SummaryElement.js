@@ -43,9 +43,9 @@ SummaryElement.defaultProps = {
 
 SummaryElement.propTypes = {
     text: PropTypes.string,
-    value: PropTypes.string,
+    icon: PropTypes.element.isRequired,
     color: PropTypes.string,
-    icon: PropTypes.element
+    value: PropTypes.string
 }
 
 export default SummaryElement

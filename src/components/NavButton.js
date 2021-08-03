@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles';
-import {useState} from 'react'
+import {PropTypes} from 'prop-types'
 
 const NavButton = (props) => {
 
@@ -15,7 +15,8 @@ const NavButton = (props) => {
             color: 'white',
             height: 48,
             padding: '0 30px',
-            width: '100%'
+            width: '100%',
+            fontSize: '0.8rem'
         },
     });
     const classes = useStyles();
@@ -40,5 +41,12 @@ NavButton.defaultProps = {
     text: 'default_text',
     color: 'primary',
     variant: 'contained'
+}
+
+NavButton.propTypes = {
+    text: PropTypes.string,
+    color: PropTypes.string,
+    variant: PropTypes.string,
+    icon: PropTypes.element.isRequired
 }
 export default NavButton

@@ -3,7 +3,7 @@ import React from 'react'
 const Transactions = () => {
     return (
         <div>
-            <p>transactions.js</p>           
+            <p>src/components/transactions/Transactions.js</p>           
         </div>
     )
 }

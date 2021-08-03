@@ -1,6 +1,6 @@
 import React from 'react'
 import DateFilter from './DateFilter'
-import Summary from './Summary'
+import SummaryPanels from './SummaryPanels'
 import {makeStyles, Box} from '@material-ui/core'
 import Graph from './Graph'
 
@@ -34,7 +34,7 @@ const Dashboard = () => {
     return (
         <Box className={classes.root} boxShadow={4}>
             <div className={classes.header}>
-                <Summary />
+                <SummaryPanels />
                 <DateFilter />
             </div>
 
