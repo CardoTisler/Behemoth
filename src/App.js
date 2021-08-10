@@ -26,7 +26,7 @@ function App() {
   //   clothes: {
   //     monthlyMax: 50
   //   }
-  // })
+   // })
 
   const handleBannerText = (props) => {
     setBannerTitle(props.text)
