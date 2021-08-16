@@ -1,6 +1,5 @@
 import { Divider, List, ListItem, ListItemText, Box } from '@material-ui/core'
 import React from 'react'
-import {useState} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 // const [incomeList, setIncomeList] = useState([
 //     'Salary', 'Investments', 'Other'
@@ -10,9 +9,17 @@ const useStyles = makeStyles({
     root: {
         background: 'linear-gradient(180deg , #3f51b5 30%, rgb(0 0 0 / 0%) 100%)',
         width: '50%',
-        padding: '1%'
+        padding: '1%',
+        margin: '0.5%'
     }
 })
+
+//TODO: add Delete button for each row to delete the category entry from array in parent
+//Delete button should appear in the row with onHover event (onMouseEnter, onMouseLeave in react)
+//TODO: add deleteCategory method for onCLick event on Delete button
+
+//TODO: after categoryHeader component is built, clicking on category in List should open it in 
+//the header element, giving the user the editing capability
 
 const renderArrToListElements = (array) => {
     return array.map(element => {
@@ -24,7 +31,6 @@ const renderArrToListElements = (array) => {
 }
 
 const CategoryList = (props) => { 
-    const [incomeList, setIncomeList] = useState(['Salary', 'Investments', 'Other'])
     const classes = useStyles()
 
     return (
@@ -35,7 +41,7 @@ const CategoryList = (props) => {
                 </ListItem>
                 <Divider />
     
-                {renderArrToListElements(incomeList)}
+                {renderArrToListElements(props.list)}
 
             </List>
         </Box>
