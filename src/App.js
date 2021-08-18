@@ -11,27 +11,16 @@ import Reports from './components/reports/Reports';
 
 function App() {
   const [bannerTitle, setBannerTitle] = useState('Dashboard')
-  // const [incomeCategories, setIncomeCategories] = useState({
-  //   salary: {name: 'salary'},
-  //   investments: {},
-  //   other: {}
-  // })
-  // const [expenseCategories, setExpenseCategories] = useState({
-  //   rent: {
-  //     monthlyMax: 300
-  //   },
-  //   food: {
-  //     monthlyMax: 220
-  //   },
-  //   clothes: {
-  //     monthlyMax: 50
-  //   }
-   // })
+  const [incomeList, setIncomeList] = useState(['Salary', 'Investments', 'Other'])
+  const [expensesList, setExpensesList] = useState(['Rent', 'Food', 'Clothes', 'Leisure', 'Eating Out'])
 
   const handleBannerText = (props) => {
     setBannerTitle(props.text)
   }
-
+//TODO: Add handleIncomeItemAdd method
+//TODO: Add handleIncomeItemDelete method
+//TODO: Add handleExpensesItemAdd method
+//TODO: Add handleExpensesItemDelete method
 
   return (
     <div className="App">
@@ -45,10 +34,10 @@ function App() {
                 <Route exact path='/' component={Dashboard} />
                 {/* <Route exact path='/' render={(props) => <Dashboard {...props} />} */}
                 <Route exact path='/transactions' component={Transactions} />
-                <Route exact path='/categories' render={({incomeCategories, expenseCategories}) => 
+                <Route exact path='/categories' render={() => 
                     <Categories 
-                    incomeCategories = {incomeCategories}
-                    expenseCategories={expenseCategories}/>} />
+                    incomeList = {incomeList}
+                    expensesList={expensesList}/>} />
 
                 <Route exact path='/reports' component={Reports} />
               </Switch>
