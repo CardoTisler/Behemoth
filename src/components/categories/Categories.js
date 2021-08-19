@@ -1,7 +1,6 @@
 import { Box } from "@material-ui/core";
 import CategoryList from './CategoryList'
 import CategoryForm from './CategoryForm'
-import {useState} from 'react'
 import { makeStyles } from "@material-ui/core";
 
 
@@ -28,12 +27,12 @@ const Categories = (props) => {
         <Box className={classes.boxStyling}>
             {/* header */}
             <div> 
-                <CategoryForm />
+                <CategoryForm addIncome={props.addIncome} addExpense={props.addExpense}/>
             </div>
             {/* content */}
             <div className={classes.listStyling}>
-                <CategoryList listTitle='Income Categories' list={props.incomeList}/>
-                <CategoryList listTitle='Expenses Categories' list={props.expensesList} />
+                <CategoryList listTitle='Income Categories' list={props.incomeList} addCategory={props.addIncome} deleteCategory = {props.deleteIncome}/>
+                <CategoryList listTitle='Expenses Categories' list={props.expensesList} addCategory={props.addExpense} deleteCategory = {props.deleteExpense}/>
             </div>
         </Box>
     )

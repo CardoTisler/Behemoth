@@ -17,10 +17,20 @@ function App() {
   const handleBannerText = (props) => {
     setBannerTitle(props.text)
   }
-//TODO: Add handleIncomeItemAdd method
-//TODO: Add handleIncomeItemDelete method
-//TODO: Add handleExpensesItemAdd method
-//TODO: Add handleExpensesItemDelete method
+
+  const handleIncomeItemAdd = (props) => {
+    setIncomeList([...incomeList, props.newCategory])
+  }
+  const handleIncomeItemDelete = (elementName) => {
+    setIncomeList(incomeList.filter( (category) => category !== elementName))
+  }
+  const handleExpenseAdd = (props) => {
+    setExpensesList([...expensesList, props.newCategory])
+  }
+  const handleExpenseItemDelete = (elementName) => {
+    setExpensesList(expensesList.filter( (category) => category !== elementName))
+  }
+
 
   return (
     <div className="App">
@@ -37,8 +47,13 @@ function App() {
                 <Route exact path='/categories' render={() => 
                     <Categories 
                     incomeList = {incomeList}
-                    expensesList={expensesList}/>} />
-
+                    addIncome = {handleIncomeItemAdd}
+                    deleteIncome = {handleIncomeItemDelete}
+                    expensesList={expensesList}
+                    addExpense = {handleExpenseAdd}
+                    deleteExpense = {handleExpenseItemDelete}
+                    />}
+                />
                 <Route exact path='/reports' component={Reports} />
               </Switch>
             </div>

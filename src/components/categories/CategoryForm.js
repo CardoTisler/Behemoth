@@ -2,10 +2,6 @@ import { Box, TextField, Button } from '@material-ui/core'
 import { useState } from 'react'
 import { makeStyles } from '@material-ui/core'
 
-//TODO: add input validation method to handleSubmit, handleSubmit should not continue if validation
-//method returns false. The validation method should accept the budget value and make sure it is
-//parseable to integer
-
 //TODO: Form UI changes - UI can be finalized.
 
 const useStyles = makeStyles({
@@ -21,13 +17,16 @@ const useStyles = makeStyles({
     }
 })
 
-const CategoryForm = () => {
+const CategoryForm = (props) => {
     const [isIncomeCategory, setIsIncomeCategory] = useState(true)
     const [categoryName, setCategoryName] = useState("")
     const [categoryBudget, setCategoryBudget] = useState('')
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const classes = useStyles()
 
+    const handleIncomeAdd = () => {
+        props.addIncome()
+    }
     //toggle between Income and Expenses categories
     const handleCategoryChange = () => {
         setIsIncomeCategory(!isIncomeCategory)
@@ -35,6 +34,15 @@ const CategoryForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        //build object with data from states
+        
+        //TODO: add input validation method to handleSubmit, handleSubmit should not continue if validation
+        //method returns false. The validation method should accept the budget value and make sure it is
+        //parseable to integer
+
+
+        //send data to parent
+
         
         //clear state value after sending data
         setCategoryName("")
