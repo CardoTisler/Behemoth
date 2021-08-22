@@ -6,16 +6,37 @@ import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles({
     root: {
-        margin: '0.5%',
-        padding: '1%',
-        border: 'solid',
-        borderWidth: '1px',
-        height: '8rem'
+        padding: '1rem',
+        width: '100%',
+        // border: 'solid',
+        // borderWidth: '1px',
+        height: '8rem',
+    }, formLayout: {
+        display: 'flex',
+        flexDirection: 'row'
     }, errorText: {
         color: 'red',
         fontSize: '0.8rem'
+    }, buttonLayout: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '1rem',
+        justifyContent: 'space-between',
+        width: '8rem'
+    }, textFields: {
+        display: 'flex',
+        flexDirection: 'column'
+    }, incomeButton: {
+        backgroundColor: 'green'
+    }, expensesButton: {
+        backgroundColor: 'red'
     }
 })
+
+const validateInteger = (input) => {
+    return /^\d+$/.test(input)
+}
 
 const CategoryForm = (props) => {
     const [isIncomeCategory, setIsIncomeCategory] = useState(true)
@@ -24,9 +45,6 @@ const CategoryForm = (props) => {
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const classes = useStyles()
 
-    const handleIncomeAdd = () => {
-        props.addIncome()
-    }
     //toggle between Income and Expenses categories
     const handleCategoryChange = () => {
         setIsIncomeCategory(!isIncomeCategory)
@@ -35,15 +53,24 @@ const CategoryForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         //build object with data from states
-        
+        const data = {categoryName, categoryBudget}
         //TODO: add input validation method to handleSubmit, handleSubmit should not continue if validation
         //method returns false. The validation method should accept the budget value and make sure it is
         //parseable to integer
 
 
         //send data to parent
+        if(categoryName){
+            if(isIncomeCategory){
+                props.addIncome(data)
+            } else {
+                //add categoryBudget validation here
+                if(validateInteger(data.categoryBudget)){
+                    props.addExpense(data)
+                } else { return }
+            }
+        }
 
-        
         //clear state value after sending data
         setCategoryName("")
         setCategoryBudget("")
@@ -55,7 +82,7 @@ const CategoryForm = (props) => {
         if(e.target.name === 'categoryNameField'){
             setCategoryName(e.target.value)
         } else {
-            //this regex 
+            //this regex checks if value contains only numbers
             if(/^\d+$/.test(e.target.value) || e.target.value === ""){
                 setCategoryBudget(e.target.value)
                 if(showErrorMessage) {setShowErrorMessage(false)}
@@ -69,11 +96,11 @@ const CategoryForm = (props) => {
     }
 
     return (
-        <Box>
-            <form onSubmit={handleSubmit} className={classes.root}>
+        <Box className={classes.root} boxShadow={4}>
+            <form onSubmit={handleSubmit} className={classes.formLayout}>
                 {/* Input for category name */}
 
-                <div>
+                <div className={classes.textFields}>
                     <TextField 
                     id='filled-basic' 
                     label='Category Name'
@@ -81,30 +108,31 @@ const CategoryForm = (props) => {
                     value={categoryName}
                     onChange={handleInput}/>
 
-                    <Button 
-                    type="submit"
-                    variant="contained"
-                    color="primary">Add</Button>
-
-                    <Button
-                    variant='contained'
-                    color='primary'
-                    onClick={handleCategoryChange}>
-                        {isIncomeCategory ? 'Income' : 'Expenses'}
-                    </Button>
-                </div>
                 {!isIncomeCategory &&
-                <div>
                     <TextField 
                     id='filled-basic' 
-                    label='Monthly Budget'
+                    label='Monthly Budget (€)'
                     name='budgetValueField'
                     value={categoryBudget}
-                    onChange={handleInput}/>
+                    onChange={handleInput}/>}
 
                     {showErrorMessage && <p className={classes.errorText}>Invalid input!</p>}
-                </div>}
+                </div>
+                <div className={classes.buttonLayout}>
+                        <Button 
+                        className={classes.button}
+                        type="submit"
+                        variant="contained"
+                        color="primary">Add</Button>
 
+                        <Button
+                        className={isIncomeCategory ? classes.incomeButton : classes.expensesButton}
+                        variant='contained'
+                        color='primary'
+                        onClick={handleCategoryChange}>
+                            {isIncomeCategory ? 'Income' : 'Expenses'}
+                        </Button>
+                </div>
             </form>
         </Box>
     )

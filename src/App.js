@@ -9,6 +9,8 @@ import Transactions from './components/transactions/Transactions';
 import Categories from './components/categories/Categories';
 import Reports from './components/reports/Reports';
 
+//TODO: Validate incomeList and expensesList data types
+
 function App() {
   const [bannerTitle, setBannerTitle] = useState('Dashboard')
   const [incomeList, setIncomeList] = useState(['Salary', 'Investments', 'Other'])
@@ -19,13 +21,13 @@ function App() {
   }
 
   const handleIncomeItemAdd = (props) => {
-    setIncomeList([...incomeList, props.newCategory])
+    setIncomeList([...incomeList, props.categoryName])
   }
   const handleIncomeItemDelete = (elementName) => {
     setIncomeList(incomeList.filter( (category) => category !== elementName))
   }
   const handleExpenseAdd = (props) => {
-    setExpensesList([...expensesList, props.newCategory])
+    setExpensesList([...expensesList, props.categoryName])
   }
   const handleExpenseItemDelete = (elementName) => {
     setExpensesList(expensesList.filter( (category) => category !== elementName))

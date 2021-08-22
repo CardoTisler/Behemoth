@@ -2,7 +2,6 @@ import { makeStyles, ListItem, ListItemText, Button } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { useState } from 'react'
 
-
 const useStyles = makeStyles({
     display: {
         display: 'flex'
@@ -10,8 +9,6 @@ const useStyles = makeStyles({
         display: 'none'
     }
 })
-
-
 
 const ListRow = (props) => {
     const [showButton, setShowButton] = useState(false)

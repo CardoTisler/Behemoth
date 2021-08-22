@@ -6,7 +6,6 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
-import {PropTypes} from 'prop-types'
 
 const useStyles = makeStyles({
     root: {
@@ -25,7 +24,7 @@ const SummaryPanels = () => {
 
     return (
         <Grid container spacing={3} className={classes.root}>
-            <Grid item xs={6} md={6} >
+            <Grid item xs={12} md={6} >
                 <SummaryElement
                 text='Income'
                 icon={<AttachMoneyIcon />}
@@ -33,7 +32,7 @@ const SummaryPanels = () => {
                 color='primary'/>
             </Grid>
 
-            <Grid item xs={6} md={6} >
+            <Grid item xs={12} md={6} >
                 <SummaryElement 
                 text='Expenses' 
                 icon={<TrendingDownIcon />}
@@ -41,7 +40,7 @@ const SummaryPanels = () => {
                 color='primary'/>
             </Grid>
 
-            <Grid item xs={6} md={6} >
+            <Grid item xs={12} md={6} >
                 <SummaryElement 
                 text='Budget' 
                 icon={<AccountBalanceWalletIcon />} 
@@ -49,7 +48,7 @@ const SummaryPanels = () => {
                 color='primary'/>
             </Grid>
 
-            <Grid item xs={6} md={6} >
+            <Grid item xs={12} md={6} >
                 <SummaryElement 
                 text='Savings' 
                 icon={<TrendingUpIcon />} 

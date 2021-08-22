@@ -4,9 +4,7 @@ import ListRow from './ListRow'
 const useStyles = makeStyles({
     root: {
         background: 'linear-gradient(180deg , #3f51b5 30%, rgb(0 0 0 / 0%) 100%)',
-        width: '50%',
-        padding: '1%',
-        margin: '0.5%'
+        width: '100%'
     }
 })
 

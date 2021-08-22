@@ -16,6 +16,8 @@ const useStyles = makeStyles({
     }
 })
 
+//TODO: Wrap buttons into Grid, 1 column - 4 rows, xs, md, ... {12}
+
 const NavigationBar = (props) => {
     const classes = useStyles()
 
