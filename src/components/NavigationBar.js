@@ -6,7 +6,7 @@ import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import {PropTypes} from 'prop-types'
-import { Box } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 
 const useStyles = makeStyles({
     root: {
@@ -23,20 +23,28 @@ const NavigationBar = (props) => {
 
     return (
         <nav className={classes.root}> 
-            <Box>
-                <Link to="/">
-                    <NavButton text='Dashboard' icon={<DashboardIcon />} onClick={props.onButtonClick}/>
-                </Link>
-                <Link to="/transactions">
-                    <NavButton text='Transactions' icon={<SyncAltIcon />} onClick={props.onButtonClick}/>
-                </Link>
-                <Link to='/categories'>
-                    <NavButton text='Categories' icon={<LocalAtmIcon />} onClick={props.onButtonClick}/>
-                </Link>
-                <Link to='/reports'>
-                    <NavButton text='Reports' icon={<BarChartIcon />} onClick={props.onButtonClick}/>
-                </Link>
-            </Box>
+            <Grid container spacing={0}>
+                <Grid item xs={6} md={12}>
+                    <Link to="/">
+                        <NavButton text='Dashboard' icon={<DashboardIcon />} onClick={props.onButtonClick}/>
+                    </Link>
+                </Grid>
+                <Grid item xs={12} md={12}>
+                    <Link to="/transactions">
+                        <NavButton text='Transactions' icon={<SyncAltIcon />} onClick={props.onButtonClick}/>
+                    </Link>
+                </Grid>
+                <Grid item xs={12} md={12}>
+                    <Link to='/categories'>
+                        <NavButton text='Categories' icon={<LocalAtmIcon />} onClick={props.onButtonClick}/>
+                    </Link>
+                </Grid>
+                <Grid item xs={12} md={12}>
+                    <Link to='/reports'>
+                        <NavButton text='Reports' icon={<BarChartIcon />} onClick={props.onButtonClick}/>
+                    </Link>
+                </Grid>
+            </Grid>
         </nav>
     )
 }
