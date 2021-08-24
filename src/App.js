@@ -1,4 +1,3 @@
-// import React from 'react'
 import './App.css';
 import {useState} from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
@@ -8,13 +7,28 @@ import Dashboard from './components/dashboard/Dashboard'
 import Transactions from './components/transactions/Transactions';
 import Categories from './components/categories/Categories';
 import Reports from './components/reports/Reports';
-
+import { makeStyles } from '@material-ui/core'
 //TODO: Validate incomeList and expensesList data types
+
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    boxSizing: 'border-box'
+  },frameStyles: {
+    margin: '3rem',
+    width: '100%'
+  }, content: {
+    flexDirection: 'row',
+    display: 'flex'
+  }
+})
 
 function App() {
   const [bannerTitle, setBannerTitle] = useState('Dashboard')
   const [incomeList, setIncomeList] = useState(['Salary', 'Investments', 'Other'])
   const [expensesList, setExpensesList] = useState(['Rent', 'Food', 'Clothes', 'Leisure', 'Eating Out'])
+  const classes = useStyles()
 
   const handleBannerText = (props) => {
     setBannerTitle(props.text)
@@ -35,13 +49,13 @@ function App() {
 
 
   return (
-    <div className="App">
+    <div className={classes.root}>
       <Banner title={bannerTitle}/>
-        <div className='content'>
+        <div className={classes.content}>
           <Router>
             <NavigationBar onButtonClick={handleBannerText}/>
             
-            <div className='frame'>
+            <div className={classes.frameStyles}>
               <Switch>
                 <Route exact path='/' component={Dashboard} />
                 {/* <Route exact path='/' render={(props) => <Dashboard {...props} />} */}

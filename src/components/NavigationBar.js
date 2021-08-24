@@ -24,7 +24,7 @@ const NavigationBar = (props) => {
     return (
         <nav className={classes.root}> 
             <Grid container spacing={0}>
-                <Grid item xs={6} md={12}>
+                <Grid item xs={12} md={12}>
                     <Link to="/">
                         <NavButton text='Dashboard' icon={<DashboardIcon />} onClick={props.onButtonClick}/>
                     </Link>

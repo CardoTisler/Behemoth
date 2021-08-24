@@ -8,8 +8,6 @@ const useStyles = makeStyles({
     root: {
         padding: '1rem',
         width: '100%',
-        // border: 'solid',
-        // borderWidth: '1px',
         height: '8rem',
     }, formLayout: {
         display: 'flex',

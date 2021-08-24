@@ -1,26 +1,8 @@
 import { Grid } from "@material-ui/core";
 import CategoryList from './CategoryList'
 import CategoryForm from './CategoryForm'
-import { makeStyles } from "@material-ui/core";
-
-
-const useStyles = makeStyles({
-    root: {
-        width: '100%'
-    },
-    listStyling: {
-        display: 'flex',
-        flexDirection: 'row',
-        margin: '1%'
-    },
-    boxStyling: {
-        display: 'flex',
-        flexDirection: 'column'
-    }
-})
 
 const Categories = (props) => {
-    const classes = useStyles()
     
     return (
         <Grid container spacing={3}>

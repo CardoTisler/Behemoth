@@ -2,37 +2,9 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 body {
   font-family: 'Roboto', sans-serif;
   height: 100vh;
   background-color: whitesmoke;
-}
-
-.App {
-  flex-flow: column;
-}
-
-.content{
-  display: flex;
-  flex-direction: row;
-}
-
-nav{
-  list-style-type: none;
-  display: inline-block;
-  border-right: solid;
-  border-right-width: 1px;
-  border-color: white;
-}
-
-.frame{
-  margin: 50px;
-  width: 100%;
 }
 

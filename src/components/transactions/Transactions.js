@@ -1,17 +1,32 @@
 import React from 'react'
+import fakeData from './tempdata'
+import { makeStyles, Grid, Box } from '@material-ui/core'
+import TransactionsSearch from './TransactionsSearch'
+import TransactionsList from './TransactionsList'
 
-//TODO: Look at Evernote inspo for creating Transactions component
-//TODO: create renderRows method - should take in 1 input, probably an object with
-//date: X, account: Y, category: Z, amount: A. 
-//TODO: if rendering positive or 0 number to amount column, font green, otherwise red
+//TODO: if rendering positive or 0 number to amount column, font green, otherwise red 
 
+const useStyles = makeStyles({
+    root: {
+        padding: '0.7rem'
+    }
+})
 
 const Transactions = () => {
+    const data = fakeData()
+    const classes = useStyles()
+
     return (
-        <div>
-            <p>src/components/transactions/Transactions.js</p>           
-        </div>
+        <Box boxShadow={2} className={classes.root}>
+            <Grid container spacing={1}>
+                <Grid item xs={12}>
+                    <TransactionsSearch />
+                </Grid>
+                <TransactionsList />
+            </Grid>
+        </Box>
     )
 }
+
 
 export default Transactions
