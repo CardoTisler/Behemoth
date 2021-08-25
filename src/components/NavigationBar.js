@@ -16,8 +16,8 @@ const useStyles = makeStyles({
     }
 })
 
-//TODO: Wrap buttons into Grid, 1 column - 4 rows, xs, md, ... {12}
-
+//TODO: Remove the red line below button text, appears after clicking on button
+//TODO: Add highlight to currently selected button
 const NavigationBar = (props) => {
     const classes = useStyles()
 

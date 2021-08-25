@@ -35,6 +35,7 @@ const TransactionsSearch = () => {
             value={searchInput}
             className={classes.searchBar}
             />
+            {/* TODO: Fix searchIcon visuals, center it in div and enlarge */}
             <div className={classes.searchIcon}>
                 <SearchIcon />
             </div>

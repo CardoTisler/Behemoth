@@ -1,4 +1,5 @@
 import './App.css';
+import fakeData from './components/transactions/tempdata'
 import {useState} from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Banner from './components/Banner'
@@ -28,6 +29,9 @@ function App() {
   const [bannerTitle, setBannerTitle] = useState('Dashboard')
   const [incomeList, setIncomeList] = useState(['Salary', 'Investments', 'Other'])
   const [expensesList, setExpensesList] = useState(['Rent', 'Food', 'Clothes', 'Leisure', 'Eating Out'])
+  const data = fakeData()
+  
+  const [transactionsList, setTransactionsList] = useState(data)
   const classes = useStyles()
 
   const handleBannerText = (props) => {
@@ -46,7 +50,10 @@ function App() {
   const handleExpenseItemDelete = (elementName) => {
     setExpensesList(expensesList.filter( (category) => category !== elementName))
   }
-
+  const handleTransactionAdd = (transactionItem) => {
+    console.log(transactionItem)
+    setTransactionsList([...transactionsList, transactionItem])
+  }
 
   return (
     <div className={classes.root}>
@@ -59,7 +66,11 @@ function App() {
               <Switch>
                 <Route exact path='/' component={Dashboard} />
                 {/* <Route exact path='/' render={(props) => <Dashboard {...props} />} */}
-                <Route exact path='/transactions' component={Transactions} />
+                <Route exact path='/transactions' render={() => 
+                  <Transactions 
+                  list={transactionsList}
+                  addTransaction={handleTransactionAdd}/>
+                } />
                 <Route exact path='/categories' render={() => 
                     <Categories 
                     incomeList = {incomeList}
