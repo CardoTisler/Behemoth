@@ -6,7 +6,8 @@ const categorySchema = mongoose.Schema({
         type: String,
         enum: ['Income', 'Expense']
     },
-    category: String
+    category: String,
+    budget: Number
 })
 
 module.exports = mongoose.model("Category", categorySchema)
