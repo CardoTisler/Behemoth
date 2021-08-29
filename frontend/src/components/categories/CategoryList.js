@@ -17,8 +17,9 @@ const CategoryList = (props) => {
     const classes = useStyles()
 
     const renderRows = () => {
-        return props.list.map((element) => {
-            return (<ListRow text={element} key={element} deleteCategory={props.deleteCategory}/>)
+        console.log('renderrows')
+        return props.listArr.map((element) => {
+            return (<ListRow text={element.category} key={element.id} deleteCategory={props.deleteCategory}/>)
         })
     }
 

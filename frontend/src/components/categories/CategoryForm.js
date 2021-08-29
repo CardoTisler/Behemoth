@@ -36,11 +36,26 @@ const validateInteger = (input) => {
     return /^\d+$/.test(input)
 }
 
+const addToDatabase = async (url, data) => {
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        return response.json()
+    } catch (err) {
+        console.log(err)
+    }
+}
 const CategoryForm = (props) => {
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const [state, setState] = useState({
-        categoryName: '',
-        categoryBudget: '',
+        category: '',
+        budget: '',
         isIncomeCategory: true
     })
     const classes = useStyles()
@@ -54,13 +69,13 @@ const CategoryForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         //build object with data from states
-        const data = {categoryName: state.categoryName, categoryBudget: state.categoryBudget}
+        const data = {category: state.category, budget: state.budget, isIncomeCategory: state.isIncomeCategory}
         //TODO: add input validation method to handleSubmit, handleSubmit should not continue if validation
         //method returns false. The validation method should accept the budget value and make sure it is
         //parseable to integer
 
         //send data to parent
-        if(state.categoryName){
+        if(state.category){
             if(state.isIncomeCategory){
                 props.addIncome(data)
             } else {
@@ -70,12 +85,19 @@ const CategoryForm = (props) => {
                 } else { return }
             }
         }
-
+        
+        addToDatabase('/categories/new', data).then((newItem) => {
+            if(state.isIncomeCategory){
+                props.updateList(true, newItem)
+            } else {
+                props.updateList(false, newItem)
+            }
+        })
         //clear state value after sending data
         setState({
             ...state,
-            categoryName: "",
-            categoryBudget: ""
+            category: "",
+            budget: ""
         })
     }
 
@@ -83,11 +105,11 @@ const CategoryForm = (props) => {
     const handleInput = (e) => {
         //dynamic state update based on input in textfield
         if(e.target.name === 'categoryNameField'){
-            setState({ ...state, categoryName: e.target.value })
+            setState({ ...state, category: e.target.value })
         } else {
             //this regex checks if value contains only numbers
             if(/^\d+$/.test(e.target.value) || e.target.value === ""){
-                setState({...state, categoryBudget: e.target.value})
+                setState({...state, budget: e.target.value})
                 if(showErrorMessage) {
                     setShowErrorMessage(false)
                 }
@@ -95,7 +117,7 @@ const CategoryForm = (props) => {
                 if(e.target.value !== ""){
                     setShowErrorMessage(true)
                 }
-                setState({...state, categoryBudget: e.target.value})
+                setState({...state, budget: e.target.value})
             }
         }
     }
@@ -109,14 +131,14 @@ const CategoryForm = (props) => {
                     <TextField 
                     label='Category Name'
                     name='categoryNameField'
-                    value={state.categoryName}
+                    value={state.category}
                     onChange={handleInput}/>
 
                 {!state.isIncomeCategory &&
                     <TextField 
                     label='Monthly Budget (€)'
                     name='budgetValueField'
-                    value={state.categoryBudget}
+                    value={state.budget}
                     onChange={handleInput}/>}
 
                     {showErrorMessage && <p className={classes.errorText}>Invalid input!</p>}

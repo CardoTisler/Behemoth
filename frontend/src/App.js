@@ -40,7 +40,7 @@ function App() {
   const handleExpenseAdd = (props) => { setExpensesList([...expensesList, props.categoryName]) }
   const handleExpenseItemDelete = (elementName) => { setExpensesList(expensesList.filter( (category) => category !== elementName))}
   const handleTransactionAdd = (transactionItem) => { setTransactionsList([...transactionsList, transactionItem])}
-
+  
   return (
     <div className={classes.root}>
       <Banner title={bannerTitle}/>
