@@ -46,6 +46,7 @@ const addToDatabase = async (url, data) => {
             },
             body: JSON.stringify(data)
         })
+
         return response.json()
     } catch (err) {
         console.log(err)
@@ -53,49 +54,51 @@ const addToDatabase = async (url, data) => {
 }
 const CategoryForm = (props) => {
     const [showErrorMessage, setShowErrorMessage] = useState(false)
+    const [isIncomeCategory, setIsIncomeCategory] = useState(true)
     const [state, setState] = useState({
         category: '',
         budget: '',
-        isIncomeCategory: true
     })
     const classes = useStyles()
 
     //toggle between Income and Expenses categories
+    //TODO: Can add straight to code that uses it?
     const handleCategoryChange = () => {
-        const currentCategory = state.isIncomeCategory
-        setState({...state, isIncomeCategory: !currentCategory})
+        setIsIncomeCategory(!isIncomeCategory)
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
         //build object with data from states
-        const data = {category: state.category, budget: state.budget, isIncomeCategory: state.isIncomeCategory}
+        const data = {category: state.category, budget: state.budget, isIncomeCategory}
         //TODO: add input validation method to handleSubmit, handleSubmit should not continue if validation
         //method returns false. The validation method should accept the budget value and make sure it is
         //parseable to integer
 
         //send data to parent
-        if(state.category){
-            if(state.isIncomeCategory){
-                props.addIncome(data)
-            } else {
-                if(validateInteger(data.categoryBudget)){
-                    console.log('adding')
-                    props.addExpense(data)
-                } else { return }
-            }
-        }
+        // if(state.category){
+        //     if(isIncomeCategory){
+        //         props.addIncome(data)
+        //     } else {
+        //         if(validateInteger(state.budget)){
+        //             props.addExpense(data)
+        //         } else { return }
+        //     }
+        // }
         
         addToDatabase('/categories/new', data).then((newItem) => {
-            if(state.isIncomeCategory){
+            if(isIncomeCategory){
+                console.log(newItem)
                 props.updateList(true, newItem)
             } else {
                 props.updateList(false, newItem)
             }
+        }).catch(err => {
+            console.log('error adding to database: ')
+            console.log(err)
         })
         //clear state value after sending data
         setState({
-            ...state,
             category: "",
             budget: ""
         })
@@ -134,7 +137,7 @@ const CategoryForm = (props) => {
                     value={state.category}
                     onChange={handleInput}/>
 
-                {!state.isIncomeCategory &&
+                {!isIncomeCategory &&
                     <TextField 
                     label='Monthly Budget (€)'
                     name='budgetValueField'
@@ -151,11 +154,11 @@ const CategoryForm = (props) => {
                         color="primary">Add</Button>
 
                         <Button
-                        className={state.isIncomeCategory ? classes.incomeButton : classes.expensesButton}
+                        className={isIncomeCategory ? classes.incomeButton : classes.expensesButton}
                         variant='contained'
                         color='primary'
                         onClick={handleCategoryChange}>
-                            {state.isIncomeCategory ? 'Income' : 'Expenses'}
+                            {isIncomeCategory ? 'Income' : 'Expenses'}
                         </Button>
                 </div>
             </form>
