@@ -32,7 +32,7 @@ const getData = async () => {
 const Categories = (props) => {
     const [incomeList, setIncomeList] = useState([])
     const [expensesList, setExpensesList] = useState([])
-
+    
     useEffect( () => {
         async function fetch(){
             const response = await getData().then(data => {
@@ -44,6 +44,11 @@ const Categories = (props) => {
         }
         fetch()
     }, [])
+
+    //TODO: Replace elementName with element _id? Perhaps not necessary since duplicates not needed, need to decide.
+    const handleIncomeItemDelete = (elementName) => { setIncomeList(incomeList.filter( (element) => element.category !== elementName))}
+    const handleExpenseItemDelete = (elementName) => { setExpensesList(expensesList.filter( (element) => element.category !== elementName))}
+
     const handleListUpdate = (isIncomeCategory, newItem) => {
         if(isIncomeCategory){
             setIncomeList([...incomeList, newItem])
@@ -58,8 +63,6 @@ const Categories = (props) => {
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={6}> 
                         <CategoryForm
-                        addIncome={props.addIncome} 
-                        addExpense={props.addExpense} 
                         updateList={handleListUpdate} />
                     </Grid>
                 </Grid>
@@ -67,11 +70,11 @@ const Categories = (props) => {
             {/* content */}
 
             <Grid item xs={12} md={6}>
-                <CategoryList listTitle='Income Categories' listArr={incomeList} addCategory={props.addIncome} deleteCategory = {props.deleteIncome}/>
+                <CategoryList listTitle='Income Categories' listArr={incomeList} deleteCategory={handleIncomeItemDelete}/>
             </Grid>
 
             <Grid item xs={12} md={6}>
-                <CategoryList listTitle='Expenses Categories' listArr={expensesList} addCategory={props.addExpense} deleteCategory = {props.deleteExpense}/>
+                <CategoryList listTitle='Expenses Categories' listArr={expensesList} deleteCategory={handleExpenseItemDelete}/>
             </Grid>
             
         </Grid>

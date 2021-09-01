@@ -3,10 +3,9 @@ const router = express.Router();
 const Category = require('../models/category')
 //const data = require('../fakeData/fakedata')
 //TODO: CREATE (categoryForm should hit this URL, add the new category to db and then re-render component)
-router.post('/categories/new', async function(req, res){
+router.post('/categories/new', async (req, res) => {
     const { isIncomeCategory, category, type, budget } = req.body
     await Category.find({ category }).then( async (foundItemsArray) => {
-
         if(foundItemsArray.length !== 0){
             console.log('Item already exists in database. Will not add duplicate!') //TODO: ERRORHANDLING: ntx. res.status(500).json({ok: false, message: 'Duplicate item found.'})
         } else {
@@ -30,7 +29,7 @@ router.post('/categories/new', async function(req, res){
 //TODO: SHOW ROUTE, use this route to fill the state of CategoryList components
 
 //TODO: Figure out why final console.log is being run before Category.find() finishes its job
-router.get('/categories/show', async function(req, res){  
+router.get('/categories/show', async (req, res) => {  
     const incomeList = await Category.find({type: 'Income'})
     const expensesList = await Category.find({type: 'Expense'})
     
@@ -45,5 +44,13 @@ router.get('/categories/show', async function(req, res){
 //TODO: UPDATE
 
 //TODO: DESTROY
+router.delete('/categories/delete/:id', async (req, res) => {
+    await Category.findByIdAndDelete({ _id: req.params.id })
+    .then((deletedItem) => {
+        //if delete request succeeds, deletedItem gets returned => return status code 200 (OK)
+        res.json({status: 200})
+    })
+    .catch(err => res.json({status: 400}))
 
+})
 module.exports = router;

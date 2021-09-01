@@ -27,17 +27,20 @@ const useStyles = makeStyles({
 
 function App() {
   const [bannerTitle, setBannerTitle] = useState('Dashboard')
-  const [incomeList, setIncomeList] = useState(['Salary', 'Investments', 'Other'])
-  const [expensesList, setExpensesList] = useState(['Rent', 'Food', 'Clothes', 'Leisure', 'Eating Out'])
+  const [incomeList, setIncomeList] = useState([])
+  const [expensesList, setExpensesList] = useState([])
   const data = fakeData()
   
   const [transactionsList, setTransactionsList] = useState(data)
   const classes = useStyles()
 
   const handleBannerText = (props) => { setBannerTitle(props.text) }
-  const handleIncomeItemAdd = (props) => { setIncomeList([...incomeList, props.categoryName]) }
-  const handleIncomeItemDelete = (elementName) => { setIncomeList(incomeList.filter( (category) => category !== elementName))}
-  const handleExpenseAdd = (props) => { setExpensesList([...expensesList, props.categoryName]) }
+  const handleIncomeItemAdd = (props) => { setIncomeList([...incomeList, props.category]) }
+  const handleIncomeItemDelete = (elementName) => { 
+    console.log('income item delete')
+    console.log(elementName)
+    setIncomeList(incomeList.filter( (category) => category !== elementName))}
+  const handleExpenseAdd = (props) => { setExpensesList([...expensesList, props.category]) }
   const handleExpenseItemDelete = (elementName) => { setExpensesList(expensesList.filter( (category) => category !== elementName))}
   const handleTransactionAdd = (transactionItem) => { setTransactionsList([...transactionsList, transactionItem])}
   
@@ -58,14 +61,7 @@ function App() {
                   addTransaction={handleTransactionAdd}/>
                 } />
                 <Route exact path='/categories' render={() => 
-                    <Categories 
-                    incomeList = {incomeList}
-                    addIncome = {handleIncomeItemAdd}
-                    deleteIncome = {handleIncomeItemDelete}
-                    expensesList={expensesList}
-                    addExpense = {handleExpenseAdd}
-                    deleteExpense = {handleExpenseItemDelete}
-                    />}
+                    <Categories />}
                 />
                 <Route exact path='/reports' component={Reports} />
               </Switch>

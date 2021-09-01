@@ -88,7 +88,6 @@ const CategoryForm = (props) => {
         
         addToDatabase('/categories/new', data).then((newItem) => {
             if(isIncomeCategory){
-                console.log(newItem)
                 props.updateList(true, newItem)
             } else {
                 props.updateList(false, newItem)
