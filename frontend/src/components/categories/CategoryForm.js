@@ -86,11 +86,16 @@ const CategoryForm = (props) => {
         //     }
         // }
         
-        addToDatabase('/categories/new', data).then((newItem) => {
-            if(isIncomeCategory){
-                props.updateList(true, newItem)
+        addToDatabase('/categories/new', data).then((res) => {
+            if(res.status === 200){
+                if(isIncomeCategory){
+                    props.updateList(true, res.addedItem)
+                } else {
+                    props.updateList(false, res.addedItem)
+                }
             } else {
-                props.updateList(false, newItem)
+                console.log('Cannot add new Category.')
+                //TODO: Add logic to UI for showing add failure.
             }
         }).catch(err => {
             console.log('error adding to database: ')

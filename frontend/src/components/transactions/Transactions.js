@@ -13,12 +13,11 @@ const useStyles = makeStyles({
 
 const Transactions = (props) => {
     const classes = useStyles()
-    //const addTransaction = props.addTransaction;
-    
+    //TODO: Can replace TransactionsList element with DataGrid(Material UI https://material-ui.com/components/data-grid/editing/)
     return (
         <Box boxShadow={2} className={classes.root}>
             <Grid container spacing={1}>
-                <Grid item xs={12}>
+                <Grid item xs={12}> 
                     <TransactionsForm addTransaction={props.addTransaction}/>
                 </Grid>
                 <Grid item xs={12}>

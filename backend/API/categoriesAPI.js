@@ -1,8 +1,7 @@
 const express = require('express')
 const router = express.Router();
 const Category = require('../models/category')
-//const data = require('../fakeData/fakedata')
-//TODO: CREATE (categoryForm should hit this URL, add the new category to db and then re-render component)
+
 router.post('/categories/new', async (req, res) => {
     const { isIncomeCategory, category, type, budget } = req.body
     await Category.find({ category }).then( async (foundItemsArray) => {
@@ -11,12 +10,12 @@ router.post('/categories/new', async (req, res) => {
         } else {
             if(isIncomeCategory){
                 await Category.create({ category, type: 'Income' })
-                .then( addedItem => res.json(addedItem) )
+                .then( addedItem => res.json({addedItem, status: 200}) )
                 .catch( err => console.log(err))
                 
             } else {
                 await Category.create({ category, budget, type: 'Expense' })
-                .then( addedItem => res.json(addedItem))
+                .then( addedItem => res.json({addedItem, status: 200}))
                 .catch( err => console.log(err))
             }
         }
@@ -26,9 +25,6 @@ router.post('/categories/new', async (req, res) => {
     
 })
 
-//TODO: SHOW ROUTE, use this route to fill the state of CategoryList components
-
-//TODO: Figure out why final console.log is being run before Category.find() finishes its job
 router.get('/categories/show', async (req, res) => {  
     const incomeList = await Category.find({type: 'Income'})
     const expensesList = await Category.find({type: 'Expense'})
@@ -46,11 +42,16 @@ router.get('/categories/show', async (req, res) => {
 //TODO: DESTROY
 router.delete('/categories/delete/:id', async (req, res) => {
     await Category.findByIdAndDelete({ _id: req.params.id })
-    .then((deletedItem) => {
+    .then((dbResponse) => {
+        if(dbResponse !== null){
+            res.json({status: 200})
+        } else {
+            res.json({status: 404})}
+        
         //if delete request succeeds, deletedItem gets returned => return status code 200 (OK)
-        res.json({status: 200})
     })
-    .catch(err => res.json({status: 400}))
+    .catch(err => {
+        res.json({status: 400})})
 
 })
 module.exports = router;
