@@ -1,12 +1,15 @@
 import {Grid} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
+import RowDropdown from './RowDropdown'
 
 const useStyles = makeStyles({
     root: {
         textAlign: 'center'
     }
 })
-//TODO: if rendering positive or 0 number to amount column, font green, otherwise red 
+//TODO: if rendering positive or 0 number to amount column, font green, otherwise red
+//TODO: Implement dropdown menu for categories with values received from props
+
 const TransactionsRow = (props) => {
     const classes = useStyles()
 
@@ -25,7 +28,10 @@ const TransactionsRow = (props) => {
                 <p>{props.data.amount}</p>
             </Grid>
             <Grid item xs={1}>
-                <p>{props.data.category}</p>
+                <RowDropdown 
+                currentVal={props.data.category._id}
+                incomeCategories={props.incomeList}
+                expenseCategories={props.expenseList}/>
             </Grid>
         </Grid>
     )

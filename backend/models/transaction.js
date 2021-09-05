@@ -10,7 +10,7 @@ const transactionSchema = new mongoose.Schema({
     name: String,
     text: String,
     amount: Number,
-    category: [{type: mongoose.Schema.Types.ObjectId, ref: "Category"}]
+    category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category'}
 })
 
 module.exports = mongoose.model("Transaction", transactionSchema);

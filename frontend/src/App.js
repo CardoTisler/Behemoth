@@ -1,5 +1,4 @@
 import './App.css';
-import fakeData from './components/transactions/tempdata'
 import {useState} from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Banner from './components/Banner'
@@ -26,23 +25,22 @@ const useStyles = makeStyles({
 })
 
 function App() {
+  const classes = useStyles()
   const [bannerTitle, setBannerTitle] = useState('Dashboard')
   const [incomeList, setIncomeList] = useState([])
   const [expensesList, setExpensesList] = useState([])
-  const data = fakeData()
   
-  const [transactionsList, setTransactionsList] = useState(data)
-  const classes = useStyles()
-
   const handleBannerText = (props) => { setBannerTitle(props.text) }
-  const handleIncomeItemAdd = (props) => { setIncomeList([...incomeList, props.category]) }
-  const handleIncomeItemDelete = (elementName) => { 
-    console.log('income item delete')
-    console.log(elementName)
-    setIncomeList(incomeList.filter( (category) => category !== elementName))}
-  const handleExpenseAdd = (props) => { setExpensesList([...expensesList, props.category]) }
-  const handleExpenseItemDelete = (elementName) => { setExpensesList(expensesList.filter( (category) => category !== elementName))}
-  const handleTransactionAdd = (transactionItem) => { setTransactionsList([...transactionsList, transactionItem])}
+  // const [transactionsList, setTransactionsList] = useState(data)
+
+  // const handleIncomeItemAdd = (props) => { setIncomeList([...incomeList, props.category]) }
+  // const handleIncomeItemDelete = (elementName) => { 
+  //   console.log('income item delete')
+  //   console.log(elementName)
+  //   setIncomeList(incomeList.filter( (category) => category !== elementName))}
+  // const handleExpenseAdd = (props) => { setExpensesList([...expensesList, props.category]) }
+  // const handleExpenseItemDelete = (elementName) => { setExpensesList(expensesList.filter( (category) => category !== elementName))}
+  // const handleTransactionAdd = (transactionItem) => { setTransactionsList([...transactionsList, transactionItem])}
   
   return (
     <div className={classes.root}>
@@ -56,9 +54,7 @@ function App() {
                 <Route exact path='/' component={Dashboard} />
                 {/* <Route exact path='/' render={(props) => <Dashboard {...props} />} */}
                 <Route exact path='/transactions' render={() => 
-                  <Transactions 
-                  list={transactionsList}
-                  addTransaction={handleTransactionAdd}/>
+                  <Transactions />
                 } />
                 <Route exact path='/categories' render={() => 
                     <Categories />}

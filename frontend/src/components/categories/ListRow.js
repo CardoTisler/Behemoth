@@ -32,18 +32,13 @@ const ListRow = (props) => {
     const classes = useStyles();
 
     const handleElementDelete = async () => {
-        //pass id of element to be deleted to backend.
-        //if server returns OK status, then delete from props.
-
-        //make request
         await removeFromDatabase('/categories/delete/'.concat(props.element._id)).then( (response) => {
-            
+            //if 200, send name of category to parent component and 
+            //filter state array for everything except the name passed in method.
             if(response.status === 200){ props.deleteCategory(props.element.category) }
-            else if (response.status === 400) { console.log('Deleting item from database failed.') }
+            else if (response.status === 400) { console.log('Deleting item from database failed due to error.') }
             else if (response.status === 404) { console.log(`Couldn't find element to delete.`) }
         }).catch(err => console.log(err))
-        //if OK then this
-        //if not ok then give UI pop up that delete was unsuccessful
     }
     
     return (

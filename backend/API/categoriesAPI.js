@@ -6,7 +6,7 @@ router.post('/categories/new', async (req, res) => {
     const { isIncomeCategory, category, type, budget } = req.body
     await Category.find({ category }).then( async (foundItemsArray) => {
         if(foundItemsArray.length !== 0){
-            console.log('Item already exists in database. Will not add duplicate!') //TODO: ERRORHANDLING: ntx. res.status(500).json({ok: false, message: 'Duplicate item found.'})
+            console.log('Item already exists in database. Will not add duplicate!')
         } else {
             if(isIncomeCategory){
                 await Category.create({ category, type: 'Income' })
@@ -20,26 +20,28 @@ router.post('/categories/new', async (req, res) => {
             }
         }
     }).catch(err => console.log(err))
-
-    //TODO: create response data package. Includes the entire categories list for re-rendering of CategoryLists components and an integer indicating that the add was OK.
+//TODO: Add status codes for errors
     
 })
 
 router.get('/categories/show', async (req, res) => {  
     const incomeList = await Category.find({type: 'Income'})
+    .catch(err => res.json({status: 400}))
+    
     const expensesList = await Category.find({type: 'Expense'})
+    .catch(err => res.json({status: 400}))
     
     res.json({
         incomeList,
-        expensesList
+        expensesList,
+        status: 200
     })
 })
 
-//TODO: EDIT (?)
+//TODO: EDIT (?) (kinda difficult to implement with Material UI. Find better framework?)
 
 //TODO: UPDATE
 
-//TODO: DESTROY
 router.delete('/categories/delete/:id', async (req, res) => {
     await Category.findByIdAndDelete({ _id: req.params.id })
     .then((dbResponse) => {

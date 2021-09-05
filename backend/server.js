@@ -7,6 +7,17 @@ const categoriesAPI = require('./API/categoriesAPI')
 const transactionsAPI = require('./API/transactionsAPI')
 const bodyParser = require('body-parser')
 
+
+// const Transaction = require('./models/transaction')
+
+// Transaction.findOne({id:'1'}).populate('category').exec((err, foundItem) => {
+//     if(err){
+//         console.log(err)
+//     } else {
+//         console.log(foundItem.category.category)
+//     }
+// })
+
 mongoose.connect('mongodb://127.0.0.1:27017/behemoth', {
     useNewUrlParser: true,
     useUnifiedTopology: true})

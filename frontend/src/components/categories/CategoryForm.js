@@ -32,10 +32,6 @@ const useStyles = makeStyles({
     }
 })
 
-const validateInteger = (input) => {
-    return /^\d+$/.test(input)
-}
-
 const addToDatabase = async (url, data) => {
     try{
         const response = await fetch(url, {
@@ -117,7 +113,7 @@ const CategoryForm = (props) => {
             //this regex checks if value contains only numbers
             if(/^\d+$/.test(e.target.value) || e.target.value === ""){
                 setState({...state, budget: e.target.value})
-                if(showErrorMessage) {
+                if(showErrorMessage) { //TODO: Replace with Material UI helpertext
                     setShowErrorMessage(false)
                 }
             } else {

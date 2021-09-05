@@ -3,22 +3,6 @@ import CategoryList from './CategoryList'
 import CategoryForm from './CategoryForm'
 import {useState, useEffect} from 'react'
 
-//FIXME: Fix this monster
-// const getData = async (setIncomeList, setExpensesList) => {
-//     try {
-//         const response = await fetch('categories/show');
-
-//         const data = await response.json().then(result => {
-//             console.log('getData request success')
-//             setIncomeList(result.income)
-//             setExpensesList(result.expenses)
-//             return function cleanup(){ //cleanup method, removing this causes a memory leak and app crash shortly after
-//                 console.log('cleanup function')
-//             }
-//         })
-//     } catch (err) { console.log(err) }
-//   }
-
   //TODO: Create code system for frontend-backend communication (1 - OK, 2 - Adding category failed because category exists, 3 - Adding category failed because no db connection and so forth)
 const getData = async () => {
     try {
@@ -33,13 +17,18 @@ const Categories = (props) => {
     const [incomeList, setIncomeList] = useState([])
     const [expensesList, setExpensesList] = useState([])
     
-    useEffect( () => {
+    useEffect( () => { //TODO: Create custom useCategoriesFetch hook, replace here and in TransactionsList.js OR call this in app.js and pass to children
         async function fetch(){
-            const response = await getData().then(data => {
-                setIncomeList([...data.incomeList])
-                setExpensesList([...data.expensesList])
+            await getData().then(res => {
+                if(res.status === 200){
+                    setIncomeList([...res.incomeList])
+                    setExpensesList([...res.expensesList])
+                } else if (res.status === 400){
+                    console.log('Error getting lists from database')
+                }
             }).catch(err => {
                 console.log(err)
+                console.log('Error making get/show request to database.')
             })
         }
         fetch()
