@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const categorySchema = mongoose.Schema({
     type: {
         type: String,
-        enum: ['Income', 'Expense']
+        enum: ['Income', 'Expense', 'NONE']
     },
     category: String,
     budget: Number

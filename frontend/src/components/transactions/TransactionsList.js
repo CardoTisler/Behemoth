@@ -2,9 +2,9 @@ import {useState, useEffect} from 'react'
 import {Grid} from '@material-ui/core'
 import TransactionsHeader from './TransactionsHeader'
 import TransactionsRow from './TransactionsRow'
-import RowDropdown from './RowDropdown'
+
 //expects array with objects of data
-const renderRows = (data, incomeList, expensesList) => {
+const renderRows = (data, incomeList, expensesList, noneCategory) => {
     return(data.map(element => {
         console.log(element.category.id)
         return(
@@ -12,7 +12,8 @@ const renderRows = (data, incomeList, expensesList) => {
                 <TransactionsRow 
                 data={element}
                 incomeList={incomeList} 
-                expenseList={expensesList}/>
+                expenseList={expensesList}
+                noneCategory={noneCategory}/>
             </Grid> )
     }))
 }
@@ -30,13 +31,15 @@ const getData = async () => {
 const TransactionsList = (props) => {  
     const [incomeCategoriesList, setIncomeList] = useState([])
     const [expensesCategoriesList, setExpensesList] = useState([])
-    
-    useEffect( () => { //TODO: Create custom useCategoriesFetch hook, replace here and in TransactionsList.js
+    const [noneCategory, setNoneCategory] = useState([])
+
+    useEffect( () => { 
         async function fetch(){
             await getData().then(res => {
                 if(res.status === 200){
                     setIncomeList([...res.incomeList])
                     setExpensesList([...res.expensesList])
+                    setNoneCategory([...res.noneCategory])
                 } else if (res.status === 400){
                     console.log('Error getting lists from database')
                 }
@@ -54,7 +57,7 @@ const TransactionsList = (props) => {
                 <TransactionsHeader />
             </Grid>
 
-            {renderRows(props.list, incomeCategoriesList, expensesCategoriesList)}
+            {renderRows(props.list, incomeCategoriesList, expensesCategoriesList, noneCategory)}
         </Grid>
     )
 }

@@ -19,22 +19,25 @@ router.get('/transactions/show', async (req, res) => {
 
 //TODO: UPDATE - will be mass update for now since I see no point in updating only one transaction
 router.put('/transactions/update/:id', async (req, res) => {
-    const {name} = req.body
-
-    // await Transaction.find({name}).then((foundItemsArray) => {
-    //     foundItemsArray.forEach((item) => item.category = req.params.id.toString())
-    //     res.json({status: 200}) //200 - OK
-    // }).catch(err => {
-    //     console.error(err)
-    //     res.json({status: 400}) //400 - Bad Request
-    // })
-    await Transaction.updateMany({name}, {$set: {category: req.params.id}})
-    .then( () => {
-        res.json({status: 200}) //200 - OK
-    }).catch(err => {
-        console.error(err)
-        res.json({status: 400}) //400 - Bad Request
-    })
+    const {name, idForSearch} = req.body
+    //id in url is the id of the new category to be added to corresponding transactions
+    if(name){
+        await Transaction.updateMany({name}, {$set: {category: req.params.id}})
+        .then( () => {
+            res.json({status: 200}) //200 - OK
+        }).catch(err => {
+            console.error(err)
+            res.json({status: 400}) //400 - Bad Request
+        })
+    } else if (idForSearch) {
+        await Transaction.updateMany({idForSearch}, {$set:{category: req.params.id}})
+        .then( () => {
+            res.json({status: 200}) //200 - OK
+        }).catch(err => {
+            console.error(err)
+            res.json({status: 400}) //400 - Bad Request
+        })
+    }
 })
 
 //TODO: DESTROY

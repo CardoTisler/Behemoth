@@ -20,16 +20,18 @@ const renderOptions = (categories) => {
 
 const RowDropdown = (props) => {
   const [currentCategoryId, setCurrentCategoryId] = useState("0");
-
   useEffect(() => {
     setCurrentCategoryId(props.currentVal);
   }, [props.currentVal]);
 
   const handleChange = async (e) => {
     const newCategoryId = e.target.value
+    
     await props.handleCategoryUpdate(newCategoryId).then( res => {
       if(res.status === 200){
         setCurrentCategoryId(newCategoryId); //change state after backend request is complete to force rerender
+        //FIXME: Need to re-render TransactionsList component
+        //       to load in new values after category change to fix crashing issue
       } else if (res.status === 400){
         console.log('BAD REQUEST')
       }
@@ -47,7 +49,9 @@ const RowDropdown = (props) => {
       value={currentCategoryId} 
       id="categories-dropdown"
       onChange={handleChange}>
-        <option key={0} value={'0'}>NONE</option>
+        <option 
+        key={props.noneCategory[0]._id} 
+        value={props.noneCategory[0]._id}>NONE</option>
         <optgroup label="Income">
           {renderOptions(props.incomeCategories)}
         </optgroup>

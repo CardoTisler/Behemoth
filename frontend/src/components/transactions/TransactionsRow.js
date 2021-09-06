@@ -11,7 +11,7 @@ const useStyles = makeStyles({
 
 
 const TransactionsRow = (props) => {
-    const {incomeList, expenseList} = props
+    const {incomeList, expenseList, noneCategory} = props
     const {date, name, text, amount} = props.data
 
     const classes = useStyles()
@@ -50,6 +50,7 @@ const TransactionsRow = (props) => {
                 currentVal={props.data.category._id}
                 incomeCategories={incomeList}
                 expenseCategories={expenseList}
+                noneCategory={noneCategory}
                 handleCategoryUpdate={handleCategoryUpdate}/>
             </Grid>
         </Grid>

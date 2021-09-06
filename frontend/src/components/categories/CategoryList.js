@@ -14,11 +14,16 @@ const useStyles = makeStyles({
 
 
 const CategoryList = (props) => { 
+    const {deleteCategory, noneCategory, listTitle} = props
     const classes = useStyles()
 
     const renderRows = () => {
         return props.listArr.map((element) => {
-            return (<ListRow element={element} key={element._id} deleteCategory={props.deleteCategory}/>)
+            return (<ListRow 
+                element={element} 
+                key={element._id} 
+                deleteCategory={deleteCategory}
+                noneCategory={noneCategory} />)
         })
     }
 
@@ -26,7 +31,7 @@ const CategoryList = (props) => {
         <Box className={classes.root}>
             <List>
                 <ListItem>
-                    <ListItemText primary={props.listTitle} />
+                    <ListItemText primary={listTitle} />
                 </ListItem>
                 <Divider />
 

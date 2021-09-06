@@ -8,7 +8,7 @@ import Transactions from './components/transactions/Transactions'
 import Categories from './components/categories/Categories'
 import Reports from './components/reports/Reports'
 import { makeStyles } from '@material-ui/core'
-//TODO: Validate incomeList and expensesList data types
+
 
 const useStyles = makeStyles({
   root: {
@@ -27,20 +27,8 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles()
   const [bannerTitle, setBannerTitle] = useState('Dashboard')
-  const [incomeList, setIncomeList] = useState([])
-  const [expensesList, setExpensesList] = useState([])
   
   const handleBannerText = (props) => { setBannerTitle(props.text) }
-  // const [transactionsList, setTransactionsList] = useState(data)
-
-  // const handleIncomeItemAdd = (props) => { setIncomeList([...incomeList, props.category]) }
-  // const handleIncomeItemDelete = (elementName) => { 
-  //   console.log('income item delete')
-  //   console.log(elementName)
-  //   setIncomeList(incomeList.filter( (category) => category !== elementName))}
-  // const handleExpenseAdd = (props) => { setExpensesList([...expensesList, props.category]) }
-  // const handleExpenseItemDelete = (elementName) => { setExpensesList(expensesList.filter( (category) => category !== elementName))}
-  // const handleTransactionAdd = (transactionItem) => { setTransactionsList([...transactionsList, transactionItem])}
   
   return (
     <div className={classes.root}>

@@ -3,7 +3,7 @@ const router = express.Router();
 const Category = require('../models/category')
 
 router.post('/categories/new', async (req, res) => {
-    const { isIncomeCategory, category, type, budget } = req.body
+    const { isIncomeCategory, category, budget } = req.body
     await Category.find({ category }).then( async (foundItemsArray) => {
         if(foundItemsArray.length !== 0){
             console.log('Item already exists in database. Will not add duplicate!')
@@ -31,9 +31,13 @@ router.get('/categories/show', async (req, res) => {
     const expensesList = await Category.find({type: 'Expense'})
     .catch(err => res.json({status: 400}))
     
+    const noneCategory = await Category.find({type: 'NONE'})
+    .catch(err => res.json({status: 400}))
+
     res.json({
         incomeList,
         expensesList,
+        noneCategory,
         status: 200
     })
 })

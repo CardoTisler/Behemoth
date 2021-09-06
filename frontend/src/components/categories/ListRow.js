@@ -26,16 +26,45 @@ const removeFromDatabase = async (url) => {
     }
 }
 
-const ListRow = (props) => {
+// const response = await fetch(url, {
+//     method: 'PUT',
+//     mode: 'cors',
+//     headers:{
+//         'Content-Type':'application/json'
+//     },
+//     body: JSON.stringify({name})
+// }).catch(err => {
+//     console.error(err)
+// })
+// return response
 
+const ListRow = (props) => {
+    const {category, _id} = props.element
     const [showButton, setShowButton] = useState(false)
     const classes = useStyles();
 
     const handleElementDelete = async () => {
-        await removeFromDatabase('/categories/delete/'.concat(props.element._id)).then( (response) => {
+        await removeFromDatabase('/categories/delete/'.concat(_id)).then( async (response) => {
             //if 200, send name of category to parent component and 
             //filter state array for everything except the name passed in method.
-            if(response.status === 200){ props.deleteCategory(props.element.category) }
+            console.log('/transactions/update/'.concat(props.noneCategory._id))
+            if(response.status === 200){
+                await fetch('/transactions/update/'.concat(props.noneCategory._id), {
+                    method: 'PUT',
+                    mode: 'cors',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify({idForSearch: _id})
+                }).then(() => {
+                    props.deleteCategory(category) 
+                }).catch(err => {
+                    console.error(err)
+                })
+                //deleting category successful - find all transactions that had this category and
+                //switch their linked category id to the NONE category id
+                //
+            }
             else if (response.status === 400) { console.log('Deleting item from database failed due to error.') }
             else if (response.status === 404) { console.log(`Couldn't find element to delete.`) }
         }).catch(err => console.log(err))
@@ -45,7 +74,7 @@ const ListRow = (props) => {
         <ListItem button 
         onMouseEnter={() => setShowButton(true)}
         onMouseLeave={() => setShowButton(false)}>
-            <ListItemText primary={props.element.category}/>
+            <ListItemText primary={category}/>
                 <Button
                 className={showButton ? classes.display : classes.dontDisplay}
                 onClick={handleElementDelete}

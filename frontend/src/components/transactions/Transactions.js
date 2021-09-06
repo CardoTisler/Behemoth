@@ -3,7 +3,6 @@ import { makeStyles, Grid, Box} from '@material-ui/core'
 import TransactionsSearch from './TransactionsSearch'
 import TransactionsList from './TransactionsList'
 import TransactionsForm from './TransactionsForm'
-import fakeData from './tempdata'
 
 
 // import {DataGrid} from '@mui/x-data-grid'
@@ -55,7 +54,6 @@ const Transactions = () => {
                 <Grid item xs={12}>
                     <TransactionsSearch />
                 </Grid>
-                {console.log(transactionsList)}
                 <TransactionsList list={transactionsList}/>
                 
             </Grid>

@@ -16,13 +16,15 @@ const getData = async () => {
 const Categories = (props) => {
     const [incomeList, setIncomeList] = useState([])
     const [expensesList, setExpensesList] = useState([])
-    
+    const [noneCategory, setNoneCategory] = useState([])
+
     useEffect( () => { //TODO: Create custom useCategoriesFetch hook, replace here and in TransactionsList.js OR call this in app.js and pass to children
         async function fetch(){
             await getData().then(res => {
                 if(res.status === 200){
                     setIncomeList([...res.incomeList])
                     setExpensesList([...res.expensesList])
+                    setNoneCategory(...res.noneCategory)
                 } else if (res.status === 400){
                     console.log('Error getting lists from database')
                 }
@@ -59,11 +61,19 @@ const Categories = (props) => {
             {/* content */}
 
             <Grid item xs={12} md={6}>
-                <CategoryList listTitle='Income Categories' listArr={incomeList} deleteCategory={handleIncomeItemDelete}/>
+                <CategoryList 
+                listTitle='Income Categories' 
+                listArr={incomeList}
+                noneCategory={noneCategory} 
+                deleteCategory={handleIncomeItemDelete}/>
             </Grid>
 
             <Grid item xs={12} md={6}>
-                <CategoryList listTitle='Expenses Categories' listArr={expensesList} deleteCategory={handleExpenseItemDelete}/>
+                <CategoryList 
+                listTitle='Expenses Categories' 
+                listArr={expensesList}
+                noneCategory={noneCategory} 
+                deleteCategory={handleExpenseItemDelete}/>
             </Grid>
             
         </Grid>

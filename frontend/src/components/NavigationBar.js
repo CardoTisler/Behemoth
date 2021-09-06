@@ -6,7 +6,7 @@ import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import {PropTypes} from 'prop-types'
-import { Box, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles({
     root: {
