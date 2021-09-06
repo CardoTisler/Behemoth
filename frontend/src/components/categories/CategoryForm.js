@@ -47,6 +47,16 @@ const addToDatabase = async (url, data) => {
     } catch (err) {
         console.log(err)
     }
+
+    // await fetch(url, {
+    //     method: 'POST',
+    //     mode: 'cors',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(data)
+    // }).then( res => {return res.json()})
+    // .catch(err => console.error(err))
 }
 const CategoryForm = (props) => {
     const [showErrorMessage, setShowErrorMessage] = useState(false)

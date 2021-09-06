@@ -8,30 +8,49 @@ const useStyles = makeStyles({
     }
 })
 //TODO: if rendering positive or 0 number to amount column, font green, otherwise red
-//TODO: Implement dropdown menu for categories with values received from props
+
 
 const TransactionsRow = (props) => {
+    const {incomeList, expenseList} = props
+    const {date, name, text, amount} = props.data
+
     const classes = useStyles()
+    
+    const handleCategoryUpdate = async (newCategoryId) => {
+        const url = '/transactions/update/'.concat(newCategoryId)
+        const response = await fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({name})
+        }).catch(err => {
+            console.error(err)
+        })
+        return response
+    }
 
     return (
         <Grid container className={classes.root}>
             <Grid item xs={2}>
-                <p>{props.data.date}</p>
+                <p>{date}</p>
             </Grid>
             <Grid item xs={2}>
-                <p>{props.data.name}</p>
+                <p>{name}</p>
             </Grid>
             <Grid item xs={6}>
-                <p>{props.data.text}</p>
+                <p>{text}</p>
             </Grid>
             <Grid item xs={1}>
-                <p>{props.data.amount}</p>
+                <p>{amount}</p>
             </Grid>
             <Grid item xs={1}>
                 <RowDropdown 
                 currentVal={props.data.category._id}
-                incomeCategories={props.incomeList}
-                expenseCategories={props.expenseList}/>
+                incomeCategories={incomeList}
+                expenseCategories={expenseList}
+                handleCategoryUpdate={handleCategoryUpdate}/>
             </Grid>
         </Grid>
     )

@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 //Amount
 //Category -> Category has its own schema, a different collection
 
+//TODO: Convert date: String to date: Date
 const transactionSchema = new mongoose.Schema({
     date: String,
     name: String,

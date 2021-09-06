@@ -27,7 +27,6 @@ const getData = async () => {
 
 const Transactions = () => {
     const classes = useStyles()
-    const data = fakeData()
     const [transactionsList, setTransactionsList] = useState([])
     useEffect( () => {
         async function fetch(){
