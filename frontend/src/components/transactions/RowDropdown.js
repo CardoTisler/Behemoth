@@ -1,6 +1,6 @@
 import { FormControl, Select } from "@material-ui/core";
 import { useState, useEffect } from "react";
-
+import { useSelector } from "react-redux";
 const renderOptions = (categories) => {
   if (categories) {
     return categories.map((element) => {
@@ -31,7 +31,7 @@ const RowDropdown = (props) => {
       if(res.status === 200){
         setCurrentCategoryId(newCategoryId); //change state after backend request is complete to force rerender
         //FIXME: Need to re-render TransactionsList component
-        //       to load in new values after category change to fix crashing issue
+        //        to load in new values after category change to fix crashing issue
       } else if (res.status === 400){
         console.log('BAD REQUEST')
       }
@@ -41,7 +41,7 @@ const RowDropdown = (props) => {
     //take function from props, give param of e.target.value(category id), method from props
     //should send request to backend to update all matching transactions with new category Id
   }
-
+  
   return (
     <FormControl>
       <Select

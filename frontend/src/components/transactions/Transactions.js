@@ -4,6 +4,8 @@ import TransactionsSearch from './TransactionsSearch'
 import TransactionsList from './TransactionsList'
 import TransactionsForm from './TransactionsForm'
 
+import { useSelector, useDispatch } from 'react-redux'
+import { loadTransactions, getTransactions } from '../../redux/actions/transactionActions'
 
 // import {DataGrid} from '@mui/x-data-grid'
 //TODO: if rendering positive or 0 number to amount column, font green, otherwise red 
@@ -26,12 +28,14 @@ const getData = async () => {
 
 const Transactions = () => {
     const classes = useStyles()
-    const [transactionsList, setTransactionsList] = useState([])
+    const dispatch = useDispatch()
+
     useEffect( () => {
         async function fetch(){
             await getData().then(res => {
                 if(res.status === 200){
-                    setTransactionsList([...res.transactionsList])
+                    dispatch(loadTransactions(res.transactionsList))
+                
                 } else if (res.status === 400){
                     console.log('Error getting lists from database')
                 }
@@ -54,7 +58,7 @@ const Transactions = () => {
                 <Grid item xs={12}>
                     <TransactionsSearch />
                 </Grid>
-                <TransactionsList list={transactionsList}/>
+                <TransactionsList/>
                 
             </Grid>
         </Box>

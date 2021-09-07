@@ -1,7 +1,7 @@
 import { makeStyles, ListItem, ListItemText, Button } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { useState } from 'react'
-
+import { useSelector } from 'react-redux'
 const useStyles = makeStyles({
     display: {
         display: 'flex'
@@ -26,30 +26,20 @@ const removeFromDatabase = async (url) => {
     }
 }
 
-// const response = await fetch(url, {
-//     method: 'PUT',
-//     mode: 'cors',
-//     headers:{
-//         'Content-Type':'application/json'
-//     },
-//     body: JSON.stringify({name})
-// }).catch(err => {
-//     console.error(err)
-// })
-// return response
-
 const ListRow = (props) => {
-    const {category, _id} = props.element
-    const [showButton, setShowButton] = useState(false)
     const classes = useStyles();
-
+    const [showButton, setShowButton] = useState(false)
+    
+    const {category, _id} = props.element
+    const { noneCategory } = useSelector(state => state.categoryReducer)
+    
     const handleElementDelete = async () => {
         await removeFromDatabase('/categories/delete/'.concat(_id)).then( async (response) => {
             //if 200, send name of category to parent component and 
             //filter state array for everything except the name passed in method.
-            console.log('/transactions/update/'.concat(props.noneCategory._id))
+            console.log('/transactions/update/'.concat(noneCategory[0]._id))
             if(response.status === 200){
-                await fetch('/transactions/update/'.concat(props.noneCategory._id), {
+                await fetch('/transactions/update/'.concat(noneCategory[0]._id), {
                     method: 'PUT',
                     mode: 'cors',
                     headers:{

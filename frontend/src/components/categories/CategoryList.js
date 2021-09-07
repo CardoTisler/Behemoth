@@ -14,16 +14,15 @@ const useStyles = makeStyles({
 
 
 const CategoryList = (props) => { 
-    const {deleteCategory, noneCategory, listTitle} = props
     const classes = useStyles()
+    const {deleteCategory, listTitle} = props
 
     const renderRows = () => {
         return props.listArr.map((element) => {
             return (<ListRow 
                 element={element} 
                 key={element._id} 
-                deleteCategory={deleteCategory}
-                noneCategory={noneCategory} />)
+                deleteCategory={deleteCategory} />)
         })
     }
 

@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import {Grid} from '@material-ui/core'
 import TransactionsHeader from './TransactionsHeader'
 import TransactionsRow from './TransactionsRow'
-
+import { useSelector } from 'react-redux'
 //expects array with objects of data
 const renderRows = (data, incomeList, expensesList, noneCategory) => {
     return(data.map(element => {
@@ -33,6 +33,8 @@ const TransactionsList = (props) => {
     const [expensesCategoriesList, setExpensesList] = useState([])
     const [noneCategory, setNoneCategory] = useState([])
 
+    const transactionsList = useSelector(state => state.transactionReducer)
+    
     useEffect( () => { 
         async function fetch(){
             await getData().then(res => {
@@ -57,7 +59,7 @@ const TransactionsList = (props) => {
                 <TransactionsHeader />
             </Grid>
 
-            {renderRows(props.list, incomeCategoriesList, expensesCategoriesList, noneCategory)}
+            {renderRows(transactionsList, incomeCategoriesList, expensesCategoriesList, noneCategory)}
         </Grid>
     )
 }

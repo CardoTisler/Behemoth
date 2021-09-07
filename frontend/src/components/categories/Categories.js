@@ -1,7 +1,9 @@
 import { Grid } from "@material-ui/core";
 import CategoryList from './CategoryList'
 import CategoryForm from './CategoryForm'
-import {useState, useEffect} from 'react'
+import {useEffect} from 'react'
+import {useSelector, useDispatch} from 'react-redux'
+import {loadCategories} from '../../redux/actions/categoryActions'
 
   //TODO: Create code system for frontend-backend communication (1 - OK, 2 - Adding category failed because category exists, 3 - Adding category failed because no db connection and so forth)
 const getData = async () => {
@@ -14,17 +16,22 @@ const getData = async () => {
 }
 
 const Categories = (props) => {
-    const [incomeList, setIncomeList] = useState([])
-    const [expensesList, setExpensesList] = useState([])
-    const [noneCategory, setNoneCategory] = useState([])
+    const dispatch = useDispatch()
+    const {
+        incomeCategories,
+        expenseCategories, 
+        noneCategory} = useSelector(state => state.categoryReducer)
+    
 
     useEffect( () => { //TODO: Create custom useCategoriesFetch hook, replace here and in TransactionsList.js OR call this in app.js and pass to children
         async function fetch(){
             await getData().then(res => {
                 if(res.status === 200){
-                    setIncomeList([...res.incomeList])
-                    setExpensesList([...res.expensesList])
-                    setNoneCategory(...res.noneCategory)
+                    dispatch(loadCategories({
+                        incomeCategories: [...res.incomeList],
+                        expenseCategories: [...res.expensesList],
+                        noneCategory: [...res.noneCategory]
+                    }))
                 } else if (res.status === 400){
                     console.log('Error getting lists from database')
                 }
@@ -37,14 +44,18 @@ const Categories = (props) => {
     }, [])
 
     //TODO: Replace elementName with element _id? Perhaps not necessary since duplicates not needed, need to decide.
-    const handleIncomeItemDelete = (elementName) => { setIncomeList(incomeList.filter( (element) => element.category !== elementName))}
-    const handleExpenseItemDelete = (elementName) => { setExpensesList(expensesList.filter( (element) => element.category !== elementName))}
+    const handleIncomeItemDelete = (elementName) => { 
+        //setIncomeList(incomeList.filter( (element) => element.category !== elementName))
+    }
+    const handleExpenseItemDelete = (elementName) => { 
+        //setExpensesList(expensesList.filter( (element) => element.category !== elementName))
+    }
 
     const handleListUpdate = (isIncomeCategory, newItem) => {
         if(isIncomeCategory){
-            setIncomeList([...incomeList, newItem])
+            //setIncomeList([...incomeList, newItem])
         } else {
-            setExpensesList([...expensesList, newItem])
+            //setExpensesList([...expensesList, newItem])
         }
     }
     return (
@@ -63,7 +74,7 @@ const Categories = (props) => {
             <Grid item xs={12} md={6}>
                 <CategoryList 
                 listTitle='Income Categories' 
-                listArr={incomeList}
+                listArr={incomeCategories}
                 noneCategory={noneCategory} 
                 deleteCategory={handleIncomeItemDelete}/>
             </Grid>
@@ -71,7 +82,7 @@ const Categories = (props) => {
             <Grid item xs={12} md={6}>
                 <CategoryList 
                 listTitle='Expenses Categories' 
-                listArr={expensesList}
+                listArr={expenseCategories}
                 noneCategory={noneCategory} 
                 deleteCategory={handleExpenseItemDelete}/>
             </Grid>
