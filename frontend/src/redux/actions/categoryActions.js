@@ -13,3 +13,12 @@ export const loadCategories = (allCategories) => {
         }
     }
 }
+
+export const deleteCategory = (category_id) => {
+    return {
+        type: 'DELETE_CATEGORY',
+        payload: {
+            category_id
+        }
+    }
+}

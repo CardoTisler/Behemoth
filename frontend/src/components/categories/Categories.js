@@ -19,9 +19,7 @@ const Categories = (props) => {
     const dispatch = useDispatch()
     const {
         incomeCategories,
-        expenseCategories, 
-        noneCategory} = useSelector(state => state.categoryReducer)
-    
+        expenseCategories } = useSelector(state => state.categoryReducer)
 
     useEffect( () => { //TODO: Create custom useCategoriesFetch hook, replace here and in TransactionsList.js OR call this in app.js and pass to children
         async function fetch(){
@@ -74,17 +72,13 @@ const Categories = (props) => {
             <Grid item xs={12} md={6}>
                 <CategoryList 
                 listTitle='Income Categories' 
-                listArr={incomeCategories}
-                noneCategory={noneCategory} 
-                deleteCategory={handleIncomeItemDelete}/>
+                listArr={incomeCategories} />
             </Grid>
 
             <Grid item xs={12} md={6}>
                 <CategoryList 
                 listTitle='Expenses Categories' 
-                listArr={expenseCategories}
-                noneCategory={noneCategory} 
-                deleteCategory={handleExpenseItemDelete}/>
+                listArr={expenseCategories} />
             </Grid>
             
         </Grid>

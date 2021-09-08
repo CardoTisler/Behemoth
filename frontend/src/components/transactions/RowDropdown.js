@@ -20,6 +20,11 @@ const renderOptions = (categories) => {
 
 const RowDropdown = (props) => {
   const [currentCategoryId, setCurrentCategoryId] = useState("0");
+  const { 
+    incomeCategories,
+    expenseCategories,
+    noneCategory } = useSelector(state => state.categoryReducer)
+
   useEffect(() => {
     setCurrentCategoryId(props.currentVal);
   }, [props.currentVal]);
@@ -42,6 +47,7 @@ const RowDropdown = (props) => {
     //should send request to backend to update all matching transactions with new category Id
   }
   
+  console.log(noneCategory)
   return (
     <FormControl>
       <Select
@@ -49,15 +55,16 @@ const RowDropdown = (props) => {
       value={currentCategoryId} 
       id="categories-dropdown"
       onChange={handleChange}>
+        <option value={'1'}>---</option>
         <option 
-        key={props.noneCategory[0]._id} 
-        value={props.noneCategory[0]._id}>NONE</option>
+        // key={noneCategory[0]._id} 
+        value={noneCategory[0]._id}>NONE</option>
         <optgroup label="Income">
-          {renderOptions(props.incomeCategories)}
+          {renderOptions(incomeCategories)}
         </optgroup>
 
         <optgroup label="Expense">
-          {renderOptions(props.expenseCategories)}
+          {renderOptions(expenseCategories)}
         </optgroup>
       </Select>
     </FormControl>

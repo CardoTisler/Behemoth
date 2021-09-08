@@ -1,7 +1,9 @@
 import { makeStyles, ListItem, ListItemText, Button } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { deleteCategory } from '../../redux/actions/categoryActions'
+
 const useStyles = makeStyles({
     display: {
         display: 'flex'
@@ -11,19 +13,43 @@ const useStyles = makeStyles({
 })
 
 const removeFromDatabase = async (url) => {
-    try{
-        const response = await fetch(url, {
-            method: 'DELETE',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+    // try{
+    //     const response = await fetch(url, {
+    //         method: 'DELETE',
+    //         mode: 'cors',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         }
+    //     })
+    //     return response.json()
+    // } catch (err) {
+    //     console.log(err)
+    // }
 
-        return response.json()
-    } catch (err) {
-        console.log(err)
-    }
+    await fetch(url, {
+        method: 'DELETE',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => {
+        console.log(response.status) //FIXME: Pass this reponse forward to handleDelete
+        return response
+    }).catch(err => {
+        console.log('remdberror')
+        console.error(err)
+    })
+}
+
+const updateTransactions = async (newCategoryId, oldCategoryId) => {
+    await fetch('/transactions/update/'.concat(newCategoryId), {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+            'Content-Type':'application/json'
+        },
+        body: JSON.stringify({idForSearch: oldCategoryId})
+    }).then((response) => { return response})
 }
 
 const ListRow = (props) => {
@@ -33,22 +59,16 @@ const ListRow = (props) => {
     const {category, _id} = props.element
     const { noneCategory } = useSelector(state => state.categoryReducer)
     
+    const dispatch = useDispatch()
+
     const handleElementDelete = async () => {
         await removeFromDatabase('/categories/delete/'.concat(_id)).then( async (response) => {
-            //if 200, send name of category to parent component and 
-            //filter state array for everything except the name passed in method.
-            console.log('/transactions/update/'.concat(noneCategory[0]._id))
+            dispatch(deleteCategory(_id))
+            console.log('remdbresponseuse')
+            console.log(response)
             if(response.status === 200){
-                await fetch('/transactions/update/'.concat(noneCategory[0]._id), {
-                    method: 'PUT',
-                    mode: 'cors',
-                    headers:{
-                        'Content-Type':'application/json'
-                    },
-                    body: JSON.stringify({idForSearch: _id})
-                }).then(() => {
-                    props.deleteCategory(category) 
-                }).catch(err => {
+                await updateTransactions(noneCategory[0]._id, _id)
+                .catch(err => {
                     console.error(err)
                 })
                 //deleting category successful - find all transactions that had this category and

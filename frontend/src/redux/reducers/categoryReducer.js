@@ -4,19 +4,24 @@ const initialState = {
     expenseCategories: [],
     noneCategory: []
 }
-const categoryReducer = (state = {...initialState}, action) => {
+export const categoryReducer = (state = {...initialState}, action) => {
     switch(action.type){
         default:
-            console.log(state)
-            return state;
+            return {...state};
 
         case 'LOAD_CATEGORIES':
-            state = {...action.payload}
-            return state;
+            return {...action.payload}
 
         case 'GET_CATEGORIES':
-            return state;
+            return {...state};
         
+        case 'DELETE_CATEGORY':
+            return {...state, 
+                incomeCategories: state.incomeCategories.filter( 
+                    (category) => category._id !== action.payload.category_id),
+                expenseCategories: state.expenseCategories.filter(
+                    (category) => category._id !== action.payload.category_id
+                )}        
     }
 }
 

@@ -11,8 +11,7 @@ const useStyles = makeStyles({
 
 
 const TransactionsRow = (props) => {
-    const {incomeList, expenseList, noneCategory} = props
-    const {date, name, text, amount} = props.data
+    const {date, name, text, amount, category} = props.data
 
     const classes = useStyles()
     
@@ -47,10 +46,7 @@ const TransactionsRow = (props) => {
             </Grid>
             <Grid item xs={1}>
                 <RowDropdown 
-                currentVal={props.data.category._id}
-                incomeCategories={incomeList}
-                expenseCategories={expenseList}
-                noneCategory={noneCategory}
+                currentVal={category._id}
                 handleCategoryUpdate={handleCategoryUpdate}/>
             </Grid>
         </Grid>
