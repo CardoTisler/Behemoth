@@ -1,7 +1,5 @@
 
 const transactionReducer = (state = [], action) => {
-    console.log('transactionReducer')
-    console.log(action.type)
     switch(action.type){
         default:
             return state;
@@ -13,13 +11,22 @@ const transactionReducer = (state = [], action) => {
             return state;
 
         case 'GET_TRANSACTIONS':
-            return state;
+            return [...state];
 
         case 'UPDATE_TRANSACTIONS_CAT':
-            const transIdentifier = action.payload.transactionIdentifier
+            console.log('update')
+            const name = action.payload.transactionName
             const newCategoryId = action.payload.newCategoryId
-
-            //make updateMany request to database
+            
+            return state.map((transaction) => {
+                if(transaction.name === name){
+                    return { ...transaction,
+                        category: newCategoryId
+                    }
+                }
+                return {...transaction}
+            })
+            
     }
 }
 

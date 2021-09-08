@@ -11,25 +11,23 @@ const useStyles = makeStyles({
 
 
 const TransactionsRow = (props) => {
-    const {date, name, text, amount, category} = props.data
-
+    const {date, name, text, amount, category, _id} = props.data
     const classes = useStyles()
+    // const handleCategoryUpdate = async (newCategoryId) => {
+    //     const url = '/transactions/update/'.concat(newCategoryId)
+    //     const response = await fetch(url, {
+    //         method: 'PUT',
+    //         mode: 'cors',
+    //         headers:{
+    //             'Content-Type':'application/json'
+    //         },
+    //         body: JSON.stringify({name})
+    //     }).catch(err => {
+    //         console.error(err)
+    //     })
+    //     return response
+    // }
     
-    const handleCategoryUpdate = async (newCategoryId) => {
-        const url = '/transactions/update/'.concat(newCategoryId)
-        const response = await fetch(url, {
-            method: 'PUT',
-            mode: 'cors',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body: JSON.stringify({name})
-        }).catch(err => {
-            console.error(err)
-        })
-        return response
-    }
-
     return (
         <Grid container className={classes.root}>
             <Grid item xs={2}>
@@ -46,8 +44,9 @@ const TransactionsRow = (props) => {
             </Grid>
             <Grid item xs={1}>
                 <RowDropdown 
-                currentVal={category._id}
-                handleCategoryUpdate={handleCategoryUpdate}/>
+                transactionCategoryId={category}
+                transactionName={name}
+                transactionId={_id}/>
             </Grid>
         </Grid>
     )

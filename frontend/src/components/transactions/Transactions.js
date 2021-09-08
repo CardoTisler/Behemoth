@@ -4,9 +4,10 @@ import TransactionsSearch from './TransactionsSearch'
 import TransactionsList from './TransactionsList'
 import TransactionsForm from './TransactionsForm'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { loadTransactions } from '../../redux/actions/transactionActions'
-
+import { useFetchTransactions } from '../../hooks/useFetchTransactions'
+import transactionReducer from '../../redux/reducers/transactionReducer'
 //TODO: if rendering positive or 0 number to amount column, font green, otherwise red 
 
 const useStyles = makeStyles({
@@ -15,36 +16,20 @@ const useStyles = makeStyles({
     }
 })
 
-const getData = async () => {
-    try {
-        const response = await fetch('transactions/show');
-        const data = await response.json()
-        return data
-    } catch (err) {
-        console.log(err) }
-}
-
-
 const Transactions = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
-
+    const {transactionsList, error} = useFetchTransactions()
+    const transactions = useSelector(state => state.transactionReducer)
+    
     useEffect( () => {
-        async function fetch(){
-            await getData().then(res => {
-                if(res.status === 200){
-                    dispatch(loadTransactions(res.transactionsList))
-                
-                } else if (res.status === 400){
-                    console.log('Error getting lists from database')
-                }
-            }).catch(err => {
-                console.error(err)
-                console.log('Error making get/show request to database.')
-            })
+        if(!error){
+            dispatch(loadTransactions(transactionsList))
+        } else {
+            //TODO: Render error component showcasing error message inside.
+            console.error(error)
         }
-        fetch()
-    }, [])
+    }, [transactionsList, error])
     //const handleTransactionAdd = (transactionItem) => { setTransactionsList([...transactionsList, transactionItem])}
     
     return (

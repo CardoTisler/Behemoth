@@ -1,6 +1,7 @@
 import { FormControl, Select } from "@material-ui/core";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateTransactionsCategory } from "../../redux/actions/transactionActions";
 const renderOptions = (categories) => {
   if (categories) {
     return categories.map((element) => {
@@ -13,41 +14,54 @@ const renderOptions = (categories) => {
   }
 };
 
-//TODO: OnChange method for Select component that triggers database request to modify
-//all suitable transactions
+const handleCategoryUpdate = async (newCategoryId, transactionId) => {
+  const url = '/transactions/update/'.concat(transactionId)
+  const response = await fetch(url, {
+      method: 'PUT',
+      mode: 'cors',
+      headers:{
+          'Content-Type':'application/json'
+      },
+      body: JSON.stringify({newCategoryId})
+  }).catch(err => {
+      console.error(err)
+  })
+  return response
+}
 
 
 
 const RowDropdown = (props) => {
   const [currentCategoryId, setCurrentCategoryId] = useState("0");
+  const {transactionId, transactionCategoryId, transactionName} = props
   const { 
     incomeCategories,
     expenseCategories,
     noneCategory } = useSelector(state => state.categoryReducer)
-
+  
+    const dispatch = useDispatch()
   useEffect(() => {
-    setCurrentCategoryId(props.currentVal);
-  }, [props.currentVal]);
+    setCurrentCategoryId(transactionCategoryId);
+    
+  }, [transactionCategoryId]);
 
   const handleChange = async (e) => {
     const newCategoryId = e.target.value
-    
-    await props.handleCategoryUpdate(newCategoryId).then( res => {
+
+    await handleCategoryUpdate(newCategoryId, transactionId).then( res => {
       if(res.status === 200){
-        setCurrentCategoryId(newCategoryId); //change state after backend request is complete to force rerender
-        //FIXME: Need to re-render TransactionsList component
-        //        to load in new values after category change to fix crashing issue
+        setCurrentCategoryId(newCategoryId);
+        dispatch(updateTransactionsCategory(transactionName, newCategoryId))
+        
       } else if (res.status === 400){
         console.log('BAD REQUEST')
       }
     }).catch( err => {
       console.error(err)
     })
-    //take function from props, give param of e.target.value(category id), method from props
-    //should send request to backend to update all matching transactions with new category Id
-  }
   
-  console.log(noneCategory)
+  }
+  console.log(currentCategoryId)
   return (
     <FormControl>
       <Select
@@ -56,9 +70,8 @@ const RowDropdown = (props) => {
       id="categories-dropdown"
       onChange={handleChange}>
         <option value={'1'}>---</option>
-        <option 
-        // key={noneCategory[0]._id} 
-        value={noneCategory[0]._id}>NONE</option>
+        <option  
+        value={noneCategory._id}>NONE</option>
         <optgroup label="Income">
           {renderOptions(incomeCategories)}
         </optgroup>

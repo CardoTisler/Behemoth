@@ -6,11 +6,11 @@ export const getTransactions = () => {
 
 //transactionIdentifier - name field of transactions that we want to change
 //newCategoryId - id of the new category that was applied to the corresponding transactions
-export const updateTransactionsCategory = (transactionIdentifier, newCategoryId) => {
+export const updateTransactionsCategory = (transactionName, newCategoryId) => {
     return {
         type: 'UPDATE_TRANSACTIONS_CAT',
         payload: {
-            transactionIdentifier,
+            transactionName,
             newCategoryId
         }
     }

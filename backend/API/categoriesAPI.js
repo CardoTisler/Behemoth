@@ -37,7 +37,7 @@ router.get('/categories/show', async (req, res) => {
     res.json({
         incomeList,
         expensesList,
-        noneCategory,
+        noneCategory: noneCategory[0],
         status: 200
     })
 })

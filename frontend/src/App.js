@@ -1,5 +1,5 @@
 import './App.css';
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Banner from './components/Banner'
 import NavigationBar from './components/NavigationBar'
@@ -8,7 +8,9 @@ import Transactions from './components/transactions/Transactions'
 import Categories from './components/categories/Categories'
 import Reports from './components/reports/Reports'
 import { makeStyles } from '@material-ui/core'
-
+import { useDispatch } from 'react-redux';
+import { loadCategories } from './redux/actions/categoryActions';
+import { useFetchCategories } from './hooks/useFetchCategories';
 
 const useStyles = makeStyles({
   root: {
@@ -27,8 +29,28 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles()
   const [bannerTitle, setBannerTitle] = useState('Dashboard')
-  
   const handleBannerText = (props) => { setBannerTitle(props.text) }
+  
+  const dispatch = useDispatch()
+  const {incomeCategories, expenseCategories, noneCategory, error} = useFetchCategories()
+
+  useEffect( () => {
+      if(!error){
+        console.log({
+          incomeCategories, 
+          expenseCategories, 
+          noneCategory
+        })
+        dispatch(loadCategories({
+          incomeCategories, 
+          expenseCategories, 
+          noneCategory
+        }))
+      } else {
+        //TODO: Render error component 
+        console.error(error)
+      }
+    }, [incomeCategories])
   
   return (
     <div className={classes.root}>
@@ -40,7 +62,7 @@ function App() {
             <div className={classes.frameStyles}>
               <Switch>
                 <Route exact path='/' component={Dashboard} />
-                {/* <Route exact path='/' render={(props) => <Dashboard {...props} />} */}
+
                 <Route exact path='/transactions' render={() => 
                   <Transactions />
                 } />

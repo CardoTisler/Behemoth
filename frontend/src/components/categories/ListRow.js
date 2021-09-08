@@ -13,32 +13,18 @@ const useStyles = makeStyles({
 })
 
 const removeFromDatabase = async (url) => {
-    // try{
-    //     const response = await fetch(url, {
-    //         method: 'DELETE',
-    //         mode: 'cors',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         }
-    //     })
-    //     return response.json()
-    // } catch (err) {
-    //     console.log(err)
-    // }
-
-    await fetch(url, {
-        method: 'DELETE',
-        mode: 'cors',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(response => {
-        console.log(response.status) //FIXME: Pass this reponse forward to handleDelete
-        return response
-    }).catch(err => {
-        console.log('remdberror')
-        console.error(err)
-    })
+    try{
+        const response = await fetch(url, {
+            method: 'DELETE',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        return response.json()
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 const updateTransactions = async (newCategoryId, oldCategoryId) => {
@@ -64,8 +50,6 @@ const ListRow = (props) => {
     const handleElementDelete = async () => {
         await removeFromDatabase('/categories/delete/'.concat(_id)).then( async (response) => {
             dispatch(deleteCategory(_id))
-            console.log('remdbresponseuse')
-            console.log(response)
             if(response.status === 200){
                 await updateTransactions(noneCategory[0]._id, _id)
                 .catch(err => {
