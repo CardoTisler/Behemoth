@@ -1,8 +1,8 @@
 import { Box, TextField, Button } from '@material-ui/core'
 import { useState } from 'react'
 import { makeStyles } from '@material-ui/core'
-
-//TODO: Form UI changes - UI can be finalized.
+import { useDispatch } from 'react-redux'
+import { addCategory } from '../../redux/actions/categoryActions'
 
 const useStyles = makeStyles({
     root: {
@@ -48,27 +48,17 @@ const addToDatabase = async (url, data) => {
         console.log(err)
     }
 
-    // await fetch(url, {
-    //     method: 'POST',
-    //     mode: 'cors',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(data)
-    // }).then( res => {return res.json()})
-    // .catch(err => console.error(err))
 }
 const CategoryForm = (props) => {
+    const classes = useStyles()
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const [isIncomeCategory, setIsIncomeCategory] = useState(true)
     const [state, setState] = useState({
         category: '',
         budget: '',
     })
-    const classes = useStyles()
+    const dispatch = useDispatch()
 
-    //toggle between Income and Expenses categories
-    //TODO: Can add straight to code that uses it?
     const handleCategoryChange = () => {
         setIsIncomeCategory(!isIncomeCategory)
     }
@@ -80,25 +70,10 @@ const CategoryForm = (props) => {
         //TODO: add input validation method to handleSubmit, handleSubmit should not continue if validation
         //method returns false. The validation method should accept the budget value and make sure it is
         //parseable to integer
-
-        //send data to parent
-        // if(state.category){
-        //     if(isIncomeCategory){
-        //         props.addIncome(data)
-        //     } else {
-        //         if(validateInteger(state.budget)){
-        //             props.addExpense(data)
-        //         } else { return }
-        //     }
-        // }
         
         addToDatabase('/categories/new', data).then((res) => {
             if(res.status === 200){
-                if(isIncomeCategory){
-                    props.updateList(true, res.addedItem)
-                } else {
-                    props.updateList(false, res.addedItem)
-                }
+                dispatch(addCategory(res.addedItem, isIncomeCategory))
             } else {
                 console.log('Cannot add new Category.')
                 //TODO: Add logic to UI for showing add failure.
@@ -168,7 +143,7 @@ const CategoryForm = (props) => {
                         variant='contained'
                         color='primary'
                         onClick={handleCategoryChange}>
-                            {isIncomeCategory ? 'Income' : 'Expenses'}
+                            {isIncomeCategory ? 'Income' : 'Expense'}
                         </Button>
                 </div>
             </form>

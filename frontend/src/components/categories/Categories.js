@@ -41,29 +41,14 @@ const Categories = (props) => {
         fetch()
     }, [])
 
-    //TODO: Replace elementName with element _id? Perhaps not necessary since duplicates not needed, need to decide.
-    const handleIncomeItemDelete = (elementName) => { 
-        //setIncomeList(incomeList.filter( (element) => element.category !== elementName))
-    }
-    const handleExpenseItemDelete = (elementName) => { 
-        //setExpensesList(expensesList.filter( (element) => element.category !== elementName))
-    }
-
-    const handleListUpdate = (isIncomeCategory, newItem) => {
-        if(isIncomeCategory){
-            //setIncomeList([...incomeList, newItem])
-        } else {
-            //setExpensesList([...expensesList, newItem])
-        }
-    }
+    
     return (
         <Grid container spacing={3}>
             {/* header */}
             <Grid item xs={12} md={12}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={6}> 
-                        <CategoryForm
-                        updateList={handleListUpdate} />
+                        <CategoryForm />
                     </Grid>
                 </Grid>
             </Grid>

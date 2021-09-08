@@ -1,13 +1,12 @@
-import {useState, useEffect} from 'react'
+import {useEffect} from 'react'
 import { makeStyles, Grid, Box} from '@material-ui/core'
 import TransactionsSearch from './TransactionsSearch'
 import TransactionsList from './TransactionsList'
 import TransactionsForm from './TransactionsForm'
 
-import { useSelector, useDispatch } from 'react-redux'
-import { loadTransactions, getTransactions } from '../../redux/actions/transactionActions'
+import { useDispatch } from 'react-redux'
+import { loadTransactions } from '../../redux/actions/transactionActions'
 
-// import {DataGrid} from '@mui/x-data-grid'
 //TODO: if rendering positive or 0 number to amount column, font green, otherwise red 
 
 const useStyles = makeStyles({

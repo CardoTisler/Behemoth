@@ -22,3 +22,14 @@ export const deleteCategory = (category_id) => {
         }
     }
 }
+
+export const addCategory = (newCategory, isIncomeCategory) => {
+    const type = isIncomeCategory ? 'ADD_INCOME_CATEGORY' : 'ADD_EXPENSE_CATEGORY';
+    console.log(type)
+    return {
+        type,
+        payload: {
+            newCategory
+        }
+    }
+}

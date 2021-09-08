@@ -21,7 +21,17 @@ export const categoryReducer = (state = {...initialState}, action) => {
                     (category) => category._id !== action.payload.category_id),
                 expenseCategories: state.expenseCategories.filter(
                     (category) => category._id !== action.payload.category_id
-                )}        
+                )}
+        case 'ADD_INCOME_CATEGORY':
+            return {
+                ...state,
+                incomeCategories: [...state.incomeCategories, action.payload.newCategory]
+            }
+        case 'ADD_EXPENSE_CATEGORY':
+            return {
+                ...state,
+                expenseCategories: [...state.expenseCategories, action.payload.newCategory]
+            }
     }
 }
 
