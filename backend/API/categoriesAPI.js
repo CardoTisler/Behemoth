@@ -6,33 +6,31 @@ router.post('/categories/new', async (req, res) => {
     const { isIncomeCategory, category, budget } = req.body
     await Category.find({ category }).then( async (foundItemsArray) => {
         if(foundItemsArray.length !== 0){
-            console.log('Item already exists in database. Will not add duplicate!')
+            res.json({status: 400, error: 'Will not add duplicate item to database!'})
         } else {
             if(isIncomeCategory){
                 await Category.create({ category, type: 'Income' })
                 .then( addedItem => res.json({addedItem, status: 200}) )
-                .catch( err => console.log(err))
+                .catch( err => res.json({status: 400, error: err.message}))
                 
             } else {
                 await Category.create({ category, budget, type: 'Expense' })
                 .then( addedItem => res.json({addedItem, status: 200}))
-                .catch( err => console.log(err))
+                .catch( err => res.json({status: 400, error: err.message}))
             }
         }
-    }).catch(err => console.log(err))
-//TODO: Add status codes for errors
-    
+    }).catch(err => res.json({status: 400, error: err.message}))
 })
 
 router.get('/categories/show', async (req, res) => {  
     const incomeList = await Category.find({type: 'Income'})
-    .catch(err => res.json({status: 400}))
+    .catch(err => res.json({status: 400, error: err.message}))
     
     const expensesList = await Category.find({type: 'Expense'})
-    .catch(err => res.json({status: 400}))
+    .catch(err => res.json({status: 400, error: err.message}))
     
     const noneCategory = await Category.find({type: 'NONE'})
-    .catch(err => res.json({status: 400}))
+    .catch(err => res.json({status: 400, error: err.message}))
 
     res.json({
         incomeList,
@@ -52,12 +50,12 @@ router.delete('/categories/delete/:id', async (req, res) => {
         if(dbResponse !== null){
             res.json({status: 200})
         } else {
-            res.json({status: 404})}
+            res.json({status: 404, error: `Didn't find anything to delete.`})}
         
         //if delete request succeeds, deletedItem gets returned => return status code 200 (OK)
     })
     .catch(err => {
-        res.json({status: 400})})
+        res.json({status: 400, error: err.message})})
 
 })
 module.exports = router;

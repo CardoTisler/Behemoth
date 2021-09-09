@@ -4,6 +4,7 @@ const errorReducer = (state = {showError: false, message: null, title: null}, ac
             return state;
             
         case 'SHOW_ERROR':
+            console.log('showerror')
             const message = action.payload.message
             const title = action.payload.title
             return {

@@ -25,11 +25,8 @@ const Transactions = () => {
     useEffect( () => {
         if(!error){
             dispatch(loadTransactions(transactionsList))
-            dispatch(showError('Can not render transactions!', 'Fake error message'))
         } else {
-            //TODO: Render error component showcasing error message inside.
-            //dispatch error toggle ON with error message inside
-            console.error(error)
+            dispatch(showError('Can not render transactions!', error))
         }
     }, [transactionsList, error])
     //const handleTransactionAdd = (transactionItem) => { setTransactionsList([...transactionsList, transactionItem])}

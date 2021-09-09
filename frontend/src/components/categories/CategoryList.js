@@ -1,5 +1,7 @@
 import { makeStyles, Divider, List, ListItem, ListItemText, Box } from '@material-ui/core'
 import ListRow from './ListRow'
+import { useDispatch } from 'react-redux'
+import { showError } from '../../redux/actions/errorActions'
 
 const useStyles = makeStyles({
     root: {
@@ -15,14 +17,19 @@ const useStyles = makeStyles({
 
 const CategoryList = (props) => { 
     const classes = useStyles()
-    const {listTitle} = props
+    const {listTitle, listArr} = props
+    const dispatch = useDispatch()
 
     const renderRows = () => {
-        return props.listArr.map((element) => {
-            return (<ListRow 
-                element={element} 
-                key={element._id} />)
-        })
+        try{
+            return listArr.map((element) => {
+                return (<ListRow 
+                    element={element} 
+                    key={element._id} />)
+            })
+        } catch(err) {
+            dispatch(showError(`Failed loading `.concat(listTitle), err.message))
+        }
     }
 
     return (

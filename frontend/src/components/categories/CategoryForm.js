@@ -1,8 +1,9 @@
-import { Box, TextField, Button } from '@material-ui/core'
+import { Box, TextField, Button, makeStyles } from '@material-ui/core'
 import { useState } from 'react'
-import { makeStyles } from '@material-ui/core'
 import { useDispatch } from 'react-redux'
 import { addCategory } from '../../redux/actions/categoryActions'
+import { showError } from '../../redux/actions/errorActions'
+import { hideSuccess, showSuccess } from '../../redux/actions/successActions'
 
 const useStyles = makeStyles({
     root: {
@@ -42,12 +43,10 @@ const addToDatabase = async (url, data) => {
             },
             body: JSON.stringify(data)
         })
-
         return response.json()
     } catch (err) {
-        console.log(err)
+        return {status: 400, error: err.message}
     }
-
 }
 const CategoryForm = (props) => {
     const classes = useStyles()
@@ -58,11 +57,11 @@ const CategoryForm = (props) => {
         budget: '',
     })
     const dispatch = useDispatch()
-
+    
     const handleCategoryChange = () => {
         setIsIncomeCategory(!isIncomeCategory)
     }
-
+    
     const handleSubmit = (e) => {
         e.preventDefault()
         //build object with data from states
@@ -74,13 +73,13 @@ const CategoryForm = (props) => {
         addToDatabase('/categories/new', data).then((res) => {
             if(res.status === 200){
                 dispatch(addCategory(res.addedItem, isIncomeCategory))
-            } else {
-                console.log('Cannot add new Category.')
-                //TODO: Add logic to UI for showing add failure.
+                dispatch(showSuccess(`New category added.`))
+                setTimeout(()=>{dispatch(hideSuccess())}, 4000)
+            } else if (res.status === 400){
+                dispatch(showError(`Couldn't make API request.`, res.error))
             }
         }).catch(err => {
-            console.log('error adding to database: ')
-            console.log(err)
+            dispatch(showError(`Couldn't make API request.`, err.message))
         })
         //clear state value after sending data
         setState({
@@ -113,8 +112,6 @@ const CategoryForm = (props) => {
     return (
         <Box className={classes.root} boxShadow={4}>
             <form onSubmit={handleSubmit} className={classes.formLayout}>
-                {/* Input for category name */}
-
                 <div className={classes.textFields}>
                     <TextField 
                     label='Category Name'

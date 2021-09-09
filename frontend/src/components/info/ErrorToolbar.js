@@ -6,7 +6,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 const ErrorToolbar = () => {
     const dispatch = useDispatch()
     const {showError, message, title} = useSelector(state => state.errorReducer)
-
+    console.log(showError)
     return (
         <>
         {showError && 

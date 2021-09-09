@@ -6,11 +6,16 @@ const Transaction = require('../models/transaction')
 //SHOW route
 router.get('/transactions/show', async (req, res) => {
     await Transaction.find({}).populate().then( (foundItemsArray) => {
-        res.json({
-            transactionsList: [...foundItemsArray],
-            status: 200})
+        if(foundItemsArray.length === 0){
+            res.json({status: 400, error: 'Did not find any transactions.'})
+        } else {
+            res.json({
+                transactionsList: [...foundItemsArray],
+                status: 200})
+        }
     }).catch(err => {
-        res.json({status: 400})
+        console.log(err.stack)
+        res.json({status: 400, error: err.message})
     })
 })
 
@@ -18,33 +23,9 @@ router.get('/transactions/show', async (req, res) => {
 
 //TODO: EDIT
 
-//TODO: UPDATE - will be mass update for now since I see no point in updating only one transaction
-// router.put('/transactions/update/:id', async (req, res) => {
-//     const {transactionId, idForSearch} = req.body
-//     //id in url is the id of the new category to be added to corresponding transactions
-//     if(name){
-//         await Transaction.updateMany({name}, {$set: {category: req.params.id}})
-//         .then( () => {
-//             res.json({status: 200}) //200 - OK
-//         }).catch(err => {
-//             console.error(err)
-//             res.json({status: 400}) //400 - Bad Request
-//         })
-//     } else if (idForSearch) {
-//         await Transaction.updateMany({idForSearch}, {$set:{category: req.params.id}})
-//         .then( () => {
-//             res.json({status: 200}) //200 - OK
-//         }).catch(err => {
-//             console.error(err)
-//             res.json({status: 400}) //400 - Bad Request
-//         })
-//     }
-// })
-
 router.put('/transactions/update/:id', async (req, res) => {
     const transactionId = req.params.id
     const {newCategoryId} = req.body
-    console.log(newCategoryId)
     //find the name of the transaction that had its category changed
     await Transaction.findOne({_id: transactionId}).then( async transaction => {
         //use the name of the transaction to find all corresponding categories and
@@ -52,12 +33,24 @@ router.put('/transactions/update/:id', async (req, res) => {
         const name = transaction.name
         await Transaction.updateMany({name}, {$set: {category: newCategoryId}})
         .then( () => {
-            console.log('Updated categories of transactions!')
             res.json({status: 200})
         }).catch( err => {
-            console.log('Transactions category change failed.')
-            res.json({status: 400, error: err})
+            res.json({status: 400, error: err.message})
         })
+    }).catch(err => {
+        res.json({status: 404, error: err.message})
+    })
+})
+
+router.put('/transactions/updatecategories/:id', async(req, res) => {
+    const oldCategoryId = req.params.id
+    const { newCategoryId } = req.body
+    await Transaction.updateMany({category: oldCategoryId}, {$set: {category: newCategoryId}})
+    .then(() => {
+        res.json({status: 200})
+    })
+    .catch( err => {
+        res.json({status: 400, error: err.message})
     })
 })
 //TODO: DESTROY

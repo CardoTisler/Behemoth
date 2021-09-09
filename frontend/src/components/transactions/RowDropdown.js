@@ -2,17 +2,7 @@ import { FormControl, Select } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateTransactionsCategory } from "../../redux/actions/transactionActions";
-const renderOptions = (categories) => {
-  if (categories) {
-    return categories.map((element) => {
-      return (
-        <option key={element._id} value={element._id}>
-          {element.category}
-        </option>
-      );
-    });
-  }
-};
+import { showError } from "../../redux/actions/errorActions";
 
 const handleCategoryUpdate = async (newCategoryId, transactionId) => {
   const url = '/transactions/update/'.concat(transactionId)
@@ -24,11 +14,10 @@ const handleCategoryUpdate = async (newCategoryId, transactionId) => {
       },
       body: JSON.stringify({newCategoryId})
   }).catch(err => {
-      console.error(err)
+      return {status: 400, error: err.message}
   })
   return response
 }
-
 
 
 const RowDropdown = (props) => {
@@ -39,29 +28,42 @@ const RowDropdown = (props) => {
     expenseCategories,
     noneCategory } = useSelector(state => state.categoryReducer)
   
-    const dispatch = useDispatch()
+  const dispatch = useDispatch()
   useEffect(() => {
-    setCurrentCategoryId(transactionCategoryId);
-    
+    setCurrentCategoryId(transactionCategoryId);  
   }, [transactionCategoryId]);
 
   const handleChange = async (e) => {
     const newCategoryId = e.target.value
-
     await handleCategoryUpdate(newCategoryId, transactionId).then( res => {
       if(res.status === 200){
         setCurrentCategoryId(newCategoryId);
         dispatch(updateTransactionsCategory(transactionName, newCategoryId))
         
       } else if (res.status === 400){
-        console.log('BAD REQUEST')
+        dispatch(showError(`Couldn't update transaction category.`, res.error))
       }
     }).catch( err => {
-      console.error(err)
+      dispatch(showError(`Couldn't update transaction category.`, err.message))
     })
-  
   }
-  console.log(currentCategoryId)
+
+  const renderOptions = (categories) => {
+    try{
+      if (categories) {
+          return categories.map((element) => {
+            return (
+              <option key={element._id} value={element._id}>
+                {element.category}
+              </option>
+            );
+          });
+      }
+    } catch (err) {
+      dispatch(showError(`Loading categories dropdown for transactions failed.`, err.message))
+    }
+  };
+  
   return (
     <FormControl>
       <Select
@@ -69,7 +71,6 @@ const RowDropdown = (props) => {
       value={currentCategoryId} 
       id="categories-dropdown"
       onChange={handleChange}>
-        <option value={'1'}>---</option>
         <option  
         value={noneCategory._id}>NONE</option>
         <optgroup label="Income">

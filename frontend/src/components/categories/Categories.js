@@ -3,9 +3,8 @@ import CategoryList from './CategoryList'
 import CategoryForm from './CategoryForm'
 import { useSelector } from 'react-redux'
 
-  //TODO: Create code system for frontend-backend communication (1 - OK, 2 - Adding category failed because category exists, 3 - Adding category failed because no db connection and so forth)
-
-const Categories = (props) => {
+  
+const Categories = () => {
     const {
         incomeCategories,
         expenseCategories } = useSelector(state => state.categoryReducer)

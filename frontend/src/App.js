@@ -1,8 +1,8 @@
 import './App.css';
 import {useState, useEffect} from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import Banner from './components/Banner'
-import NavigationBar from './components/NavigationBar'
+import Banner from './components/window/Banner'
+import NavigationBar from './components/window/NavigationBar'
 import Dashboard from './components/dashboard/Dashboard'
 import Transactions from './components/transactions/Transactions'
 import Categories from './components/categories/Categories'
