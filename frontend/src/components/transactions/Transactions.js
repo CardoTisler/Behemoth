@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loadTransactions } from '../../redux/actions/transactionActions'
 import { useFetchTransactions } from '../../hooks/useFetchTransactions'
 import transactionReducer from '../../redux/reducers/transactionReducer'
+import { showError } from '../../redux/actions/errorActions'
 //TODO: if rendering positive or 0 number to amount column, font green, otherwise red 
 
 const useStyles = makeStyles({
@@ -20,13 +21,14 @@ const Transactions = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const {transactionsList, error} = useFetchTransactions()
-    const transactions = useSelector(state => state.transactionReducer)
     
     useEffect( () => {
         if(!error){
             dispatch(loadTransactions(transactionsList))
+            dispatch(showError('Can not render transactions!', 'Fake error message'))
         } else {
             //TODO: Render error component showcasing error message inside.
+            //dispatch error toggle ON with error message inside
             console.error(error)
         }
     }, [transactionsList, error])
@@ -36,7 +38,6 @@ const Transactions = () => {
         <Box boxShadow={2} className={classes.root}>
             <Grid container spacing={1}>
                 <Grid item xs={12}> 
-                    {/* <TransactionsForm addTransaction={handleTransactionAdd}/> */}
                     <TransactionsForm />
                 </Grid>
                 <Grid item xs={12}>

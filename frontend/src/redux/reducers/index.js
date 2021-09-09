@@ -1,7 +1,11 @@
 import { combineReducers } from 'redux'
 import categoryReducer from './categoryReducer'
 import transactionReducer from './transactionReducer'
-
-const allReducers = combineReducers({transactionReducer, categoryReducer})
+import errorReducer from './errorReducer'
+import successReducer from './successReducer'
+const allReducers = combineReducers({transactionReducer,
+    categoryReducer, 
+    errorReducer,
+    successReducer})
 
 export default allReducers;

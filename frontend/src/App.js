@@ -8,9 +8,11 @@ import Transactions from './components/transactions/Transactions'
 import Categories from './components/categories/Categories'
 import Reports from './components/reports/Reports'
 import { makeStyles } from '@material-ui/core'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loadCategories } from './redux/actions/categoryActions';
 import { useFetchCategories } from './hooks/useFetchCategories';
+import ErrorToolbar from './components/info/ErrorToolbar'
+import SuccessToolbar from './components/info/SuccessToolbar'
 
 const useStyles = makeStyles({
   root: {
@@ -33,14 +35,9 @@ function App() {
   
   const dispatch = useDispatch()
   const {incomeCategories, expenseCategories, noneCategory, error} = useFetchCategories()
-
+  
   useEffect( () => {
       if(!error){
-        console.log({
-          incomeCategories, 
-          expenseCategories, 
-          noneCategory
-        })
         dispatch(loadCategories({
           incomeCategories, 
           expenseCategories, 
@@ -60,6 +57,9 @@ function App() {
             <NavigationBar onButtonClick={handleBannerText}/>
             
             <div className={classes.frameStyles}>
+              <ErrorToolbar />
+              <SuccessToolbar />
+              
               <Switch>
                 <Route exact path='/' component={Dashboard} />
 
