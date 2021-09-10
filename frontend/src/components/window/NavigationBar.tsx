@@ -1,3 +1,5 @@
+//TODO: Remove the red line below button text, appears after clicking on button
+//TODO: Add highlight to currently selected button
 import NavButton from './NavButton'
 import { makeStyles } from '@material-ui/core/styles';
 import {BrowserRouter as Router, Link} from 'react-router-dom'
@@ -5,7 +7,6 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import BarChartIcon from '@material-ui/icons/BarChart';
-import {PropTypes} from 'prop-types'
 import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -16,9 +17,11 @@ const useStyles = makeStyles({
     }
 })
 
-//TODO: Remove the red line below button text, appears after clicking on button
-//TODO: Add highlight to currently selected button
-const NavigationBar = (props) => {
+interface Props{
+    onButtonClick: () => void;
+
+}
+const NavigationBar: React.FC<Props> = (props) => {
     const classes = useStyles()
 
     return (
@@ -49,8 +52,5 @@ const NavigationBar = (props) => {
     )
 }
 
-NavigationBar.propTypes = {
-    onButtonClick: PropTypes.func.isRequired
-}
 
 export default NavigationBar

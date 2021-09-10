@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     }
 })
 
-const removeFromDatabase = async (url) => {
+const removeFromDatabase = async (url: string) => {
     await fetch(url, {
         method: 'DELETE',
         mode: 'cors',
@@ -32,7 +32,7 @@ const removeFromDatabase = async (url) => {
     })
 }
 
-const updateTransactionCategories = async (newCategoryId, oldCategoryId) => {
+const updateTransactionCategories = async (newCategoryId: string, oldCategoryId: string) => {
     await fetch('/transactions/updatecategories/'.concat(oldCategoryId), {
         method: 'PUT',
         mode: 'cors',
@@ -41,12 +41,17 @@ const updateTransactionCategories = async (newCategoryId, oldCategoryId) => {
         },
         body: JSON.stringify({newCategoryId})
     }).then((res) => { 
-        if(!res.status === 200){
+        if(res.status !== 200){
             throw new Error(res.error)
         }
     }).catch(err => {
         throw new Error(err.message)
     })
+}
+
+interface Props{
+    category: string,
+    _id: string
 }
 
 const ListRow = (props) => {

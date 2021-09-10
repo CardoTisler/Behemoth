@@ -1,4 +1,6 @@
-const successReducer = (state = {showSuccess: false, message: null}, action) => {
+import {Action} from '../../Types/Info/Success'
+
+const successReducer = (state = {showSuccess: false, message: null}, action: Action) => {
     switch (action.type){
         default:
             return state

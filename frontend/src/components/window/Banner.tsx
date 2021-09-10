@@ -1,7 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import { makeStyles, Box } from '@material-ui/core'
-
 
 
 const useStyles = makeStyles({
@@ -14,22 +11,20 @@ const useStyles = makeStyles({
     }
 })
 
-const Banner = (props) => {
+interface Props{
+    title: string
+}
+
+const Banner: React.FC<Props> = (props) => {
+    const {title} = props
     const classes = useStyles()
 
     return (
         <Box className={classes.root} boxShadow={4}>
-            {props.title}
+            {title}
         </Box>
     )
 }
 
-Banner.defaultProps = {
-    title: 'banner default title'
-}
-
-Banner.propTypes = {
-    title: PropTypes.string
-}
 
 export default Banner

@@ -1,12 +1,12 @@
+import {Transaction, Action} from '../../Types/TransactionTypes/Transaction'
 
-const transactionReducer = (state = [], action) => {
+
+const transactionReducer = (state: Transaction[] = [], action: Action) => {
     switch(action.type){
         default:
             return state;
 
-        //expects array containing transaction objects
         case 'LOAD_TRANSACTIONS':
-            console.log('loading transactions')
             state = [...action.payload.allTransactions]
             return state;
 

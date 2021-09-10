@@ -1,10 +1,13 @@
+import { State, Action } from "../../Types/CategoryTypes/category";
 
-const initialState = {
+const initialState: State = {
     incomeCategories: [],
     expenseCategories: [],
-    noneCategory: []
+    noneCategory: null
 }
-export const categoryReducer = (state = {...initialState}, action) => {
+
+
+export const categoryReducer = (state = {...initialState}, action: Action) => {
     switch(action.type){
         default:
             return {...state};
@@ -18,9 +21,9 @@ export const categoryReducer = (state = {...initialState}, action) => {
         case 'DELETE_CATEGORY':
             return {...state, 
                 incomeCategories: state.incomeCategories.filter( 
-                    (category) => category._id !== action.payload.category_id),
+                    (category: any) => category._id !== action.payload.category_id),
                 expenseCategories: state.expenseCategories.filter(
-                    (category) => category._id !== action.payload.category_id
+                    (category: any) => category._id !== action.payload.category_id
                 )}
         case 'ADD_INCOME_CATEGORY':
             return {

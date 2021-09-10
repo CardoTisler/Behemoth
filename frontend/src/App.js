@@ -13,6 +13,7 @@ import { loadCategories } from './redux/actions/categoryActions';
 import { useFetchCategories } from './hooks/useFetchCategories';
 import ErrorToolbar from './components/info/ErrorToolbar'
 import SuccessToolbar from './components/info/SuccessToolbar'
+import { showError } from './redux/actions/errorActions';
 
 const useStyles = makeStyles({
   root: {
@@ -44,8 +45,7 @@ function App() {
           noneCategory
         }))
       } else {
-        //TODO: Render error component 
-        console.error(error)
+        dispatch(showError(`Error loading in categories.`, error.message)) 
       }
     }, [incomeCategories])
   
