@@ -1,15 +1,15 @@
-import {Action} from '../../Types/Info/Success'
+import {Action, successState} from '../../../@types/Info/Success'
 
-const successReducer = (state = {showSuccess: false, message: null}, action: Action) => {
+
+const successReducer = (state: successState = {showSuccess: false, message: null}, action: Action) => {
     switch (action.type){
         default:
             return state
         
         case 'SHOW_SUCCESS':
-            const message = action.payload.message
             return {
                 showSuccess: true,
-                message
+                message: action.payload.message
             }
 
         case 'HIDE_SUCCESS':

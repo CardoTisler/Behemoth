@@ -1,4 +1,5 @@
-import { Action } from "../../Types/Info/Success"
+import { Action } from "../../../@types/Info/Success"
+
 
 export const showSuccess = (message: string): Action => {
     return {

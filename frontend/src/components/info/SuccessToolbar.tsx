@@ -4,9 +4,11 @@ import { IconButton } from '@material-ui/core'
 import { hideSuccess } from '../../redux/actions/successActions'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckIcon from '@material-ui/icons/Check'
-const SuccessToolbar = () => {
+import {RootState} from '../../redux/reducers/index'
+
+const SuccessToolbar: React.FC = () => {
     const dispatch = useDispatch()
-    const {showSuccess, message} = useSelector(state => state.successReducer)
+    const {showSuccess, message} = useSelector((state: RootState) => state.successReducer)
 
     return (
         <>

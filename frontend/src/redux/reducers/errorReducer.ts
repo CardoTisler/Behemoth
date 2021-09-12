@@ -1,11 +1,6 @@
-import { Action, State } from "../../Types/Info/Error";
+import { Action, errorState } from "../../../@types/Info/Error";
 
-const initialState: State = {
-    showError: false,
-    message: null,
-    title: null
-}
-const errorReducer = (state = {showError: false, message: null, title: null}, action: Action) => {
+const errorReducer = (state: errorState = {showError: false, message: null, title: null}, action: Action) => {
     switch (action.type){
         default:
             return state;

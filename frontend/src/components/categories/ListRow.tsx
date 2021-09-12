@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { deleteCategory } from '../../redux/actions/categoryActions'
 import { showError } from '../../redux/actions/errorActions'
 import { hideSuccess, showSuccess } from '../../redux/actions/successActions'
+import { Category } from '../../../@types/CategoryTypes/category'
+import {RootState} from '../../redux/reducers/index'
 
 const useStyles = makeStyles({
     display: {
@@ -22,10 +24,11 @@ const removeFromDatabase = async (url: string) => {
             'Content-Type': 'application/json'
         }
     }).then(res => {
+        
         if (res.status === 200){
             return res
         } else if(res.status === 404 || res.status === 400){
-            throw new Error(res.error)
+            throw new Error(res.statusText)
         } else {
             throw new Error(`Couldn't read server response.`)
         }
@@ -42,7 +45,7 @@ const updateTransactionCategories = async (newCategoryId: string, oldCategoryId:
         body: JSON.stringify({newCategoryId})
     }).then((res) => { 
         if(res.status !== 200){
-            throw new Error(res.error)
+            throw new Error(res.statusText)
         }
     }).catch(err => {
         throw new Error(err.message)
@@ -50,16 +53,16 @@ const updateTransactionCategories = async (newCategoryId: string, oldCategoryId:
 }
 
 interface Props{
-    category: string,
-    _id: string
+    element: Category,
+    key: string //for React list rendering purposes
 }
 
-const ListRow = (props) => {
+const ListRow: React.FC<Props> = (props) => {
     const classes = useStyles();
     const [showButton, setShowButton] = useState(false)
     const dispatch = useDispatch()
     const {category, _id} = props.element
-    const { noneCategory } = useSelector(state => state.categoryReducer)
+    const { noneCategory } = useSelector((state: RootState) => state.categoryReducer)
     
     const handleElementDelete = async () => {
         await removeFromDatabase('/categories/delete/'.concat(_id)).then( async () => {

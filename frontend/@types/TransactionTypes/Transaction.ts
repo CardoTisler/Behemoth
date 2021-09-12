@@ -1,6 +1,7 @@
 import {Category} from '../CategoryTypes/category'
 
 interface Transaction {
+    _id: string,
     date: string,
     name: string,
     text: string,

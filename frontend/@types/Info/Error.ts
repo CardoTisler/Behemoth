@@ -8,13 +8,13 @@ interface Payload{
     message: string | null
 }
 
-interface State {
+interface errorState {
     showError: boolean,
-    message: null,
-    title: null
+    message: string | null,
+    title: string | null
 }
 export type {
     Action,
     Payload,
-    State
+    errorState
 }

@@ -1,5 +1,5 @@
 import { Box, TextField, Button, makeStyles } from '@material-ui/core'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addCategory } from '../../redux/actions/categoryActions'
 import { showError } from '../../redux/actions/errorActions'
@@ -33,7 +33,12 @@ const useStyles = makeStyles({
     }
 })
 
-const addToDatabase = async (url, data) => {
+interface formPayload {
+    category: string,
+    budget: string | number,
+    isIncomeCategory: boolean
+}
+const addToDatabase = async (url: string, data: formPayload) => {
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -45,10 +50,11 @@ const addToDatabase = async (url, data) => {
         })
         return response.json()
     } catch (err) {
-        return {status: 400, error: err.message}
+        return {status: 400, error: (err as Error).message}
     }
 }
-const CategoryForm = (props) => {
+
+const CategoryForm: React.FC = () => {
     const classes = useStyles()
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const [isIncomeCategory, setIsIncomeCategory] = useState(true)
@@ -62,7 +68,7 @@ const CategoryForm = (props) => {
         setIsIncomeCategory(!isIncomeCategory)
     }
     
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: Event) => {
         e.preventDefault()
         //build object with data from states
         const data = {category: state.category, budget: state.budget, isIncomeCategory}
@@ -89,35 +95,37 @@ const CategoryForm = (props) => {
     }
 
     
-    const handleInput = (e) => {
+    const handleInput = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         //dynamic state update based on input in textfield
-        if(e.target.name === 'categoryNameField'){
-            setState({ ...state, category: e.target.value })
-        } else {
-            //this regex checks if value contains only numbers
-            if(/^\d+$/.test(e.target.value) || e.target.value === ""){
-                setState({...state, budget: e.target.value})
-                if(showErrorMessage) { //TODO: Replace with Material UI helpertext
-                    setShowErrorMessage(false)
-                }
+        if(e.target !== null){
+            if(e.target.name === 'categoryNameField'){
+                setState({ ...state, category: e.target.value })
             } else {
-                if(e.target.value !== ""){
-                    setShowErrorMessage(true)
+                //this regex checks if value contains only numbers
+                if(/^\d+$/.test(e.target.value) || e.target.value === ""){
+                    setState({...state, budget: e.target.value})
+                    if(showErrorMessage) { //TODO: Replace with Material UI helpertext
+                        setShowErrorMessage(false)
+                    }
+                } else {
+                    if(e.target.value !== ""){
+                        setShowErrorMessage(true)
+                    }
+                    setState({...state, budget: e.target.value})
                 }
-                setState({...state, budget: e.target.value})
             }
         }
     }
 
     return (
         <Box className={classes.root} boxShadow={4}>
-            <form onSubmit={handleSubmit} className={classes.formLayout}>
+            <form onSubmit={() => handleSubmit} className={classes.formLayout}>
                 <div className={classes.textFields}>
                     <TextField 
                     label='Category Name'
                     name='categoryNameField'
                     value={state.category}
-                    onChange={handleInput}/>
+                    onChange={(e) => {handleInput(e)}}/>
 
                 {!isIncomeCategory &&
                     <TextField 
@@ -130,7 +138,6 @@ const CategoryForm = (props) => {
                 </div>
                 <div className={classes.buttonLayout}>
                         <Button 
-                        className={classes.button}
                         type="submit"
                         variant="contained"
                         color="primary">Add</Button>

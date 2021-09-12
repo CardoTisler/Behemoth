@@ -1,19 +1,26 @@
-import { State, Action } from "../../Types/CategoryTypes/category";
+import { categoryState, Action, Category } from "../../../@types/CategoryTypes/category";
 
-const initialState: State = {
+// const defaultCategory: Category = {
+//     type: null,
+//     category: null,
+//     budget: null,
+//     _id: null
+// }
+const initialState: categoryState = {
     incomeCategories: [],
     expenseCategories: [],
-    noneCategory: null
+    noneCategory: defaultCategory
 }
 
 
-export const categoryReducer = (state = {...initialState}, action: Action) => {
+export const categoryReducer = (state: categoryState = {...initialState}, action: Action): categoryState => {
     switch(action.type){
         default:
             return {...state};
 
         case 'LOAD_CATEGORIES':
-            return {...action.payload}
+            return {...initialState,
+                ...action.payload}
 
         case 'GET_CATEGORIES':
             return {...state};
@@ -21,9 +28,9 @@ export const categoryReducer = (state = {...initialState}, action: Action) => {
         case 'DELETE_CATEGORY':
             return {...state, 
                 incomeCategories: state.incomeCategories.filter( 
-                    (category: any) => category._id !== action.payload.category_id),
+                    (category: Category) => category._id !== action.payload.category_id),
                 expenseCategories: state.expenseCategories.filter(
-                    (category: any) => category._id !== action.payload.category_id
+                    (category: Category) => category._id !== action.payload.category_id
                 )}
         case 'ADD_INCOME_CATEGORY':
             return {
@@ -38,4 +45,4 @@ export const categoryReducer = (state = {...initialState}, action: Action) => {
     }
 }
 
-export default categoryReducer;
+export default categoryReducer

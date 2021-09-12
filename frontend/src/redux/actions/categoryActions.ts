@@ -1,15 +1,25 @@
-import {State, Action, Category} from '../../Types/CategoryTypes/category'
+import {categoryState, Action, Category, Payload} from '../../../@types/CategoryTypes/category'
+
+//TODO: Make sure categories and transactions actions always return same object
+
+const defaultPayload: Payload = {
+    category_id: null,
+    newCategory: null,
+    allCategories: null
+}
 
 export const getCategories = (): Action => {
     return {
-        type: 'GET_TRANSACTIONS'
+        type: 'GET_TRANSACTIONS',
+        payload: {...defaultPayload}
     }
 }
 
-export const loadCategories = (allCategories: State): Action => {
+export const loadCategories = (allCategories: categoryState): Action => {
     return {
         type: 'LOAD_CATEGORIES',
         payload: {
+            ...defaultPayload,
             allCategories: {...allCategories}
         }
     }
@@ -19,6 +29,7 @@ export const deleteCategory = (category_id: string): Action => {
     return {
         type: 'DELETE_CATEGORY',
         payload: {
+            ...defaultPayload,
             category_id
         }
     }
@@ -29,6 +40,7 @@ export const addCategory = (newCategory: Category, isIncomeCategory: boolean): A
     return {
         type,
         payload: {
+            ...defaultPayload,
             newCategory
         }
     }

@@ -1,4 +1,4 @@
-import {Transaction, Payload, Action} from '../../Types/TransactionTypes/Transaction'
+import {Transaction, Payload, Action} from '../../../@types/TransactionTypes/Transaction'
 
 const payload: Payload = {
     transactionName: null,

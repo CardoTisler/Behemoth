@@ -2,7 +2,8 @@ import { makeStyles, Divider, List, ListItem, ListItemText, Box } from '@materia
 import ListRow from './ListRow'
 import { useDispatch } from 'react-redux'
 import { showError } from '../../redux/actions/errorActions'
-
+import { Category
+ } from '../../../@types/CategoryTypes/category'
 const useStyles = makeStyles({
     root: {
         background: 'linear-gradient(180deg , #3f51b5 30%, rgb(0 0 0 / 0%) 100%)',
@@ -14,8 +15,12 @@ const useStyles = makeStyles({
 //send it to the header component. After this event is configured, make sure clicking on the row doesnt 
 //trigger the onDelete event and vice versa - probably have to disable bubbling/catching
 
+interface Props{
+    listTitle: string,
+    listArr: Category[]
+}
 
-const CategoryList = (props) => { 
+const CategoryList: React.FC<Props> = (props) => { 
     const classes = useStyles()
     const {listTitle, listArr} = props
     const dispatch = useDispatch()
@@ -28,7 +33,7 @@ const CategoryList = (props) => {
                     key={element._id} />)
             })
         } catch(err) {
-            dispatch(showError(`Failed loading `.concat(listTitle), err.message))
+            dispatch(showError(`Failed loading `.concat(listTitle), (err as Error).message))
         }
     }
 

@@ -1,4 +1,4 @@
-import {Action} from '../../Types/Info/Error'
+import {Action} from '../../../@types/Info/Error'
 
 const defaultPayload = {
     title: null,

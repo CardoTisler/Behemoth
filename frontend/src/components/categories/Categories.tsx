@@ -2,12 +2,12 @@ import { Grid } from "@material-ui/core";
 import CategoryList from './CategoryList'
 import CategoryForm from './CategoryForm'
 import { useSelector } from 'react-redux'
-
+import { RootState } from "../../redux/reducers";
   
 const Categories = () => {
     const {
         incomeCategories,
-        expenseCategories } = useSelector(state => state.categoryReducer)
+        expenseCategories } = useSelector((state: RootState) => state.categoryReducer)
 
     return (
         <Grid container spacing={3}>

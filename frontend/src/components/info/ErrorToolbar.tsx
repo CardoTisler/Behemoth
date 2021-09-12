@@ -3,10 +3,12 @@ import {Alert, AlertTitle} from '@material-ui/lab'
 import { IconButton } from '@material-ui/core'
 import { hideError } from '../../redux/actions/errorActions'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import {RootState} from '../../redux/reducers/index'
+
 const ErrorToolbar = () => {
     const dispatch = useDispatch()
-    const {showError, message, title} = useSelector(state => state.errorReducer)
-    console.log(showError)
+    const {showError, message, title} = useSelector((state: RootState) => state.errorReducer)
+
     return (
         <>
         {showError && 

@@ -1,4 +1,4 @@
-import {Transaction, Action} from '../../Types/TransactionTypes/Transaction'
+import {Transaction, Action} from '../../../@types/TransactionTypes/Transaction'
 
 
 const transactionReducer = (state: Transaction[] = [], action: Action) => {
