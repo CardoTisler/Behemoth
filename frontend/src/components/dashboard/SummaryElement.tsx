@@ -2,6 +2,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types'
+import { OverridableComponent } from '@material-ui/core/OverridableComponent';
+import { SvgIconTypeMap } from '@material-ui/core/SvgIcon/SvgIcon';
 
 const useStyles = makeStyles({
     root: {
@@ -17,35 +19,30 @@ const useStyles = makeStyles({
     }
 })
 
-const SummaryElement = (props) => {
-    const classes = useStyles();
+interface Props{
+    text: string,
+    value: string,
+    // icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>
+    icon: any
+}
 
+const SummaryElement: React.FC<Props> = (props) => {
+    const classes = useStyles();
+    const {icon, text, value} = props
     return (
         <Card className={classes.root} elevation={4}>
-            {props.icon} 
+            {icon} 
             <Typography gutterBottom variant="body1" component="h2">
-                {props.text}
+                {text}
             </Typography>
             <Typography gutterBottom variant='h6' component='h2'
-            color={props.color} className={classes.value}>
-                {props.value}
+            color="primary"
+            className={classes.value}>
+                {value}
             </Typography>
 
         </Card>
     )
-}
-
-SummaryElement.defaultProps = {
-    text: 'defaultText',
-    value: '-----',
-    color: 'error'
-}
-
-SummaryElement.propTypes = {
-    text: PropTypes.string,
-    icon: PropTypes.element.isRequired,
-    color: PropTypes.string,
-    value: PropTypes.string
 }
 
 export default SummaryElement

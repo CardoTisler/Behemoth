@@ -1,11 +1,21 @@
 import {categoryState, Action, Category, Payload} from '../../../@types/CategoryTypes/category'
 
 //TODO: Make sure categories and transactions actions always return same object
+const defaultNone: Category = {
+    type: '',
+    category: '',
+    budget: 0,
+    _id: ''
+}
 
 const defaultPayload: Payload = {
-    category_id: null,
-    newCategory: null,
-    allCategories: null
+    category_id: '',
+    newCategory: defaultNone,
+    allCategories: {
+        incomeCategories: [],
+        expenseCategories: [],
+        noneCategory: defaultNone
+    }
 }
 
 export const getCategories = (): Action => {

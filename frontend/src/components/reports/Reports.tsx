@@ -1,5 +1,5 @@
 
-const Reports = () => {
+const Reports: React.FC = () => {
     return (
         <div>
             src/components/reports/Reports.js      

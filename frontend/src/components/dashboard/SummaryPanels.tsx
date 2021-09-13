@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     }
 })
 
-const SummaryPanels = () => {
+const SummaryPanels: React.FC = () => {
     const classes = useStyles();
 
     return (
@@ -29,7 +29,7 @@ const SummaryPanels = () => {
                 text='Income'
                 icon={<AttachMoneyIcon />}
                 value='700€' 
-                color='primary'/>
+                />
             </Grid>
 
             <Grid item xs={12} md={6} >
@@ -37,7 +37,7 @@ const SummaryPanels = () => {
                 text='Expenses' 
                 icon={<TrendingDownIcon />}
                 value='500€' 
-                color='primary'/>
+                />
             </Grid>
 
             <Grid item xs={12} md={6} >
@@ -45,7 +45,7 @@ const SummaryPanels = () => {
                 text='Budget' 
                 icon={<AccountBalanceWalletIcon />} 
                 value='500€/650€' 
-                color='primary'/>
+                />
             </Grid>
 
             <Grid item xs={12} md={6} >
@@ -53,7 +53,7 @@ const SummaryPanels = () => {
                 text='Savings' 
                 icon={<TrendingUpIcon />} 
                 value='1122€' 
-                color='primary'/>
+                />
             </Grid>
         </Grid>
     )

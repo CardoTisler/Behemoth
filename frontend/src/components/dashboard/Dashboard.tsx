@@ -19,16 +19,10 @@ const useStyles = makeStyles({
     header: {
         display: 'flex',
         flexDirection: 'row'
-    },
-    graph: {
-        border: 'solid',
-        borderColor: 'white',
-        borderWidth: '1px',
-
     }
 })
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
     const classes = useStyles();
 
     return (
@@ -38,7 +32,7 @@ const Dashboard = () => {
                 <DateFilter />
             </div>
 
-            <Graph className={classes.graph}/>
+            <Graph />
         </Box>
     )
 }

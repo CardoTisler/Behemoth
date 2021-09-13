@@ -2,8 +2,9 @@ import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import {DateRangePicker} from 'react-date-range'
 
+
 const DateFilter = () => {
-    const handleSelect = (date) => {
+    const handleSelect = (date: any) => {
         console.log(date); //native Date object
     }
 

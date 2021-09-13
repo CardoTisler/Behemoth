@@ -1,10 +1,11 @@
 import {Transaction, Payload, Action} from '../../../@types/TransactionTypes/Transaction'
 
 const payload: Payload = {
-    transactionName: null,
-    newCategoryId: null,
+    transactionName: '',
+    newCategoryId: '',
     allTransactions: []
 }
+
 
 export const getTransactions = (): Action => {
     return {

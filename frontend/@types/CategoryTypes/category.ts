@@ -1,14 +1,14 @@
 interface Category{
-    type: string | null,
-    category: string | null,
-    budget: number | null,
-    _id: string | null
+    type: string,
+    category: string,
+    budget: number,
+    _id: string
 }
 
 interface Payload{
-    category_id: string | null,
-    newCategory: Category | null,
-    allCategories: categoryState | null
+    category_id: string,
+    newCategory: Category,
+    allCategories: categoryState
 
 }
 
@@ -20,7 +20,7 @@ interface Action {
 interface categoryState{
     incomeCategories: Category[],
     expenseCategories: Category[],
-    noneCategory: Category | null
+    noneCategory: Category
 }
 export type {
     Category,

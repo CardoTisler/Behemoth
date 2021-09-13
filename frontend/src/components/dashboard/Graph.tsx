@@ -25,7 +25,7 @@ const data = [
 	}
 ]
 
-const Graph = () => {
+const Graph: React.FC = () => {
     return (
         <ResponsiveContainer width='90%' height={300}>
             <BarChart data={data}>

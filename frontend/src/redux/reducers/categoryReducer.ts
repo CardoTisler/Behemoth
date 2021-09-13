@@ -1,11 +1,11 @@
 import { categoryState, Action, Category } from "../../../@types/CategoryTypes/category";
 
-// const defaultCategory: Category = {
-//     type: null,
-//     category: null,
-//     budget: null,
-//     _id: null
-// }
+const defaultCategory: Category = {
+    type: '',
+    category: '',
+    budget: 0,
+    _id: ''
+}
 const initialState: categoryState = {
     incomeCategories: [],
     expenseCategories: [],
