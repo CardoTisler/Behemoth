@@ -1,7 +1,8 @@
 declare global{
     namespace Express {
         interface Response {
-            error: string
+            error: string,
+            transactionsList: Transaction[]
         }
     }
 }

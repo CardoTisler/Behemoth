@@ -18,7 +18,11 @@ const useStyles = makeStyles({
     }
 })
 
-const TransactionsForm = (props) => {
+interface Props {
+
+}
+
+const TransactionsForm = () => {
     const [state, setState] = useState({
         date: '',
         name: '',
@@ -28,30 +32,33 @@ const TransactionsForm = (props) => {
     })
     const classes = useStyles()
 
-    const handleAdd = (e) => {
-        //e.preventDefault()
-        //TODO: Add UUID system for Transaction IDs
-        //generate random ID for now.
-        const randInt = Math.floor(Math.random() * 1000)
-        props.addTransaction({...state, id: randInt.toString()})
-        setState({
-            date: '',
-            name: '',
-            text: '',
-            amount: '',
-            category: ''
-        })    
-    }
-    const handleInput = (e) => {
+    // const handleAdd = (e) => {
+    //     //e.preventDefault()
+    //     //TODO: Add UUID system for Transaction IDs
+    //     //generate random ID for now.
+    //     const randInt = Math.floor(Math.random() * 1000)
+    //     props.addTransaction({...state, id: randInt.toString()})
+    //     setState({
+    //         date: '',
+    //         name: '',
+    //         text: '',
+    //         amount: '',
+    //         category: ''
+    //     })    
+    // }
+    const handleInput = (e: { target: { name: string; value: string } }) => {
+        const {value} = e.target
         setState({
             ...state,
-            [e.target.name]: e.target.value
+            name: value
         })
     }
     
     return (
         <Grid container spacing={2}>
-            <form onSubmit={handleAdd} className={classes.root}>
+            <form 
+            //onSubmit={handleAdd} 
+            className={classes.root}>
                 <Grid item xs={2} className={classes.gridItem}>
                     <TextField
                     label='Date'

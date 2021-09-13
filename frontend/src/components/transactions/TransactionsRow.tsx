@@ -1,5 +1,6 @@
 import {Grid} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
+import { Transaction } from '../../../@types/TransactionTypes/Transaction'
 import RowDropdown from './RowDropdown'
 
 const useStyles = makeStyles({
@@ -9,8 +10,10 @@ const useStyles = makeStyles({
 })
 //TODO: if rendering positive or 0 number to amount column, font green, otherwise red
 
-
-const TransactionsRow = (props) => {
+interface Props{
+    data: Transaction
+}
+const TransactionsRow: React.FC<Props> = (props) => {
     const {date, name, text, amount, category, _id} = props.data
     const classes = useStyles()
     

@@ -16,7 +16,7 @@ const handleCategoryUpdate = async (newCategoryId: string, transactionId: string
       },
       body: JSON.stringify({newCategoryId})
   }).catch(err => {
-      return {status: 400, error: err.message}
+    return err;
   })
   return response
 }
@@ -58,7 +58,6 @@ const RowDropdown: React.FC<Props> = (props) => {
     }
 
   const renderOptions = (categories: Category[]) => {
-    try{
       if (categories) {
           return categories.map((element) => {
             return (
@@ -68,9 +67,8 @@ const RowDropdown: React.FC<Props> = (props) => {
             );
           });
       }
-    } catch (err) {
-      dispatch(showError(`Loading categories dropdown for transactions failed.`, err.message))
-    }
+      dispatch(showError(`Loading categories dropdown for transactions failed.`,
+      `No categories found.`))
   };
   
   return (
@@ -79,7 +77,7 @@ const RowDropdown: React.FC<Props> = (props) => {
       native={true}
       value={currentCategoryId} 
       id="categories-dropdown"
-      onChange={handleChange}>
+      onChange={() => handleChange}>
         <option  
         value={noneCategory._id}>NONE</option>
         <optgroup label="Income">

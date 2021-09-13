@@ -1,6 +1,6 @@
 import {makeStyles, TextField} from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search';
-import {useState} from 'react'
+import {SetStateAction, useState} from 'react'
 
 const useStyles = makeStyles({
     root: {
@@ -20,7 +20,7 @@ const TransactionsSearch = () => {
     const classes = useStyles()
     const [searchInput, setSearchInput] = useState('')
 
-    const handleInput = (e) => {
+    const handleInput = (e: { target: { value: SetStateAction<string>; }; }) => {
         setSearchInput(e.target.value)
         //TODO: Add sleep timeout (0.5 sec perhaps) after that start running the filtering method
     }

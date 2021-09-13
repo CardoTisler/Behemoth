@@ -29,7 +29,6 @@ const Transactions = () => {
             dispatch(showError('Can not render transactions!', error))
         }
     }, [transactionsList, error])
-    //const handleTransactionAdd = (transactionItem) => { setTransactionsList([...transactionsList, transactionItem])}
     
     return (
         <Box boxShadow={2} className={classes.root}>
