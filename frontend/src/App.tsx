@@ -1,5 +1,5 @@
 import './App.css';
-import {useState, useEffect} from 'react'
+import {useState, useEffect, SetStateAction} from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Banner from './components/window/Banner'
 import NavigationBar from './components/window/NavigationBar'
@@ -32,10 +32,12 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles()
   const [bannerTitle, setBannerTitle] = useState('Dashboard')
-  const handleBannerText = (props) => { setBannerTitle(props.text) }
+  const handleBannerText = (props: { text: SetStateAction<string>; }) => { setBannerTitle(props.text) }
   
   const dispatch = useDispatch()
-  const {incomeCategories, expenseCategories, noneCategory, error} = useFetchCategories()
+  const fetchData = useFetchCategories()
+  const {incomeCategories, expenseCategories, noneCategory} = fetchData.allCategories
+  let error = fetchData.error
   
   useEffect( () => {
       if(!error){
@@ -44,8 +46,6 @@ function App() {
           expenseCategories, 
           noneCategory
         }))
-      } else {
-        dispatch(showError(`Error loading in categories.`, error.message)) 
       }
     }, [incomeCategories])
   
@@ -54,7 +54,7 @@ function App() {
       <Banner title={bannerTitle}/>
         <div className={classes.content}>
           <Router>
-            <NavigationBar onButtonClick={handleBannerText}/>
+            <NavigationBar onButtonClick={() => handleBannerText}/>
             
             <div className={classes.frameStyles}>
               <ErrorToolbar />

@@ -16,7 +16,7 @@ export const useFetchTransactions = () => {
     let error = null;
     //TODO: getData is defined the same way in almost every place. Turn it into reusable method.
     
-    const getData = async (): Promise<Response> => 
+    const getData = async (): Promise<any> => 
         await fetch('transactions/show')
             .then(res => {
                 return res.json();
