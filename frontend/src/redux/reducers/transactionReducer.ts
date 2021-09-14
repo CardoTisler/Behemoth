@@ -5,10 +5,10 @@ const defaultState: TransactionState = []
 const transactionReducer = (state: TransactionState = defaultState, action: Action): TransactionState => {
     switch(action.type){
         default:
-            return [...state, ...defaultState] //this is probably redundant
+            return [...state]
 
         case 'LOAD_TRANSACTIONS':
-            return [...action.payload.allTransactions, ...state];
+            return [...state, ...action.payload.allTransactions];
 
         case 'GET_TRANSACTIONS':
             return [...state];

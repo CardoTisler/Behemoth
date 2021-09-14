@@ -8,7 +8,7 @@ const Categories = () => {
     const {
         incomeCategories,
         expenseCategories } = useSelector((state: RootState) => state.categoryReducer)
-
+        
     return (
         <Grid container spacing={3}>
             <Grid item xs={12} md={12}>

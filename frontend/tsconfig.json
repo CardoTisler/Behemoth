@@ -4,8 +4,7 @@
     "target": "es5",
     "rootDir": ".",
     "jsx": "react-jsx",
-    "module": "commonjs",
-    // "module": "ESNext",
+    "module": "esnext",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -25,14 +24,13 @@
     "strictNullChecks": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    // "noEmit": true
+    "noEmit": true
   },
   "include": [
-    "src"
-, "@types"  ],
-  "typeRoots": [
-    // "./node_modules/@types"
+    "src",
+    "@types"
   ],
+  "typeRoots": [],
   "exclude": [
     "node_modules"
   ]

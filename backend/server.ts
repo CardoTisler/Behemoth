@@ -1,10 +1,10 @@
 // const MongoClient = require('mongodb').MongoClient;
-const mongoose = require('mongoose')
+let mongoose = require('mongoose')
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const categoriesAPI = require('./API/categoriesAPI')
-const transactionsAPI = require('./API/transactionsAPI')
+const categoriesAPI = require('./API/categoriesAPI.ts')
+const transactionsAPI = require('./API/transactionsAPI.ts')
 const bodyParser = require('body-parser')
 
 
@@ -23,7 +23,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/behemoth', {
     useUnifiedTopology: true})
     .then(() => { 
         console.log('Connected to MongoDB on port ', 27017)
-    }).catch(err => console.log(err))
+    }).catch((err: any) => console.log(err))
 
 app.use(express.json())
 app.use(express.urlencoded({

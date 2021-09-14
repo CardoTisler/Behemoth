@@ -20,12 +20,13 @@ const defaultPayload: Payload = {
 
 export const getCategories = (): Action => {
     return {
-        type: 'GET_TRANSACTIONS',
+        type: 'GET_CATEGORIES',
         payload: {...defaultPayload}
     }
 }
 
 export const loadCategories = (allCategories: categoryState): Action => {
+    console.log(allCategories)
     return {
         type: 'LOAD_CATEGORIES',
         payload: {

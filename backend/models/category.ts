@@ -1,3 +1,4 @@
+export {}
 const mongoose = require('mongoose')
 //just category that takes String input
 

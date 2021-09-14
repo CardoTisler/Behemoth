@@ -21,7 +21,7 @@ const Transactions = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const {transactionsList, error} = useFetchTransactions()
-    
+
     useEffect( () => {
         if(!error){
             dispatch(loadTransactions(transactionsList))
