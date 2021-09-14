@@ -1,4 +1,4 @@
-import {Transaction, Action, TransactionState} from '../../../@types/TransactionTypes/Transaction'
+import {Transaction, Action, TransactionState} from '../../@types/TransactionTypes/Transaction'
 
 const defaultState: TransactionState = []
 

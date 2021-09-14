@@ -1,4 +1,4 @@
-import { categoryState, Action, Category } from "../../../@types/CategoryTypes/category";
+import type { categoryState, Action, Category } from "../../@types/CategoryTypes/category";
 
 const defaultCategory: Category = {
     type: '',

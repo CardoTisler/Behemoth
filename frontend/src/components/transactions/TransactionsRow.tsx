@@ -1,6 +1,6 @@
 import {Grid} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
-import { Transaction } from '../../../@types/TransactionTypes/Transaction'
+import { Transaction } from '../../@types/TransactionTypes/Transaction'
 import RowDropdown from './RowDropdown'
 
 const useStyles = makeStyles({

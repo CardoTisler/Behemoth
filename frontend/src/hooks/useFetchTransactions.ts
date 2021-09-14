@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
 import { useDispatch } from 'react-redux';
 import { showError } from '../redux/actions/errorActions';
-import { Transaction } from '../../@types/TransactionTypes/Transaction';
+import { Transaction } from '../@types/TransactionTypes/Transaction';
 
 interface Props{}
 interface State{

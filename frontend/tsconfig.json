@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "target": "ES6",
+    "target": "es5",
+    "rootDir": "src",
     "jsx": "react-jsx",
-    "module": "ESNext",
+    "module": "esnext",
     // "module": "ESNext",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -12,8 +13,7 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext",
-      "ES6"
+      "esnext"
     ],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
@@ -28,12 +28,9 @@
     "noEmit": true
   },
   "include": [
-    "src",
-    "@types",
-    "package.json"
+    "src"
   ],
   "typeRoots": [
-    "./@types",
     "./node_modules/@types"
   ],
   "exclude": [

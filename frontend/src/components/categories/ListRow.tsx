@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { deleteCategory } from '../../redux/actions/categoryActions'
 import { showError } from '../../redux/actions/errorActions'
 import { hideSuccess, showSuccess } from '../../redux/actions/successActions'
-import { Category } from '../../../@types/CategoryTypes/category'
+import type { Category } from '../../@types/CategoryTypes/category'
 import {RootState} from '../../redux/reducers/index'
 
 const useStyles = makeStyles({

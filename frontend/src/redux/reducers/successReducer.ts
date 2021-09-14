@@ -1,4 +1,4 @@
-import {Action, successState} from '../../../@types/Info/Success'
+import {Action, successState} from '../../@types/Info/Success'
 
 
 const successReducer = (state: successState = {showSuccess: false, message: null}, action: Action) => {
