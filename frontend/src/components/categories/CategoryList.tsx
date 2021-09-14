@@ -3,7 +3,7 @@ import ListRow from './ListRow'
 import { useDispatch } from 'react-redux'
 import { showError } from '../../redux/actions/errorActions'
 import { Category
- } from '../../@types/CategoryTypes/category'
+ } from '../../../@types/CategoryTypes/category'
 const useStyles = makeStyles({
     root: {
         background: 'linear-gradient(180deg , #3f51b5 30%, rgb(0 0 0 / 0%) 100%)',

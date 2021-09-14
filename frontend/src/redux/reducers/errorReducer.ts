@@ -1,4 +1,4 @@
-import { Action, errorState } from "../../@types/Info/Error";
+import { Action, errorState } from "../../../@types/Info/Error";
 
 
 const errorReducer = (state: errorState = {showError: false, message: null, title: null}, action: Action) => {

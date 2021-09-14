@@ -2,9 +2,9 @@
   "compilerOptions": {
     "outDir": "dist",
     "target": "es5",
-    "rootDir": "src",
+    "rootDir": ".",
     "jsx": "react-jsx",
-    "module": "esnext",
+    "module": "commonjs",
     // "module": "ESNext",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -25,13 +25,13 @@
     "strictNullChecks": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    "noEmit": true
+    // "noEmit": true
   },
   "include": [
     "src"
-  ],
+, "@types"  ],
   "typeRoots": [
-    "./node_modules/@types"
+    // "./node_modules/@types"
   ],
   "exclude": [
     "node_modules"

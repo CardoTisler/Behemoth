@@ -2,7 +2,7 @@ import {Grid} from '@material-ui/core'
 import TransactionsHeader from './TransactionsHeader'
 import TransactionsRow from './TransactionsRow'
 import { useSelector } from 'react-redux'
-import { Transaction } from '../../@types/TransactionTypes/Transaction'
+import { Transaction } from '../../../@types/TransactionTypes/Transaction'
 import { RootState } from '../../redux/reducers'
 
 const TransactionsList = () => {  

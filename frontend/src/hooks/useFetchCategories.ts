@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import type { Category, categoryState } from "../@types/CategoryTypes/category";
+import type { Category, categoryState } from "../../@types/CategoryTypes/category";
 import { showError } from "../redux/actions/errorActions";
 
 const getData = async () => {

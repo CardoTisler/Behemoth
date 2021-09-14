@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateTransactionsCategory } from "../../redux/actions/transactionActions";
 import { showError } from "../../redux/actions/errorActions";
 import { RootState } from "../../redux/reducers";
-import type { Category } from "../../@types/CategoryTypes/category";
+import type { Category } from "../../../@types/CategoryTypes/category";
 
 const handleCategoryUpdate = async (newCategoryId: string, transactionId: string) => {
   const url = '/transactions/update/'.concat(transactionId)
