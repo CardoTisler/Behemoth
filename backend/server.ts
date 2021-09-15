@@ -6,24 +6,14 @@ const cors = require('cors')
 const categoriesAPI = require('./API/categoriesAPI.ts')
 const transactionsAPI = require('./API/transactionsAPI.ts')
 const bodyParser = require('body-parser')
+const url = require('./abtok.js')
 
-
-// const Transaction = require('./models/transaction')
-
-// Transaction.findOne({id:'1'}).populate('category').exec((err, foundItem) => {
-//     if(err){
-//         console.log(err)
-//     } else {
-//         console.log(foundItem.category.category)
-//     }
-// })
-
-mongoose.connect('mongodb://127.0.0.1:27017/behemoth', {
+mongoose.connect(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true})
     .then(() => { 
-        console.log('Connected to MongoDB on port ', 27017)
-    }).catch((err: any) => console.log(err))
+        console.log(`Successfully connected to MongoDB!`)
+    }).catch((err: any) => console.error(err.message))
 
 app.use(express.json())
 app.use(express.urlencoded({
