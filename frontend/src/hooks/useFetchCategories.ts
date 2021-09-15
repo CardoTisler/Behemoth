@@ -40,9 +40,6 @@ export const useFetchCategories = (): FetchCategories => {
                     dispatch(showError(`Error getting categories from database`, res.statusText))
                     error = true;
                 }
-            }).catch(err => {
-                dispatch(showError(`Error making get/show request to database.`, ``))
-                error = true;
             })
         }
         fetch()
