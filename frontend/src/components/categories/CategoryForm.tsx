@@ -68,7 +68,7 @@ const CategoryForm: React.FC = () => {
         setIsIncomeCategory(!isIncomeCategory)
     }
     
-    const handleSubmit = (e: Event) => {
+    const handleSubmit = (e: any) => {
         e.preventDefault()
         //build object with data from states
         const data = {category: state.category, budget: state.budget, isIncomeCategory}
@@ -95,7 +95,7 @@ const CategoryForm: React.FC = () => {
     }
 
     
-    const handleInput = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    const handleInput = (e: any) => {
         //dynamic state update based on input in textfield
         if(e.target !== null){
             if(e.target.name === 'categoryNameField'){
@@ -119,13 +119,13 @@ const CategoryForm: React.FC = () => {
 
     return (
         <Box className={classes.root} boxShadow={4}>
-            <form onSubmit={() => handleSubmit} className={classes.formLayout}>
+            <form onSubmit={handleSubmit} className={classes.formLayout}>
                 <div className={classes.textFields}>
                     <TextField 
                     label='Category Name'
                     name='categoryNameField'
                     value={state.category}
-                    onChange={(e) => {handleInput(e)}}/>
+                    onChange={handleInput}/>
 
                 {!isIncomeCategory &&
                     <TextField 

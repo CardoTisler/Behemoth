@@ -10,7 +10,6 @@ const getData = async () =>
     }).catch((err: Response) => {
         throw new Error(err.statusMessage)
     })
-    //FIXME: Figure out what fetch throws in case of error.
     
 interface FetchCategories {
     allCategories: categoryState, 
@@ -40,6 +39,8 @@ export const useFetchCategories = (): FetchCategories => {
                     dispatch(showError(`Error getting categories from database`, res.statusText))
                     error = true;
                 }
+            }).catch((err: Error) => {
+                dispatch(showError(`Error making API request to database.`, err.message))
             })
         }
         fetch()

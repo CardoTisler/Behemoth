@@ -40,7 +40,8 @@ const RowDropdown: React.FC<Props> = (props) => {
     setCurrentCategoryId(transactionCategoryId);  
   }, [transactionCategoryId]);
 
-  const handleChange = async (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const handleChange = async (e: any) => {
+    console.log(e)
     if(e.target !== null){
       const newCategoryId = e.target.value
       await handleCategoryUpdate(newCategoryId, transactionId).then( res => {
@@ -77,7 +78,7 @@ const RowDropdown: React.FC<Props> = (props) => {
       native={true}
       value={currentCategoryId} 
       id="categories-dropdown"
-      onChange={() => handleChange}>
+      onChange={handleChange}>
         <option  
         value={noneCategory._id}>NONE</option>
         <optgroup label="Income">
