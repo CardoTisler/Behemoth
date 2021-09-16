@@ -3,39 +3,37 @@ import { useDispatch } from 'react-redux';
 import { showError } from '../redux/actions/errorActions';
 import { Transaction } from '../../@types/TransactionTypes/Transaction';
 
-interface Props{}
-interface State{
+interface fetchReturn {
     transactionsList: Transaction[],
-    error: string | null
+    error: boolean
 }
 
-
-export const useFetchTransactions = () => {
+export const useFetchTransactions = (): fetchReturn => {
     const dispatch = useDispatch()
     const [data, setData] = useState<Transaction[]>([])
-    let error = null;
-    //TODO: getData is defined the same way in almost every place. Turn it into reusable method.
+    let error = false;
     
     const getData = async (): Promise<any> => 
         await fetch('transactions/show')
             .then(res => {
-                return res.json();
+                if(res.status === 200){
+                    return res.json();
+                } else if (res.status === 400){
+                    throw new Error(res.statusText)
+                }
             })
             .catch(err => {
                 throw new Error(err.message);
             })
 
-    //FIXME: Use appropriate async await system (like in ListRow.js)
     useEffect( () => {
         async function fetch(){
             await getData().then( res => {
-                if(res.status === 200){
                     setData([...res.transactionsList])
-                } else if (res.status === 400) {
-                    dispatch(showError(`Couldn't get transactions from database.`, res.statusText))
-                    error = res.statusText
-                }
-            }).catch(err => error = err.statusMessage)
+                }).catch((err: Error) => {
+                    error = true
+                    dispatch(showError(`Couldn't get transactions from database.`, err.message))                    
+                })
         }
         fetch()
     }, [])

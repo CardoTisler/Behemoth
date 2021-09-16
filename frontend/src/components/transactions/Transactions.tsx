@@ -4,11 +4,9 @@ import TransactionsSearch from './TransactionsSearch'
 import TransactionsList from './TransactionsList'
 import TransactionsForm from './TransactionsForm'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { loadTransactions } from '../../redux/actions/transactionActions'
 import { useFetchTransactions } from '../../hooks/useFetchTransactions'
-import transactionReducer from '../../redux/reducers/transactionReducer'
-import { showError } from '../../redux/actions/errorActions'
 //TODO: if rendering positive or 0 number to amount column, font green, otherwise red 
 
 const useStyles = makeStyles({
@@ -25,8 +23,6 @@ const Transactions = () => {
     useEffect( () => {
         if(!error){
             dispatch(loadTransactions(transactionsList))
-        } else {
-            dispatch(showError('Can not render transactions!', error))
         }
     }, [transactionsList, error])
     

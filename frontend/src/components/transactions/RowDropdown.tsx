@@ -1,12 +1,13 @@
 import { FormControl, Select } from "@material-ui/core";
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateTransactionsCategory } from "../../redux/actions/transactionActions";
 import { showError } from "../../redux/actions/errorActions";
 import { RootState } from "../../redux/reducers";
 import type { Category } from "../../../@types/CategoryTypes/category";
+import type { APIinfo } from '../../../@types/API/index'
 
-const handleCategoryUpdate = async (newCategoryId: string, transactionId: string) => {
+const handleCategoryUpdate = async (newCategoryId: string, transactionId: string): Promise<APIinfo> => {
   const url = '/transactions/update/'.concat(transactionId)
   const response = await fetch(url, {
       method: 'PUT',
@@ -15,10 +16,8 @@ const handleCategoryUpdate = async (newCategoryId: string, transactionId: string
           'Content-Type':'application/json'
       },
       body: JSON.stringify({newCategoryId})
-  }).catch(err => {
-    return err;
   })
-  return response
+  return response.json()
 }
 
 interface Props {
@@ -41,7 +40,6 @@ const RowDropdown: React.FC<Props> = (props) => {
   }, [transactionCategoryId]);
 
   const handleChange = async (e: any) => {
-    console.log(e)
     if(e.target !== null){
       const newCategoryId = e.target.value
       await handleCategoryUpdate(newCategoryId, transactionId).then( res => {
@@ -50,9 +48,9 @@ const RowDropdown: React.FC<Props> = (props) => {
           dispatch(updateTransactionsCategory(transactionName, newCategoryId))
           
         } else if (res.status === 400){
-          dispatch(showError(`Couldn't update transaction category.`, res.error))
+          throw new Error(res.statusText)
         }
-      }).catch( err => {
+      }).catch((err: Error) => {
         dispatch(showError(`Couldn't update transaction category.`, err.message))
       })
     }

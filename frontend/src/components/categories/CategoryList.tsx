@@ -55,5 +55,5 @@ const CategoryList: React.FC<Props> = (props) => {
 CategoryList.defaultProps = {
     listTitle: 'List title unset'
 }
-//TODO: add PropType - check that incomeList array contains ONLY strings
+
 export default CategoryList

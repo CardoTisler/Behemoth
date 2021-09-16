@@ -1,10 +1,10 @@
 import { Box, TextField, Button, makeStyles } from '@material-ui/core'
-import { ChangeEvent, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addCategory } from '../../redux/actions/categoryActions'
 import { showError } from '../../redux/actions/errorActions'
 import { hideSuccess, showSuccess } from '../../redux/actions/successActions'
-
+import {Category} from '../../../@types/CategoryTypes/category'
 const useStyles = makeStyles({
     root: {
         padding: '1rem',
@@ -38,21 +38,35 @@ interface formPayload {
     budget: string | number,
     isIncomeCategory: boolean
 }
-const addToDatabase = async (url: string, data: formPayload) => {
-    try{
-        const response = await fetch(url, {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        return response.json()
-    } catch (err) {
-        return {status: 400, error: (err as Error).message}
-    }
+interface CategoryAddRes {
+    status: number,
+    statusText: string,
+    addedItem?: Category
+
 }
+interface submitPayload{
+    category: string,
+    budget: number | string,
+    isIncomeCategory: boolean
+}
+
+const addToDatabase = async (url: string, data: formPayload): Promise<CategoryAddRes> =>
+    await fetch(url, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(res => {
+        if(res.status === 200){
+            return res.json()
+        } else if (res.status === 400){
+            throw new Error(res.statusText)
+        } else {
+            throw new Error(`Server response broken.`)
+        }
+    })
 
 const CategoryForm: React.FC = () => {
     const classes = useStyles()
@@ -71,22 +85,17 @@ const CategoryForm: React.FC = () => {
     const handleSubmit = (e: any) => {
         e.preventDefault()
         //build object with data from states
-        const data = {category: state.category, budget: state.budget, isIncomeCategory}
-        //TODO: add input validation method to handleSubmit, handleSubmit should not continue if validation
-        //method returns false. The validation method should accept the budget value and make sure it is
-        //parseable to integer
+
+        const data: submitPayload = {category: state.category, budget: state.budget, isIncomeCategory}
         
         addToDatabase('/categories/new', data).then((res) => {
-            if(res.status === 200){
-                dispatch(addCategory(res.addedItem, isIncomeCategory))
+                dispatch(addCategory(res.addedItem!, isIncomeCategory))
                 dispatch(showSuccess(`New category added.`))
                 setTimeout(()=>{dispatch(hideSuccess())}, 4000)
-            } else if (res.status === 400){
-                dispatch(showError(`Couldn't make API request.`, res.error))
-            }
-        }).catch(err => {
+        }).catch((err: Error) => {
             dispatch(showError(`Couldn't make API request.`, err.message))
         })
+
         //clear state value after sending data
         setState({
             category: "",

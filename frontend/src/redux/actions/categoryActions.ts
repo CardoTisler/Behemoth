@@ -1,6 +1,5 @@
 import type {categoryState, Action, Category, Payload} from '../../../@types/CategoryTypes/category'
 
-//TODO: Make sure categories and transactions actions always return same object
 const defaultNone: Category = {
     type: '',
     category: '',

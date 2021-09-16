@@ -24,7 +24,8 @@
     "strictNullChecks": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    "noEmit": true
+    "noEmit": true,
+    "baseUrl": "."
   },
   "include": [
     "src",

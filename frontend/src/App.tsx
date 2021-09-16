@@ -8,12 +8,11 @@ import Transactions from './components/transactions/Transactions'
 import Categories from './components/categories/Categories'
 import Reports from './components/reports/Reports'
 import { makeStyles } from '@material-ui/core'
-import { useDispatch, useSelector } from 'react-redux';
-import { getCategories, loadCategories } from './redux/actions/categoryActions';
+import { useDispatch} from 'react-redux';
+import { loadCategories } from './redux/actions/categoryActions';
 import { useFetchCategories } from './hooks/useFetchCategories';
 import ErrorToolbar from './components/info/ErrorToolbar'
 import SuccessToolbar from './components/info/SuccessToolbar'
-import { showError } from './redux/actions/errorActions';
 
 const useStyles = makeStyles({
   root: {

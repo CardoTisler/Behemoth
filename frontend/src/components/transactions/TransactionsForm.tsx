@@ -32,20 +32,6 @@ const TransactionsForm = () => {
     })
     const classes = useStyles()
 
-    // const handleAdd = (e) => {
-    //     //e.preventDefault()
-    //     //TODO: Add UUID system for Transaction IDs
-    //     //generate random ID for now.
-    //     const randInt = Math.floor(Math.random() * 1000)
-    //     props.addTransaction({...state, id: randInt.toString()})
-    //     setState({
-    //         date: '',
-    //         name: '',
-    //         text: '',
-    //         amount: '',
-    //         category: ''
-    //     })    
-    // }
     const handleInput = (e: { target: { name: string; value: string } }) => {
         const {value} = e.target
         setState({
