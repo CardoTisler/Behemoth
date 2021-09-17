@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+## Categorizer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+Categorizer is a tool that helps you categorize your financial statements and visualize them. The end goal for this project is to be able to import a large amount of transactions via .CSV file, categorize them into similar groups based on Transaction name and then export the categorized file for personal storage. This tool is not meant for storing large amounts of data for a long time.
 
-In the project directory, you can run:
+Current stack:
 
-### `npm start`
+React + Redux + Material UI 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Express + NodeJS + Multer
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+MongoDB
 
-### `npm test`
+## Project Status
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Current features:
 
-### `npm run build`
+This project is currently in development. User can categorize the added transactions, however the categories can be added via UI but transactions can not (yet). 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Future functionality roadmap
+- [ ] Dashboard (based on currrently stored transactions)
+    - [ ] Working summary elements (Income, Expenses, Budget, Savings)
+    - [ ] Expense Categories visualization via barchart
+    - [ ] Currently stored transactions filtering via Calendar component
+- [ ] Categories
+    - [x] Add and store Categories in db
+- [ ] Transactions
+    - [x] Transaction categorizing functionality
+    - [ ] Multi-add transactions via .csv
+    - [ ] Export categorized transactions to new .csv file
+    - [ ] Functional filtering system in Transactions view
+- [ ] Reports
+    - [ ] Currently no idea what to do here, but some more thorough statistics would be fun.
+        
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Project Screen Shot(s)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### Example:   
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![Dashboard](https://i.ibb.co/JnmxWSL/dashboard.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+![Transactions](https://i.ibb.co/KNLd41L/transactions.png)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+![Categories](https://i.ibb.co/dWcHzGt/categories.png)
 
-## Learn More
+## Installation and Setup Instructions
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### Prerequisites:  
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Clone down this repository. You will need `node` and `npm` installed globally on your machine.
+Currently you will need your own MongoDB Atlas instance, if you add the connection url to MongoDB connection function in backend/server.ts then everything will connect nicely but I can't be bothered with giving access to my own instance or making a "public" database right now.
 
-### Code Splitting
+Installation:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Run  `npm install` in categorizer/frontend and categorizer/backend separately
 
-### Analyzing the Bundle Size
+To Start Server:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Run `npm start` in categorizer/frontend
+Run `node server.ts` or `nodemon server.ts` in categorizer/backend
 
-### Making a Progressive Web App
+To Visit App:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+`localhost:3000`  
