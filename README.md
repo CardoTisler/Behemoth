@@ -50,7 +50,10 @@ This project is currently in development. User can categorize the added transact
 #### Prerequisites:  
 
 Clone down this repository. You will need `node` and `npm` installed globally on your machine.
+
 Currently you will need your own MongoDB Atlas instance, if you add the connection url to MongoDB connection function in backend/server.ts then everything will connect nicely but I can't be bothered with giving access to my own instance or making a "public" database right now.
+
+*For uploading .csv files - create 'csvData' folder in root dir
 
 Installation:
 
