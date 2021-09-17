@@ -1,22 +1,34 @@
 const express = require('express')
 const router = express.Router();
 const Transaction = require('../models/transaction')
+// require('../../csvData')
 import {Transaction as TransactionItem} from '../../frontend/@types/TransactionTypes/Transaction'
 import { Request, Response } from 'express'
 
+const path = require('path')
+const multer = require('multer')
+const storage = multer.diskStorage({
+    destination: (req: Request, file: any, cb: Function) => {
+        cb(null, '../csvData')
+    },
+    filename: (req: Request, file: any, cb: Function) => {
+        console.log(file);
+        console.log('multer filename cb')
+        cb(null, Date.now() +path.extname(file.originalname))
+    } 
+})
+const upload = multer({storage: storage})
 //TODO: NEW route
 //SHOW route
-console.log('trans.ts')
+//multer searches for key 'csvUpload' value from FormData() created in frontend. 
+router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: Request, res: Response) => {
+    res.json({status: 200})
+})
 router.get('/transactions/show', async (req: Request, res: Response) => 
 await Transaction.find({}).populate().then((foundItemsArray: TransactionItem[]) => {
     if (foundItemsArray.length === 0) {
-        // res.json({ statusCode: 400, statusText: 'Did not find any transactions.' });
         res.json({status: 400, statusText: 'Did not find any transactions.'})
     } else {
-        // res.json({
-        //     transactionsList: [...foundItemsArray],
-        //     statusCode: 200
-        // });
         res.json({status: 200, transactionsList: [...foundItemsArray]})
     }
 }).catch((err: any) => {

@@ -1,5 +1,7 @@
 import {Grid, TextField, makeStyles, Button} from '@material-ui/core'
-import {useState} from 'react'
+import React, {useState} from 'react'
+import { useDispatch } from 'react-redux'
+import { showError } from 'src/redux/actions/errorActions'
 
 //TODO: Add integer validation for amount input
 //TODO: Add visual tweaks to the form, make it stand out from the rest (dark blue background between grid elements?)
@@ -23,6 +25,8 @@ interface Props {
 }
 
 const TransactionsForm = () => {
+    const dispatch = useDispatch()
+
     const [state, setState] = useState({
         date: '',
         name: '',
@@ -40,10 +44,33 @@ const TransactionsForm = () => {
         })
     }
     
+    const handleFileSelected = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+        console.log(e.target.files)
+        let data = new FormData()
+        if(e.target.files![0] !== null){
+            data.append('csvUpload', e.target.files![0]);
+        } else {
+            dispatch(showError(`Can't upload file.`, `e.target.files[0] is null.`))
+        }
+        
+        console.log(data);
+        await fetch('/transactions/addcsv', {
+            method: 'POST',
+            mode: 'cors',
+            //apparently upload wont work if content type defined
+            // headers: {
+            //     'Content-Type': 'multipart/form-data'
+            // },
+            body: data
+        }).then(res => {
+            console.log('success')
+        })
+    }
     return (
         <Grid container spacing={2}>
             <form 
             //onSubmit={handleAdd} 
+            encType="multipart/form-data" //required for Multer middleware to work.
             className={classes.root}>
                 <Grid item xs={2} className={classes.gridItem}>
                     <TextField
@@ -61,7 +88,7 @@ const TransactionsForm = () => {
                         value={state.name}
                         onChange={handleInput} />
                 </Grid>
-                <Grid item xs={5} className={classes.gridItem}>
+                <Grid item xs={4} className={classes.gridItem}>
                     <TextField
                         label='Description'
                         name='text'
@@ -93,6 +120,21 @@ const TransactionsForm = () => {
                     variant='contained'
                     color='primary'
                     >Add</Button>
+                </Grid>
+                <Grid item xs={1} className={classes.gridItem}>
+                    <input
+                        name="csvUpload"
+                        accept=".csv"
+                        style={{ display: 'none' }}
+                        id="raised-button-file"
+                        type="file"
+                        onChange={handleFileSelected}
+                    />
+                    <label htmlFor="raised-button-file">
+                    <Button variant="contained" component="span" className={classes.button}>
+                        Upload CSV
+                    </Button>
+                    </label> 
                 </Grid>
             </form>
         </Grid>
