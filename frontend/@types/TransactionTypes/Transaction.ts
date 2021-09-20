@@ -1,9 +1,9 @@
 interface Transaction {
-    _id: string,
+    _id?: string,
     date: string,
     name: string,
     text: string,
-    amount: number,
+    amount: number | string,
     category: string
 }
 

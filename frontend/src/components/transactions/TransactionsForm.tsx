@@ -64,7 +64,7 @@ const TransactionsForm = () => {
         .then(res => {
             if(res.status === 200){
                 dispatch(showSuccess(res.statusText))
-                setTimeout(() => dispatch(hideSuccess), 4000);
+                setTimeout(() => {dispatch(hideSuccess())}, 4000);
             } else if (res.status === 500){
                 dispatch(showError(`Uploading CSV file failed.`, res.statusText))
             } else {
