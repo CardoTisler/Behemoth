@@ -26,7 +26,7 @@ This project is currently in development. User can categorize the added transact
     - [x] Add and store Categories in db
 - [ ] Transactions
     - [x] Transaction categorizing functionality
-    - [ ] Multi-add transactions via .csv
+    - [x] Multi-add transactions via .csv
     - [ ] Export categorized transactions to new .csv file
     - [ ] Functional filtering system in Transactions view
 - [ ] Reports
