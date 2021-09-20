@@ -1,29 +1,30 @@
 const express = require('express')
 const router = express.Router();
 const Transaction = require('../models/transaction')
-// require('../../csvData')
 import {Transaction as TransactionItem} from '../../frontend/@types/TransactionTypes/Transaction'
-import { Request, Response } from 'express'
+import {Request, Response } from 'express'
 
-const path = require('path')
 const multer = require('multer')
 const storage = multer.diskStorage({
-    destination: (req: Request, file: any, cb: Function) => {
+    destination: (req: Request, file: any, cb: (ifError: null, fileSavePath: string) => void) => {
         cb(null, '../csvData')
     },
-    filename: (req: Request, file: any, cb: Function) => {
-        console.log(file);
-        console.log('multer filename cb')
-        cb(null, Date.now() +path.extname(file.originalname))
-    } 
+    filename: (req: Request, file: any, cb: (ifError: null, fileName: string) => void) => {
+        cb(null, Date.now() +'_'+ file.originalname)
+    }
 })
 const upload = multer({storage: storage})
 //TODO: NEW route
 //SHOW route
 //multer searches for key 'csvUpload' value from FormData() created in frontend. 
-router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: Request, res: Response) => {
-    res.json({status: 200})
+
+router.post('/transactions/addcsv', upload.single('csvUpload'), (req: Request, res: Response) => {
+    //if there is an error in uploading the file, multer will throw an error and it will be caught in server.ts
+    //if the code reaches here then middleware has succeeded and we can send back OK
+    res.json({status: 200, statusText: 'File uploaded!'})
 })
+
+
 router.get('/transactions/show', async (req: Request, res: Response) => 
 await Transaction.find({}).populate().then((foundItemsArray: TransactionItem[]) => {
     if (foundItemsArray.length === 0) {

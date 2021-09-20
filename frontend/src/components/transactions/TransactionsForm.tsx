@@ -2,6 +2,7 @@ import {Grid, TextField, makeStyles, Button} from '@material-ui/core'
 import React, {useState} from 'react'
 import { useDispatch } from 'react-redux'
 import { showError } from 'src/redux/actions/errorActions'
+import { hideSuccess, showSuccess } from 'src/redux/actions/successActions'
 
 //TODO: Add integer validation for amount input
 //TODO: Add visual tweaks to the form, make it stand out from the rest (dark blue background between grid elements?)
@@ -45,7 +46,8 @@ const TransactionsForm = () => {
     }
     
     const handleFileSelected = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
-        console.log(e.target.files)
+        e.preventDefault()
+
         let data = new FormData()
         if(e.target.files![0] !== null){
             data.append('csvUpload', e.target.files![0]);
@@ -53,23 +55,26 @@ const TransactionsForm = () => {
             dispatch(showError(`Can't upload file.`, `e.target.files[0] is null.`))
         }
         
-        console.log(data);
         await fetch('/transactions/addcsv', {
             method: 'POST',
-            mode: 'cors',
-            //apparently upload wont work if content type defined
-            // headers: {
-            //     'Content-Type': 'multipart/form-data'
-            // },
+            mode:'cors',
             body: data
-        }).then(res => {
-            console.log('success')
+        })
+        .then(res => res.json())
+        .then(res => {
+            if(res.status === 200){
+                dispatch(showSuccess(res.statusText))
+                setTimeout(() => dispatch(hideSuccess), 4000);
+            } else if (res.status === 500){
+                dispatch(showError(`Uploading CSV file failed.`, res.statusText))
+            } else {
+                dispatch(showError(`sth broke`, `no idea`))
+            }
         })
     }
     return (
         <Grid container spacing={2}>
             <form 
-            //onSubmit={handleAdd} 
             encType="multipart/form-data" //required for Multer middleware to work.
             className={classes.root}>
                 <Grid item xs={2} className={classes.gridItem}>
