@@ -28,8 +28,6 @@ export const updateTransactionsCategory = (transactionName: string, newCategoryI
 }
 
 export const loadTransactions = (allTransactions: Transaction[]): Action => {
-    console.log('transaction action')
-    console.log(allTransactions)
     return {
         type: 'LOAD_TRANSACTIONS',
         payload: {

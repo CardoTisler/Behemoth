@@ -35,7 +35,7 @@ const TransactionsRow: React.FC<Props> = (props) => {
                 <RowDropdown 
                 transactionCategoryId={category}
                 transactionName={name}
-                transactionId={_id}/>
+                transactionId={_id!}/>
             </Grid>
         </Grid>
     )

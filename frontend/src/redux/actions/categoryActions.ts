@@ -25,7 +25,6 @@ export const getCategories = (): Action => {
 }
 
 export const loadCategories = (allCategories: categoryState): Action => {
-    console.log(allCategories)
     return {
         type: 'LOAD_CATEGORIES',
         payload: {

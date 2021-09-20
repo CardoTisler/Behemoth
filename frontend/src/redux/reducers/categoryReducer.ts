@@ -19,7 +19,6 @@ export const categoryReducer = (state: categoryState = {...initialState}, action
             return {...state};
 
         case 'LOAD_CATEGORIES':
-            console.log(state)
             return {...state,
                 ...action.payload.allCategories}
 

@@ -22,8 +22,12 @@ app.use(express.urlencoded({
 app.use(cors())
 app.use(categoriesAPI)
 app.use(transactionsAPI)
-
-
+  
+//catch errors from middleware
+app.use((err: any, req:any, res:any, next:any) => {
+    console.error(err.stack)
+    res.json({status: 500, statusText: 'Middleware exception caught: '+err.message})
+})
 
 
 app.listen(3001, process.env.IP, function(){

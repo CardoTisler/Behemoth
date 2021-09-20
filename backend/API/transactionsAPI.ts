@@ -1,22 +1,60 @@
 const express = require('express')
 const router = express.Router();
 const Transaction = require('../models/transaction')
+const {parseFromFile, arrayToTransactions} = require('../csvParser');
 import {Transaction as TransactionItem} from '../../frontend/@types/TransactionTypes/Transaction'
-import { Request, Response } from 'express'
+import {Request, Response } from 'express'
 
+interface parserPayload {
+    transactions: TransactionItem[],
+    error?: string | null
+}
+
+const multer = require('multer')
+const storage = multer.diskStorage({
+    destination: (req: Request, file: any, cb: (ifError: null, fileSavePath: string) => void) => {
+        cb(null, '../csvData')
+    },
+    filename: (req: Request, file: any, cb: (ifError: null, fileName: string) => void) => {
+        cb(null, Date.now() +'_'+ file.originalname)
+    }
+})
+const upload = multer({storage: storage})
 //TODO: NEW route
 //SHOW route
-console.log('trans.ts')
+//multer searches for key 'csvUpload' value from FormData() created in frontend. 
+
+router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: Request, res: Response) => {
+    //if there is an error in uploading the file, multer will throw an error and it will be caught in server.ts
+    //if the code reaches here then middleware has succeeded and we can send back OK
+    let results: any = [];
+    if(req.file?.filename){
+        results = await parseFromFile('../csvData/', req.file?.filename)
+
+        if(results.length !== 0){
+            const {transactions, errorMessage} = await arrayToTransactions(results);
+            if(errorMessage === null){
+                await Transaction.insertMany(transactions).then((newItems: TransactionItem[]) => {
+                    res.json({status: 200, statusText: 'Added new items to database!', newItems})
+                }).catch((err: Error) => {
+                    res.json({status: 400, statusText: err.message})
+                })
+            } else {
+                res.json({status: 400, statusText: errorMessage})
+            }
+        }
+    } else {
+        res.json({status: 404, statusText: `Couldn't get filename for parsing.`})
+    }
+    
+})
+
+
 router.get('/transactions/show', async (req: Request, res: Response) => 
 await Transaction.find({}).populate().then((foundItemsArray: TransactionItem[]) => {
     if (foundItemsArray.length === 0) {
-        // res.json({ statusCode: 400, statusText: 'Did not find any transactions.' });
         res.json({status: 400, statusText: 'Did not find any transactions.'})
     } else {
-        // res.json({
-        //     transactionsList: [...foundItemsArray],
-        //     statusCode: 200
-        // });
         res.json({status: 200, transactionsList: [...foundItemsArray]})
     }
 }).catch((err: any) => {
@@ -37,14 +75,11 @@ router.put('/transactions/update/:id', async (req: Request, res: Response) => {
         const name = transaction.name
         await Transaction.updateMany({name}, {$set: {category: newCategoryId}})
         .then( () => {
-            // res.json({statusCode: 200})
             res.json({status: 200, statusText: `Transactions' update successful.`})
         }).catch((err: any) => {
-            // res.json({statusCode: 400, statusMessage: err.message})
             res.status(400).json({status: 400, statusText: err.message})
         })
     }).catch((err: any) => {
-        // res.json({statusCode: 404, statusMessage: err.message})
         res.json({status: 404, statusText: err.message})
     })
 })
