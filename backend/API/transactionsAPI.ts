@@ -3,7 +3,8 @@ const router = express.Router();
 const Transaction = require('../models/transaction')
 import {Transaction as TransactionItem} from '../../frontend/@types/TransactionTypes/Transaction'
 import {Request, Response } from 'express'
-
+const csv = require('csv-parse')
+const fs = require('fs')
 const multer = require('multer')
 const storage = multer.diskStorage({
     destination: (req: Request, file: any, cb: (ifError: null, fileSavePath: string) => void) => {
@@ -21,7 +22,25 @@ const upload = multer({storage: storage})
 router.post('/transactions/addcsv', upload.single('csvUpload'), (req: Request, res: Response) => {
     //if there is an error in uploading the file, multer will throw an error and it will be caught in server.ts
     //if the code reaches here then middleware has succeeded and we can send back OK
-    res.json({status: 200, statusText: 'File uploaded!'})
+    // res.send(req.fileName)
+    //req.file.
+    let results: any = [];
+    results.push('ok');
+    results.push(['pok'])
+    fs.createReadStream('../csvData/'.concat(req.file?.filename!))
+    .pipe(csv({
+        delimiter: ';'
+    }))
+    .on('data', (data: any) => {
+        console.log(data)
+        results.push(data)
+    })
+    .on('end', () => {
+        //verify that results has as many objects as rows in file -1
+        console.log('end stream')
+        console.log(results)
+        res.json({status: 200, statusText: 'File uploaded!', filepath: req.file?.filename, results})
+    })
 })
 
 
