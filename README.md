@@ -3,7 +3,7 @@
 
 Categorizer is a tool that helps you categorize your financial statements and visualize them. The end goal for this project is to be able to import a large amount of transactions via .CSV file, categorize them into similar groups based on Transaction name and then export the categorized file for personal storage. This tool is not meant for storing large amounts of data for a long time.
 
-Current stack:
+####Current stack
 
 React + Redux + Material UI 
 
@@ -11,11 +11,12 @@ Express + NodeJS + Multer
 
 MongoDB
 
+
 ## Project Status
 
 #### Current features:
 
-This project is currently in development. User can categorize the added transactions, however the categories can be added via UI but transactions can not (yet). 
+This project is currently in development. User can add categories and transactions, but currently has to delete transactions via MongoDB Shell.
 
 #### Future functionality roadmap
 - [ ] Dashboard (based on currrently stored transactions)

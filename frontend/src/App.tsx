@@ -13,6 +13,7 @@ import { loadCategories } from './redux/actions/categoryActions';
 import { useFetchCategories } from './hooks/useFetchCategories';
 import ErrorToolbar from './components/info/ErrorToolbar'
 import SuccessToolbar from './components/info/SuccessToolbar'
+import InfoToolbar from './components/info/InfoToolbar';
 
 const useStyles = makeStyles({
   root: {
@@ -46,7 +47,7 @@ function App() {
           noneCategory
         }))
       }
-    }, [expenseCategories])
+    }, [incomeCategories, expenseCategories, noneCategory])
 
   return (
     <div className={classes.root}>
@@ -58,6 +59,7 @@ function App() {
             <div className={classes.frameStyles}>
               <ErrorToolbar />
               <SuccessToolbar />
+              <InfoToolbar />
               
               <Switch>
                 <Route exact path='/' component={Dashboard} />

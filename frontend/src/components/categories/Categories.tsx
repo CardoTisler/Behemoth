@@ -11,10 +11,10 @@ const Categories = () => {
         incomeCategories,
         expenseCategories } = useSelector((state: RootState) => state.categoryReducer)
 
-    if(incomeCategories.length === 0 && expenseCategories.length === 0){
-        dispatch(showError(`Couldn't render categories.`, `Did not find any categories to render!`))
-        setTimeout(() => { dispatch(hideError()) }, 4000)
-    }
+    // if(incomeCategories.length === 0 && expenseCategories.length === 0){
+    //     dispatch(showError(`Couldn't render categories.`, `Did not find any categories to render!`))
+    //     setTimeout(() => { dispatch(hideError()) }, 4000)
+    // } this causes infinite loop
 
     return (
         <Grid container spacing={3}>
@@ -29,7 +29,8 @@ const Categories = () => {
             <Grid item xs={12} md={6}>
                 <CategoryList 
                 listTitle='Income Categories' 
-                listArr={incomeCategories} />
+                listArr={incomeCategories} 
+                />
             </Grid>
 
             <Grid item xs={12} md={6}>

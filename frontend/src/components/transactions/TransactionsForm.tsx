@@ -3,6 +3,7 @@ import React, {useState} from 'react'
 import { useDispatch } from 'react-redux'
 import { showError } from 'src/redux/actions/errorActions'
 import { hideSuccess, showSuccess } from 'src/redux/actions/successActions'
+import { hideLoading, showLoading } from 'src/redux/actions/loadingAction'
 
 //TODO: Add integer validation for amount input
 //TODO: Add visual tweaks to the form, make it stand out from the rest (dark blue background between grid elements?)
@@ -47,7 +48,7 @@ const TransactionsForm = () => {
     
     const handleFileSelected = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
         e.preventDefault()
-
+        dispatch(showLoading());
         let data = new FormData()
         if(e.target.files![0] !== null){
             data.append('csvUpload', e.target.files![0]);
@@ -62,6 +63,7 @@ const TransactionsForm = () => {
         })
         .then(res => res.json())
         .then(res => {
+            dispatch(hideLoading());
             if(res.status === 200){
                 dispatch(showSuccess(res.statusText))
                 setTimeout(() => {dispatch(hideSuccess())}, 4000);

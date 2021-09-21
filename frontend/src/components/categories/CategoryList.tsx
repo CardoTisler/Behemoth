@@ -2,6 +2,7 @@ import { makeStyles, Divider, List, ListItem, ListItemText, Box } from '@materia
 import ListRow from './ListRow'
 import { useDispatch } from 'react-redux'
 import { showError } from '../../redux/actions/errorActions'
+import { showInfo, hideInfo } from 'src/redux/actions/infoActions'
 import { Category
  } from '../../../@types/CategoryTypes/category'
 const useStyles = makeStyles({
@@ -33,7 +34,8 @@ const CategoryList: React.FC<Props> = (props) => {
                     key={element._id} />)
             })
         } catch(err) {
-            dispatch(showError(`Failed loading `.concat(listTitle), (err as Error).message))
+            dispatch(showInfo('Did not find any categories.'))
+            setTimeout(() => {dispatch(hideInfo())}, 4000)
         }
     }
 

@@ -4,9 +4,11 @@ import TransactionsSearch from './TransactionsSearch'
 import TransactionsList from './TransactionsList'
 import TransactionsForm from './TransactionsForm'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { loadTransactions } from '../../redux/actions/transactionActions'
 import { useFetchTransactions } from '../../hooks/useFetchTransactions'
+import { RootState } from 'src/redux/reducers'
+import { hideInfo, showInfo } from 'src/redux/actions/infoActions'
 //TODO: if rendering positive or 0 number to amount column, font green, otherwise red 
 
 const useStyles = makeStyles({
@@ -19,13 +21,14 @@ const Transactions = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const {transactionsList, error} = useFetchTransactions()
+    const {loading} = useSelector((state: RootState) => state.loadingReducer)
 
     useEffect( () => {
         if(!error){
             dispatch(loadTransactions(transactionsList))
         }
-    }, [transactionsList, error])
-    
+    }, [transactionsList, error, loading]) 
+
     return (
         <Box boxShadow={2} className={classes.root}>
             <Grid container spacing={1}>
