@@ -1,11 +1,8 @@
 import { FormControl, Select } from "@material-ui/core";
-import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateTransactionsCategory } from "../../redux/actions/transactionActions";
 import { showError } from "../../redux/actions/errorActions";
 import { RootState } from "../../redux/reducers";
 import type { Category } from "../../../@types/CategoryTypes/category";
-import type { APIinfo } from '../../../@types/API/index'
 
 interface Props {
   currentCategoryId: string,

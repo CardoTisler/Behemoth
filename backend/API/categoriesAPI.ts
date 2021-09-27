@@ -9,7 +9,6 @@ interface Category {
     category: string,
     budget: number
 }
-//TODO: Add statusCodes to some enum file or sth? like ENUM_SERVER_ERROR = 400 -> status: ENUM_SERVER_ERROR
 router.post('/categories/new', async (req: Request, res: Response) => {
     const { isIncomeCategory, category, budget } = req.body
     await Category.find({ category }).then( async (foundItemsArray: Category[]) => {

@@ -75,7 +75,7 @@ const TransactionsRow: React.FC<Props> = (props) => {
             <Grid item xs={1}>
                 <RowDropdown
                 handleChange={handleChange}
-                currentCategoryId={currentCategoryId} />
+                currentCategoryId={category} />
             </Grid>
         </Grid>
     )

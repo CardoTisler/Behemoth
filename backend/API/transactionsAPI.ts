@@ -21,6 +21,15 @@ const storage = multer.diskStorage({
 })
 const upload = multer({storage: storage})
 //TODO: NEW route
+router.post('/transactions/new', async (req: Request, res: Response) => {
+    const newTransaction = req.body
+    Transaction.insertMany([newTransaction])
+    .then((newTransaction: TransactionItem) => {
+        res.json({status: 200, statusText: 'Added new transaction.'})
+    }).catch((err: Error) => {
+        res.json({status: 400, statusText: 'Database error when trying to add new transaction', message: err.message})
+    })
+})
 //SHOW route
 //multer searches for key 'csvUpload' value from FormData() created in frontend. 
 

@@ -1,9 +1,11 @@
 import {Grid, TextField, makeStyles, Button} from '@material-ui/core'
+import { Transaction } from '../../../@types/TransactionTypes/Transaction'
 import React, {useState} from 'react'
 import { useDispatch } from 'react-redux'
 import { showError } from 'src/redux/actions/errorActions'
 import { hideSuccess, showSuccess } from 'src/redux/actions/successActions'
 import { getTransactions, loadTransactions } from 'src/redux/actions/transactionActions'
+import RowDropdown from './RowDropdown'
 
 //TODO: Add single category add functionality
 //TODO: Add integer validation for amount input
@@ -22,23 +24,43 @@ const useStyles = makeStyles({
         height: '100%'
     }
 })
+//TODO: Add input validation hints to UI.
+const validateTransactionData = (data: Transaction): boolean => { //TODO: Add proper error handling.
+    if(typeof data.name === 'string'){
+        return true;
+    } else {
+        return false;
+    }
+}
 
+const addTransactionToDatabase = async (newTransaction: any) => {
+    const response = await fetch('/transactions/new', {
+        method: 'POST',
+        mode:'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newTransaction)
+    })
+    return response
+}
 const TransactionsForm: React.FC<any> = () => {
     const dispatch = useDispatch()
     const [state, setState] = useState({
         date: '',
         name: '',
         text: '',
-        amount: '',
-        category: ''
+        amount: ''
     })
+    const {date, name, text, amount} = state;
+    const [currentCategoryId, setCurrentCategoryId] = useState('0')
+
     const classes = useStyles()
 
     const handleInput = (e: { target: { name: string; value: string } }) => {
-        const {value} = e.target
         setState({
             ...state,
-            name: value
+            [e.target.name]: e.target.value
         })
     }
     
@@ -70,11 +92,48 @@ const TransactionsForm: React.FC<any> = () => {
             }
         })
     }
+
+    const handleChange = (e: any): void => {
+        if(e.target !== null){
+            const newCategoryId = e.target.value;
+            setCurrentCategoryId(newCategoryId)
+        }
+    }
+
+    const onSubmit = async (e: any): Promise<void> => {
+        e.preventDefault()
+        const newTransaction: Transaction = {date, name, text, amount, category: currentCategoryId}
+        try{
+            if(validateTransactionData(newTransaction)){
+                await addTransactionToDatabase(newTransaction)
+                .then((res: any) => res.json())
+                .then(res => {
+                    if(res.status === 200){
+                        dispatch(showSuccess(res.statusText))
+                        dispatch(loadTransactions([{...newTransaction}]))
+                        setTimeout(() => {dispatch(hideSuccess())}, 4000);
+
+                        setState({name: '', text: '', amount: '', date:''})
+                        setCurrentCategoryId('0')
+                        
+                    } else if (res.status === 400){
+                        dispatch(showError(res.statusText, res.message))
+                    }
+                })
+            } else {
+                throw new Error('Inserted data has wrong format!')
+            }
+        } catch (err: any){
+            dispatch(showError(`Cannot add new transaction.`, err.message))
+        }
+    }
+
     return (
         <Grid container spacing={2}>
             <form 
             encType="multipart/form-data" //required for Multer middleware to work.
-            className={classes.root}>
+            className={classes.root}
+            onSubmit={onSubmit}>
                 <Grid item xs={2} className={classes.gridItem}>
                     <TextField
                     label='Date'
@@ -107,14 +166,14 @@ const TransactionsForm: React.FC<any> = () => {
                         value={state.amount}
                         onChange={handleInput} />
                 </Grid>
-{/* TODO: Category should be dropdown menu with registered income&expense categories */}
                 <Grid item xs={1} className={classes.gridItem}>
-                    <TextField
+                    {/* <TextField
                         label='Category'
                         name='category'
                         className={classes.field}
                         value={state.category}
-                        onChange={handleInput} />
+                        onChange={handleInput} /> */}
+                    <RowDropdown currentCategoryId={currentCategoryId} handleChange={handleChange}/>
                 </Grid>
                 <Grid item xs={1} className={classes.gridItem}>
                     <Button
