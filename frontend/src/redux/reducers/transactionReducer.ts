@@ -25,7 +25,7 @@ const transactionReducer = (state: TransactionState = defaultState, action: Acti
                 }
                 return {...transaction}
             })
-
+            
             return updatedTransactions
             
     }

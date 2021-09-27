@@ -7,54 +7,19 @@ import { RootState } from "../../redux/reducers";
 import type { Category } from "../../../@types/CategoryTypes/category";
 import type { APIinfo } from '../../../@types/API/index'
 
-const handleCategoryUpdate = async (newCategoryId: string, transactionId: string): Promise<APIinfo> => {
-  const url = '/transactions/update/'.concat(transactionId)
-  const response = await fetch(url, {
-      method: 'PUT',
-      mode: 'cors',
-      headers:{
-          'Content-Type':'application/json'
-      },
-      body: JSON.stringify({newCategoryId})
-  })
-  return response.json()
-}
-
 interface Props {
-  transactionId: string,
-  transactionCategoryId: string,
-  transactionName: string
+  currentCategoryId: string,
+  handleChange: any
 }
 
 const RowDropdown: React.FC<Props> = (props) => {
-  const [currentCategoryId, setCurrentCategoryId] = useState("0");
-  const {transactionId, transactionCategoryId, transactionName} = props
+  const {handleChange, currentCategoryId} = props
   const { 
     incomeCategories,
     expenseCategories,
     noneCategory } = useSelector((state: RootState) => state.categoryReducer)
   
   const dispatch = useDispatch()
-  useEffect(() => {
-    setCurrentCategoryId(transactionCategoryId);  
-  }, [transactionCategoryId]);
-
-  const handleChange = async (e: any) => {
-    if(e.target !== null){
-      const newCategoryId = e.target.value
-      await handleCategoryUpdate(newCategoryId, transactionId).then( res => {
-        if(res.status === 200){
-          setCurrentCategoryId(newCategoryId);
-          dispatch(updateTransactionsCategory(transactionName, newCategoryId))
-          
-        } else if (res.status === 400){
-          throw new Error(res.statusText)
-        }
-      }).catch((err: Error) => {
-        dispatch(showError(`Couldn't update transaction category.`, err.message))
-      })
-    }
-    }
 
   const renderOptions = (categories: Category[]) => {
       if (categories) {
