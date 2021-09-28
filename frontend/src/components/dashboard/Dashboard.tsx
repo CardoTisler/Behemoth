@@ -18,7 +18,8 @@ const useStyles = makeStyles({
     },
     header: {
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginBottom: '1%'
     }
 })
 

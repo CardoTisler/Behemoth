@@ -21,7 +21,7 @@ This project is currently in development. User can add categories and transactio
 #### Future functionality roadmap
 - [ ] Dashboard (based on currrently stored transactions)
     - [x] Working summary elements (Income, Expenses, Budget, Savings)
-    - [ ] Expense Categories visualization via barchart
+    - [x] Expense Categories visualization via barchart
     - [ ] Currently stored transactions filtering via Calendar component
 - [ ] Categories
     - [x] Add and store Categories in db
@@ -41,11 +41,11 @@ This project is currently in development. User can add categories and transactio
 
 #### Example:   
 
-![Dashboard](https://i.ibb.co/JnmxWSL/dashboard.png)
+![Dashboard](https://i.ibb.co/g6YQ5Kx/dashboard.png)
 
-![Transactions](https://i.ibb.co/KNLd41L/transactions.png)
+![Transactions](https://i.ibb.co/k35gxZJ/transactions.png)
 
-![Categories](https://i.ibb.co/dWcHzGt/categories.png)
+![Categories](https://i.ibb.co/SmXwjTL/categories.png)
 
 ## Installation and Setup Instructions
 

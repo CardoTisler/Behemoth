@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles()
   const [bannerTitle, setBannerTitle] = useState('Dashboard')
-  const handleBannerText = (props: { text: SetStateAction<string>; }) => { setBannerTitle(props.text) }
+  const handleBannerText = (componentName: string) => { setBannerTitle(componentName) }
   
   const dispatch = useDispatch()
   const fetchData = useFetchCategories()
@@ -59,7 +59,7 @@ function App() {
       <Banner title={bannerTitle}/>
         <div className={classes.content}>
           <Router>
-            <NavigationBar onButtonClick={() => handleBannerText}/>
+            <NavigationBar onButtonClick={handleBannerText}/>
             
             <div className={classes.frameStyles}>
               <ErrorToolbar />

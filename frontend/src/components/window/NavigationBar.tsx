@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 })
 
 interface Props{
-    onButtonClick: () => void;
+    onButtonClick: any;
 
 }
 const NavigationBar: React.FC<Props> = (props) => {

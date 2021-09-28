@@ -15,9 +15,6 @@ const useStyles = makeStyles({
         width: '25%',
         marginRight: '5%',
         padding: 10,
-        border: 'solid',
-        borderColor: 'white',
-        borderWidth: 1,
         alignContent: 'center'
     }
 })
