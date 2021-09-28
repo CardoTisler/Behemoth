@@ -5,12 +5,14 @@ import { RootState } from "../../redux/reducers";
 import type { Category } from "../../../@types/CategoryTypes/category";
 
 interface Props {
-  currentCategoryId: string,
+  currentCategory: string | Category,
   handleChange: any
 }
 
 const RowDropdown: React.FC<Props> = (props) => {
-  const {handleChange, currentCategoryId} = props
+  const {handleChange, currentCategory} = props
+  const currentCategoryId = typeof currentCategory == 'string' ? currentCategory : currentCategory._id;
+  
   const { 
     incomeCategories,
     expenseCategories,

@@ -88,7 +88,7 @@ const TransactionsForm: React.FC<any> = () => {
             } else if (res.status === 500){
                 dispatch(showError(`Uploading CSV file failed.`, res.statusText))
             } else {
-                dispatch(showError(`sth broke`, `no idea`))
+                dispatch(showError(`Unknown error.`, `Error occurred in TransactionsForm.`))
             }
         })
     }
@@ -173,7 +173,7 @@ const TransactionsForm: React.FC<any> = () => {
                         className={classes.field}
                         value={state.category}
                         onChange={handleInput} /> */}
-                    <RowDropdown currentCategoryId={currentCategoryId} handleChange={handleChange}/>
+                    <RowDropdown currentCategory={currentCategoryId} handleChange={handleChange}/>
                 </Grid>
                 <Grid item xs={1} className={classes.gridItem}>
                     <Button

@@ -3,18 +3,12 @@ import CategoryList from './CategoryList'
 import CategoryForm from './CategoryForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from "../../redux/reducers";
-import { hideError, showError } from "../../redux/actions/errorActions";
   
-const Categories = () => {
+const Categories: React.FC = () => {
     const dispatch = useDispatch();
     const {
         incomeCategories,
         expenseCategories } = useSelector((state: RootState) => state.categoryReducer)
-
-    // if(incomeCategories.length === 0 && expenseCategories.length === 0){
-    //     dispatch(showError(`Couldn't render categories.`, `Did not find any categories to render!`))
-    //     setTimeout(() => { dispatch(hideError()) }, 4000)
-    // } this causes infinite loop
 
     return (
         <Grid container spacing={3}>

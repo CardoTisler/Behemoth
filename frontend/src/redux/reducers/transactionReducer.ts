@@ -8,7 +8,7 @@ const transactionReducer = (state: TransactionState = defaultState, action: Acti
             return [...state]
 
         case 'LOAD_TRANSACTIONS':
-            return [...state, ...action.payload.allTransactions];
+            return [...action.payload.allTransactions];
 
         case 'GET_TRANSACTIONS':
             return [...state];

@@ -1,10 +1,12 @@
+import {Category} from '../CategoryTypes/category'
+
 interface Transaction {
     _id?: string,
     date: string,
     name: string,
     text: string,
     amount: number | string,
-    category: string
+    category: Category | string //must be string when adding but Category when retrieving from db 
 }
 
 interface Payload {

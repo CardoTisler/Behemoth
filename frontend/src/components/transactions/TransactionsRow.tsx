@@ -33,13 +33,17 @@ interface Props{
     data: Transaction
 }
 const TransactionsRow: React.FC<Props> = (props) => {
-    const {date, name, text, amount, category, _id} = props.data
+    const {date, name, text, amount, category, _id} = props.data;
     const classes = useStyles()
     const [currentCategoryId, setCurrentCategoryId] = useState("0");
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setCurrentCategoryId(category);  
+        if(typeof category != 'string'){
+            setCurrentCategoryId(category._id)
+        } else {
+            setCurrentCategoryId(category);  
+        }
     }, [currentCategoryId]);
     
     const handleChange = async (e: any) => {
@@ -75,7 +79,7 @@ const TransactionsRow: React.FC<Props> = (props) => {
             <Grid item xs={1}>
                 <RowDropdown
                 handleChange={handleChange}
-                currentCategoryId={category} />
+                currentCategory={category} />
             </Grid>
         </Grid>
     )

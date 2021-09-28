@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
     }
 })
 const upload = multer({storage: storage})
-//TODO: NEW route
+
 router.post('/transactions/new', async (req: Request, res: Response) => {
     const newTransaction = req.body
     Transaction.insertMany([newTransaction])
@@ -30,9 +30,8 @@ router.post('/transactions/new', async (req: Request, res: Response) => {
         res.json({status: 400, statusText: 'Database error when trying to add new transaction', message: err.message})
     })
 })
-//SHOW route
-//multer searches for key 'csvUpload' value from FormData() created in frontend. 
 
+//multer searches for key 'csvUpload' value from FormData() created in frontend. 
 router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: Request, res: Response) => {
     //if there is an error in uploading the file, multer will throw an error and it will be caught in server.ts
     //if the code reaches here then middleware has succeeded and we can send back OK
@@ -43,7 +42,9 @@ router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: Requ
         if(results.length !== 0){
             const {transactions, errorMessage} = await arrayToTransactions(results);
             if(errorMessage === null){
-                await Transaction.insertMany(transactions).then((newItems: TransactionItem[]) => {
+                await Transaction.insertMany(transactions)
+                .then( async () => {
+                    const newItems = await Transaction.find({}).populate('category')
                     res.json({status: 200, statusText: 'Added new items to database!', newItems})
                 }).catch((err: Error) => {
                     res.json({status: 400, statusText: err.message})
@@ -60,7 +61,8 @@ router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: Requ
 
 
 router.get('/transactions/show', async (req: Request, res: Response) => 
-await Transaction.find({}).populate().then((foundItemsArray: TransactionItem[]) => {
+await Transaction.find({}).populate('category').then((foundItemsArray: TransactionItem[]) => {
+    console.log(foundItemsArray)
     if (foundItemsArray.length === 0) {
         res.json({status: 400, statusText: 'Did not find any transactions.'})
     } else {
@@ -69,10 +71,6 @@ await Transaction.find({}).populate().then((foundItemsArray: TransactionItem[]) 
 }).catch((err: any) => {
     res.json({ status: 400, statusMessage: err.message });
 }))
-
-//TODO: CREATE
-
-//TODO: EDIT
 
 router.put('/transactions/update/:id', async (req: Request, res: Response) => {
     const transactionId: string = req.params.id
@@ -105,6 +103,13 @@ router.put('/transactions/updatecategories/:id', async(req: Request, res: Respon
         res.json({status: 400, statusText: err.message})
     })
 })
-//TODO: DESTROY
 
+router.delete('transactions/delete/:id', async (req: Request, res: Response) => {
+    const removedItemId = req.params.id;
+    Transaction.remove({_id: removedItemId}).then(() => {
+        res.json({status: 200, statusText: 'Item deleted.'})
+    }).catch((err: Error) => {
+        res.json({status: 400, statusText: 'Item deletion failed.'})
+    })
+})
 module.exports = router;

@@ -20,7 +20,7 @@ This project is currently in development. User can add categories and transactio
 
 #### Future functionality roadmap
 - [ ] Dashboard (based on currrently stored transactions)
-    - [ ] Working summary elements (Income, Expenses, Budget, Savings)
+    - [x] Working summary elements (Income, Expenses, Budget, Savings)
     - [ ] Expense Categories visualization via barchart
     - [ ] Currently stored transactions filtering via Calendar component
 - [ ] Categories

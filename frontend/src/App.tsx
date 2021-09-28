@@ -14,6 +14,8 @@ import { useFetchCategories } from './hooks/useFetchCategories';
 import ErrorToolbar from './components/info/ErrorToolbar'
 import SuccessToolbar from './components/info/SuccessToolbar'
 import InfoToolbar from './components/info/InfoToolbar';
+import { useFetchTransactions } from './hooks/useFetchTransactions';
+import { loadTransactions } from './redux/actions/transactionActions';
 
 const useStyles = makeStyles({
   root: {
@@ -29,6 +31,7 @@ const useStyles = makeStyles({
   }
 })
 
+
 function App() {
   const classes = useStyles()
   const [bannerTitle, setBannerTitle] = useState('Dashboard')
@@ -37,17 +40,19 @@ function App() {
   const dispatch = useDispatch()
   const fetchData = useFetchCategories()
   const {incomeCategories, expenseCategories, noneCategory} = fetchData.allCategories
-  let error = fetchData.error
+  const {transactionsList, error} = useFetchTransactions();
+  let categoriesError = fetchData.error
   
   useEffect( () => {
-      if(!error){
+      if(!categoriesError && !error){
         dispatch(loadCategories({
           incomeCategories, 
           expenseCategories, 
           noneCategory
         }))
+        dispatch(loadTransactions(transactionsList))
       }
-    }, [incomeCategories, expenseCategories, noneCategory])
+    }, [incomeCategories, expenseCategories, noneCategory, transactionsList])
 
   return (
     <div className={classes.root}>
@@ -63,13 +68,8 @@ function App() {
               
               <Switch>
                 <Route exact path='/' component={Dashboard} />
-
-                <Route exact path='/transactions' render={() => 
-                  <Transactions />
-                } />
-                <Route exact path='/categories' render={() => 
-                    <Categories />}
-                />
+                <Route exact path='/transactions' component={Transactions} />
+                <Route exact path='/categories' component={Categories} />
                 <Route exact path='/reports' component={Reports} />
               </Switch>
             </div>
