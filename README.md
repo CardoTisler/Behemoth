@@ -29,7 +29,7 @@ This project is currently in development. User can add categories and transactio
 - [ ] Transactions
     - [x] Transaction categorizing functionality
     - [x] Multi-add transactions via .csv
-    - [ ] Export categorized transactions to new .csv file
+    - [x] Export categorized transactions to new .csv file
     - [ ] Functional filtering system in Transactions view
 - [ ] Reports
     - [ ] Currently no idea what to do here, but some more thorough statistics would be fun.

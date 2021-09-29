@@ -2,6 +2,7 @@ import { makeStyles, Grid, Box} from '@material-ui/core'
 import TransactionsSearch from './TransactionsSearch'
 import TransactionsList from './TransactionsList'
 import TransactionsForm from './TransactionsForm'
+import CsvButtons from './CsvButtons'
 
 const useStyles = makeStyles({
     root: {
@@ -15,6 +16,9 @@ const Transactions: React.FC = () => {
     return (
         <Box boxShadow={2} className={classes.root}>
             <Grid container spacing={1}>
+                <Grid item xs={12}>
+                    <CsvButtons />
+                </Grid>
                 <Grid item xs={12}> 
                     <TransactionsForm />
                 </Grid>

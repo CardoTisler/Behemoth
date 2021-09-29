@@ -6,22 +6,22 @@ import { Request, Response } from 'express'
 interface Category {
     _id: string,
     type: string,
-    category: string,
+    name: string,
     budget: number
 }
 router.post('/categories/new', async (req: Request, res: Response) => {
-    const { isIncomeCategory, category, budget } = req.body
-    await Category.find({ category }).then( async (foundItemsArray: Category[]) => {
+    const { isIncomeCategory, name, budget } = req.body
+    await Category.find({ name }).then( async (foundItemsArray: Category[]) => {
         if(foundItemsArray.length !== 0){
             res.json({status: 400, statusText: 'Will not add duplicate item to database!'})
         } else {
             if(isIncomeCategory){
-                await Category.create({ category, type: 'Income' })
+                await Category.create({ name, type: 'Income' })
                 .then((addedItem: Category) => res.json({addedItem, status: 200, statusText: `Item added to database.`}) )
                 .catch(() => res.json({status: 400, statusText: `Couldn't add the item to database.`}))
                 
             } else {
-                await Category.create({ category, budget, type: 'Expense' })
+                await Category.create({ name, budget, type: 'Expense' })
                 .then( (addedItem: Category) => res.json({addedItem, status: 200}))
                 .catch(() => res.json({status: 400, statusText: `Couldn't add the item to database.`}))
             }

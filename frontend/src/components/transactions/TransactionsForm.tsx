@@ -49,10 +49,10 @@ const TransactionsForm: React.FC<any> = () => {
     const [state, setState] = useState({
         date: '',
         name: '',
-        text: '',
+        description: '',
         amount: ''
     })
-    const {date, name, text, amount} = state;
+    const {date, name, description, amount} = state;
     const [currentCategoryId, setCurrentCategoryId] = useState('0')
 
     const classes = useStyles()
@@ -61,35 +61,6 @@ const TransactionsForm: React.FC<any> = () => {
         setState({
             ...state,
             [e.target.name]: e.target.value
-        })
-    }
-    
-    const handleFileSelected = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
-        e.preventDefault()
-        let data = new FormData()
-        if(e.target.files![0] !== null){
-            data.append('csvUpload', e.target.files![0]);
-        } else {
-            dispatch(showError(`Can't upload file.`, `e.target.files[0] is null.`))
-        }
-        
-        await fetch('/transactions/addcsv', {
-            method: 'POST',
-            mode:'cors',
-            body: data
-        })
-        .then(res => res.json())
-        .then(res => {
-
-            if(res.status === 200){
-                dispatch(showSuccess(res.statusText))
-                setTimeout(() => {dispatch(hideSuccess())}, 4000);
-                dispatch(loadTransactions(res.newItems))
-            } else if (res.status === 500){
-                dispatch(showError(`Uploading CSV file failed.`, res.statusText))
-            } else {
-                dispatch(showError(`Unknown error.`, `Error occurred in TransactionsForm.`))
-            }
         })
     }
 
@@ -102,7 +73,7 @@ const TransactionsForm: React.FC<any> = () => {
 
     const onSubmit = async (e: any): Promise<void> => {
         e.preventDefault()
-        const newTransaction: Transaction = {date, name, text, amount, category: currentCategoryId}
+        const newTransaction: Transaction = {date, name, description, amount, category: currentCategoryId}
         try{
             if(validateTransactionData(newTransaction)){
                 await addTransactionToDatabase(newTransaction)
@@ -113,7 +84,7 @@ const TransactionsForm: React.FC<any> = () => {
                         dispatch(loadTransactions([{...newTransaction}]))
                         setTimeout(() => {dispatch(hideSuccess())}, 4000);
 
-                        setState({name: '', text: '', amount: '', date:''})
+                        setState({name: '', description: '', amount: '', date:''})
                         setCurrentCategoryId('0')
                         
                     } else if (res.status === 400){
@@ -150,12 +121,12 @@ const TransactionsForm: React.FC<any> = () => {
                         value={state.name}
                         onChange={handleInput} />
                 </Grid>
-                <Grid item xs={4} className={classes.gridItem}>
+                <Grid item xs={5} className={classes.gridItem}>
                     <TextField
                         label='Description'
-                        name='text'
+                        name='description'
                         className={classes.field}
-                        value={state.text}
+                        value={state.description}
                         onChange={handleInput} />
                 </Grid>
                 <Grid item xs={1} className={classes.gridItem}>
@@ -167,12 +138,6 @@ const TransactionsForm: React.FC<any> = () => {
                         onChange={handleInput} />
                 </Grid>
                 <Grid item xs={1} className={classes.gridItem}>
-                    {/* <TextField
-                        label='Category'
-                        name='category'
-                        className={classes.field}
-                        value={state.category}
-                        onChange={handleInput} /> */}
                     <RowDropdown currentCategory={currentCategoryId} handleChange={handleChange}/>
                 </Grid>
                 <Grid item xs={1} className={classes.gridItem}>
@@ -182,21 +147,6 @@ const TransactionsForm: React.FC<any> = () => {
                     variant='contained'
                     color='primary'
                     >Add</Button>
-                </Grid>
-                <Grid item xs={1} className={classes.gridItem}>
-                    <input
-                        name="csvUpload"
-                        accept=".csv"
-                        style={{ display: 'none' }}
-                        id="raised-button-file"
-                        type="file"
-                        onChange={handleFileSelected}
-                    />
-                    <label htmlFor="raised-button-file">
-                    <Button variant="contained" component="span" className={classes.button}>
-                        Upload CSV
-                    </Button>
-                    </label> 
                 </Grid>
             </form>
         </Grid>

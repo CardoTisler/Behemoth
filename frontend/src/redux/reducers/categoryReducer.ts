@@ -2,7 +2,7 @@ import type { categoryState, Action, Category } from "../../../@types/CategoryTy
 
 const defaultCategory: Category = {
     type: '',
-    category: '',
+    name: '',
     budget: 0,
     _id: ''
 }

@@ -33,7 +33,7 @@ interface Props{
     data: Transaction
 }
 const TransactionsRow: React.FC<Props> = (props) => {
-    const {date, name, text, amount, category, _id} = props.data;
+    const {date, name, description, amount, category, _id} = props.data;
     const classes = useStyles()
     const [currentCategoryId, setCurrentCategoryId] = useState("0");
     const dispatch = useDispatch();
@@ -71,7 +71,7 @@ const TransactionsRow: React.FC<Props> = (props) => {
                 <p>{name}</p>
             </Grid>
             <Grid item xs={6}>
-                <p>{text}</p>
+                <p>{description}</p>
             </Grid>
             <Grid item xs={1}>
                 <p>{amount}</p>

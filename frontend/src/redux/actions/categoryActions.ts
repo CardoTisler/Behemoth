@@ -2,7 +2,7 @@ import type {categoryState, Action, Category, Payload} from '../../../@types/Cat
 
 const defaultNone: Category = {
     type: '',
-    category: '',
+    name: '',
     budget: 0,
     _id: ''
 }

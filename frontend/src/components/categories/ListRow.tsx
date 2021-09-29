@@ -61,7 +61,7 @@ const ListRow: React.FC<Props> = (props) => {
     const classes = useStyles();
     const [showButton, setShowButton] = useState(false)
     const dispatch = useDispatch()
-    const {category, _id} = props.element
+    const {name, _id} = props.element
     const { noneCategory } = useSelector((state: RootState) => state.categoryReducer)
     
     const handleElementDelete = async () => {
@@ -85,7 +85,7 @@ const ListRow: React.FC<Props> = (props) => {
         <ListItem button 
         onMouseEnter={() => setShowButton(true)}
         onMouseLeave={() => setShowButton(false)}>
-            <ListItemText primary={category}/>
+            <ListItemText primary={name}/>
                 <Button
                 className={showButton ? classes.display : classes.dontDisplay}
                 onClick={handleElementDelete}

@@ -21,7 +21,7 @@ export const useFetchCategories = (): FetchCategories => {
     const [expenseCategories, setExpenseCategories] = useState<Category[]>([]);
     const [noneCategory, setNoneCategory] = useState<Category>({
         type: "",
-        category: "",
+        name: "",
         budget: 0,
         _id: ""
     })  

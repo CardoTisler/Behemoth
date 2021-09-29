@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from "../../redux/reducers";
   
 const Categories: React.FC = () => {
-    const dispatch = useDispatch();
     const {
         incomeCategories,
         expenseCategories } = useSelector((state: RootState) => state.categoryReducer)

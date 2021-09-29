@@ -13,7 +13,7 @@ interface Transaction {
 const transactionSchema = new mongoose.Schema({
     date: String,
     name: String,
-    text: String,
+    description: String,
     amount: Number,
     category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category'}
 })

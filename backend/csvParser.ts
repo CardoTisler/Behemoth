@@ -44,7 +44,7 @@ export async function arrayToTransactions(results: string[][]): Promise<parserPa
             category: '', //gets defined before inserting to database but not here
             date: entry[headersIndex.get('Kuupäev')!],
             name: entry[headersIndex.get('Saaja/Maksja')!].replace(/\s+/g, ' ').trim(),
-            text: entry[headersIndex.get('Selgitus')!].replace(/\s+/g, ' ').trim(),
+            description: entry[headersIndex.get('Selgitus')!].replace(/\s+/g, ' ').trim(),
             amount,
         }
         transactions.push(newTransaction)

@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 })
 
 interface formPayload {
-    category: string,
+    name: string,
     budget: string | number,
     isIncomeCategory: boolean
 }
@@ -45,7 +45,7 @@ interface CategoryAddRes {
 
 }
 interface submitPayload{
-    category: string,
+    name: string,
     budget: number | string,
     isIncomeCategory: boolean
 }
@@ -73,7 +73,7 @@ const CategoryForm: React.FC = () => {
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const [isIncomeCategory, setIsIncomeCategory] = useState(true)
     const [state, setState] = useState({
-        category: '',
+        name: '',
         budget: '',
     })
     const dispatch = useDispatch()
@@ -86,7 +86,7 @@ const CategoryForm: React.FC = () => {
         e.preventDefault()
         //build object with data from states
 
-        const data: submitPayload = {category: state.category, budget: state.budget, isIncomeCategory}
+        const data: submitPayload = {name: state.name, budget: state.budget, isIncomeCategory}
         
         addToDatabase('/categories/new', data).then((res) => {
                 dispatch(addCategory(res.addedItem!, isIncomeCategory))
@@ -98,7 +98,7 @@ const CategoryForm: React.FC = () => {
 
         //clear state value after sending data
         setState({
-            category: "",
+            name: "",
             budget: ""
         })
     }
@@ -108,7 +108,7 @@ const CategoryForm: React.FC = () => {
         //dynamic state update based on input in textfield
         if(e.target !== null){
             if(e.target.name === 'categoryNameField'){
-                setState({ ...state, category: e.target.value })
+                setState({ ...state, name: e.target.value })
             } else {
                 //this regex checks if value contains only numbers
                 if(/^\d+$/.test(e.target.value) || e.target.value === ""){
@@ -133,7 +133,7 @@ const CategoryForm: React.FC = () => {
                     <TextField 
                     label='Category Name'
                     name='categoryNameField'
-                    value={state.category}
+                    value={state.name}
                     onChange={handleInput}/>
 
                 {!isIncomeCategory &&

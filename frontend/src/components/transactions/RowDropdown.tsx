@@ -25,7 +25,7 @@ const RowDropdown: React.FC<Props> = (props) => {
           return categories.map((element) => {
             return (
               <option key={element._id} value={element._id}>
-                {element.category}
+                {element.name}
               </option>
             );
           });

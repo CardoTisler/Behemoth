@@ -4,6 +4,7 @@ const Transaction = require('../models/transaction')
 const {parseFromFile, arrayToTransactions} = require('../csvParser');
 import {Transaction as TransactionItem} from '../../frontend/@types/TransactionTypes/Transaction'
 import {Request, Response } from 'express'
+const stringify = require('csv-stringify')
 
 interface parserPayload {
     transactions: TransactionItem[],
@@ -58,11 +59,28 @@ router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: Requ
     }
     
 })
-
+ 
+router.post('/transactions/export', async (req: Request, res: Response) => {
+    await Transaction.find({}).populate('category').then((foundItemsArray: TransactionItem[]) => {
+        stringify(foundItemsArray, {
+            header: true,
+            columns: ['date', 'name', 'description','amount','category.name','category.type']
+        }, (err: any, output: string) => {
+            const filename = 'exported_'+new Date().toISOString().split('T')[0]+'.csv'
+            // res.set('Content-Type', 'text/csv')
+            // res.setHeader('Content-disposition', 'attachment; filename='+filename)
+            res.attachment(filename)
+            res.set('filename', filename)
+            const headers = res.getHeaders()
+            console.log(headers.filename)
+            res.status(201).send(output)
+            // console.log(res)
+        })
+    })
+})
 
 router.get('/transactions/show', async (req: Request, res: Response) => 
 await Transaction.find({}).populate('category').then((foundItemsArray: TransactionItem[]) => {
-    console.log(foundItemsArray)
     if (foundItemsArray.length === 0) {
         res.json({status: 400, statusText: 'Did not find any transactions.'})
     } else {

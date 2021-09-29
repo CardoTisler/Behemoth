@@ -1,6 +1,6 @@
 interface Category{
     type: string,
-    category: string,
+    name: string,
     budget: number,
     _id: string
 }

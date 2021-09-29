@@ -19,7 +19,7 @@ export const getDataForGraph = (transactions: Transaction[], expenseCategories: 
 const mapCategoriesToGDO = (expenseCategories: Category[]): graphData => {
     const mappedCategories = expenseCategories.map((category: Category) => {
         return {
-            name: category.category,
+            name: category.name,
             pv: category.budget,
             uv: 0
         }
@@ -34,7 +34,7 @@ const mapTransactionsAmountsToGDO = (transactions: Transaction[], expenseCategor
         if(typeof transaction.category !== 'string'){
             if(transaction.category.type === 'Expense'){
                 const amount = handleAmountFormat(transaction.amount)
-                const categoryKey = transaction.category.category
+                const categoryKey = transaction.category.name
                 
                 for(let i = 0; i < data.length; i++){ //find transactions's category from list of all categories
                     const graphDataObject = data[i]
