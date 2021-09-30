@@ -46,10 +46,6 @@ router.get('/categories/show', async (req: Request, res: Response) => {
     })
 })
 
-//TODO: EDIT (?) (kinda difficult to implement with Material UI. Find better framework?)
-
-//TODO: UPDATE
-
 router.delete('/categories/delete/:id', async (req: Request, res: Response) => {
     await Category.findByIdAndDelete({ _id: req.params.id })
     .then((dbResponse: null) => {

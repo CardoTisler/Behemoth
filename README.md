@@ -23,9 +23,9 @@ This project is currently in development. User can add categories and transactio
     - [x] Working summary elements (Income, Expenses, Budget, Savings)
     - [x] Expense Categories visualization via barchart
     - [ ] Currently stored transactions filtering via Calendar component
-- [ ] Categories
+- [x] Categories
     - [x] Add and store Categories in db
-    - [ ] Store category-transactions relations configuration
+    - [x] category-transactions relations configuration
 - [ ] Transactions
     - [x] Transaction categorizing functionality
     - [x] Multi-add transactions via .csv

@@ -1,9 +1,9 @@
 import { Button, Grid, makeStyles } from "@material-ui/core"
-import { Response } from "express"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { showError } from "src/redux/actions/errorActions"
 import { hideSuccess, showSuccess } from "src/redux/actions/successActions"
 import { loadTransactions } from "src/redux/actions/transactionActions"
+import { RootState } from "src/redux/reducers"
 
 const useStyles = makeStyles({
     button: {
@@ -13,7 +13,6 @@ const useStyles = makeStyles({
 })
 
 const handleCsvExport = async () => {
-    console.log('handled csv')
     await fetch('transactions/export', { //create CSV file based on current items stored in db
         method: 'POST',
         mode: 'cors'
@@ -30,7 +29,7 @@ const handleCsvExport = async () => {
 const CsvButtons = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
-    
+    const transactions = useSelector((state: RootState) => state.transactionReducer)
     const handleFileSelected = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
         e.preventDefault()
         let data = new FormData()
@@ -55,7 +54,7 @@ const CsvButtons = () => {
             } else if (res.status === 500){
                 dispatch(showError(`Uploading CSV file failed.`, res.statusText))
             } else {
-                dispatch(showError(`Unknown error.`, `Error occurred in TransactionsForm.`))
+                dispatch(showError(`Unknown error.`, res.statusText))
             }
         })
     }
@@ -78,8 +77,9 @@ const CsvButtons = () => {
                 </label> 
             </Grid>
             <Grid item xs={1}>
-                <Button //TODO: Make this unclickable if transactions amount 0. Cannot export empty file.
+                <Button
                 variant='contained' 
+                disabled={transactions.length === 0}
                 component='span' 
                 className={classes.button} 
                 onClick={handleCsvExport}>

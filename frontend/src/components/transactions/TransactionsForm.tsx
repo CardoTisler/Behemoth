@@ -7,9 +7,7 @@ import { hideSuccess, showSuccess } from 'src/redux/actions/successActions'
 import { getTransactions, loadTransactions } from 'src/redux/actions/transactionActions'
 import RowDropdown from './RowDropdown'
 
-//TODO: Add single category add functionality
 //TODO: Add integer validation for amount input
-//TODO: Add visual tweaks to the form, make it stand out from the rest (dark blue background between grid elements?)
 const useStyles = makeStyles({
     root: {
         width: '100%',

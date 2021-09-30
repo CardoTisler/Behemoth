@@ -12,10 +12,6 @@ const useStyles = makeStyles({
     }
 })
 
-//TODO: Add onClick event for each list row so the value can be edited. Probably not a good a idea to 
-//send it to the header component. After this event is configured, make sure clicking on the row doesnt 
-//trigger the onDelete event and vice versa - probably have to disable bubbling/catching
-
 interface Props{
     listTitle: string,
     listArr: Category[]

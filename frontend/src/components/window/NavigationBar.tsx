@@ -1,4 +1,3 @@
-//TODO: Remove the red line below button text, appears after clicking on button
 //TODO: Add highlight to currently selected button
 import NavButton from './NavButton'
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,6 +13,9 @@ const useStyles = makeStyles({
         background: 'linear-gradient(180deg , #3f51b5 30%, rgb(0 0 0 / 0%) 100%)',
         height: '80vh',
         width: '10%'
+    },
+    link: {
+        textDecoration: 'none'
     }
 })
 
@@ -28,22 +30,22 @@ const NavigationBar: React.FC<Props> = (props) => {
         <nav className={classes.root}> 
             <Grid container spacing={0}>
                 <Grid item xs={12} md={12}>
-                    <Link to="/">
+                    <Link to="/" className={classes.link}>
                         <NavButton text='Dashboard' icon={<DashboardIcon />} onClick={props.onButtonClick}/>
                     </Link>
                 </Grid>
                 <Grid item xs={12} md={12}>
-                    <Link to="/transactions">
+                    <Link to="/transactions" className={classes.link}>
                         <NavButton text='Transactions' icon={<SyncAltIcon />} onClick={props.onButtonClick}/>
                     </Link>
                 </Grid>
                 <Grid item xs={12} md={12}>
-                    <Link to='/categories'>
+                    <Link to='/categories' className={classes.link} >
                         <NavButton text='Categories' icon={<LocalAtmIcon />} onClick={props.onButtonClick}/>
                     </Link>
                 </Grid>
                 <Grid item xs={12} md={12}>
-                    <Link to='/reports'>
+                    <Link to='/reports' className={classes.link}>
                         <NavButton text='Reports' icon={<BarChartIcon />} onClick={props.onButtonClick}/>
                     </Link>
                 </Grid>
