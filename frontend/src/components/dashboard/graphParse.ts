@@ -8,7 +8,8 @@ interface graphBar{
 
 }
 interface graphData{
-    data: graphBar[]
+    data: graphBar[],
+    error: string | null
 }
 
 export const getDataForGraph = (transactions: Transaction[], expenseCategories: Category[]): graphData => {
@@ -24,7 +25,7 @@ const mapCategoriesToGDO = (expenseCategories: Category[]): graphData => {
             uv: 0
         }
     })
-    return {data: [...mappedCategories]}
+    return {data: [...mappedCategories], error: null}
 }
 
 //GDO = Graph Data Object (each GDO represents a dual-bar value in the dashboard graph)
@@ -46,12 +47,12 @@ const mapTransactionsAmountsToGDO = (transactions: Transaction[], expenseCategor
                 }
             }
         } else {
-            //TODO: Error handling - error thrown if unpopulated transaction arrives.
+            return {data: [], error: 'Cannot map unpopulated Transactions to Dashboard graph.'}
         }
     })
-    return {data}
+    return {data, error: null}
 }
-//TODO: Fix float decimal point in dashboard graph tooltip
+
 const handleAmountFormat = (entry: string | number): number => {
     if(typeof entry === 'string'){
         return parseFloat(Math.abs(parseFloat(entry)).toFixed(2))
