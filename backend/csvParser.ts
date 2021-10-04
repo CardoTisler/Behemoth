@@ -30,40 +30,65 @@ interface parserPayload {
     errorMessage: string | null
 }
 export async function arrayToTransactions(results: string[][]): Promise<parserPayload>{
-    if(results[0][0] === 'date,name,description,amount,category.name,category.type'){
+    if(results[0][5] === 'category.type'){
         return handleExportedCsv(results)
     }
-
-    let transactions: TransactionItem[] = [];
     const headersIndex: Map<string, number> = mapValuesToIndex(results[0])
-    //remove first entry because it contains headerinfo and last because it is a summary row
-    results = results.slice(1, results.length-1)
+    let transactions: TransactionItem[] = [];
+    results = results.slice(1, results.length)
+    
     for (const entry of results){
-        const debitOrCredit: string = entry[headersIndex.get('Deebet/Kreedit')!]
-        let amount: string = debitOrCredit === 'D' ? '-' : '' //if K then its an outgoing transaction, if C then incoming
-        amount = amount.concat(entry[headersIndex.get('Summa')!]).replace(',', '.');
-        
-        const newTransaction: TransactionItem = {
-           // _id: '', //gets defined when inserted to database
-            category: '', //gets defined before inserting to database but not here
-            date: entry[headersIndex.get('Kuupäev')!],
-            name: entry[headersIndex.get('Saaja/Maksja')!].replace(/\s+/g, ' ').trim(),
-            description: entry[headersIndex.get('Selgitus')!].replace(/\s+/g, ' ').trim(),
-            amount,
+        if(entry[headersIndex.get('Reatüüp')!] === '20'){
+            const debitOrCredit: string = entry[headersIndex.get('Deebet/Kreedit')!]
+            let amount: string = debitOrCredit === 'D' ? '-' : '' //if K then its an outgoing transaction, if C then incoming
+            amount = amount.concat(entry[headersIndex.get('Summa')!]).replace(',', '.');
+            
+            const newTransaction: TransactionItem | null = validateDataForTransaction(entry, headersIndex)
+            if(newTransaction !== null){
+                transactions.push(newTransaction)
+            }
         }
-        transactions.push(newTransaction)
+        //if null then dont push to results array.
     }    
+
+    
+    transactions = await addCategoriesToNewTransactions(transactions)
+    .then((transactions) => transactions )
+    .catch((err: Error) => {
+        return err;
+    })
     if(results.length === transactions.length){
-        transactions = await addCategoriesToNewTransactions(transactions).then((transactions) => {
-            return transactions;
-        }).catch((err: Error) => {
-            return err;
-        })
         return {transactions, errorMessage: null}
     } else {
         return {transactions, errorMessage: 'Some data was lost during parsing.'}
     }
 }
+
+const validateDataForTransaction = (array: string[], headersMap: Map<string, number>): TransactionItem | null => {
+    const resultItem: TransactionItem = {date: '', category: '', name: '', description: '', amount: '' }
+    const debitOrCredit: string = array[headersMap.get('Deebet/Kreedit')!]
+    let amount: string = debitOrCredit === 'D' ? '-' : '' //if K then its an outgoing transaction, if C then incoming
+    amount = amount.concat(array[headersMap.get('Summa')!]).replace(',', '.');
+    
+    try{
+        const [day, month, year] = array[headersMap.get('Kuupäev')!].split('.')
+        resultItem.date = new Date(month.concat('.').concat(day).concat('.').concat(year)).toISOString()
+
+        resultItem.name = array[headersMap.get('Saaja/Maksja')!].replace(/\s+/g, ' ').trim()
+        resultItem.description = array[headersMap.get('Selgitus')!].replace(/\s+/g, ' ').trim()
+        
+        resultItem.amount = amount
+
+        return resultItem
+    } catch (err) {
+        //if error then date was not successfully converted
+        return null;
+    }
+
+
+
+}
+
 const handleExportedCsv = async (results: string[][]): Promise<parserPayload> => {
     let transactions: TransactionItem[] = []
     //remove headers
@@ -84,24 +109,23 @@ const handleExportedCsv = async (results: string[][]): Promise<parserPayload> =>
     })
 
     for(const row of results){
-        const entry = row[0].split(',')
         const transaction: TransactionItem = {
-            date: entry[0],
-            name: entry[1],
-            description: entry[2],
-            amount: entry[3],
+            date: row[0],
+            name: row[1],
+            description: row[2],
+            amount: row[3],
             category: ''
         }
-        if(entry[5] === 'Income'){
+        if(row[5] === 'Income'){
             for(const category of incomeCategories){
-                if(category.name === entry[4]){
+                if(category.name === row[4]){
                     transaction.category = category._id
                     break
                 }
             }
-        } else if (entry[5] === 'Expense') {
+        } else if (row[5] === 'Expense') {
             for(const category of expenseCategories){
-                if(category.name === entry[4]){
+                if(category.name === row[4]){
                     transaction.category = category._id
                     break
                 }
@@ -115,7 +139,7 @@ const handleExportedCsv = async (results: string[][]): Promise<parserPayload> =>
     return {transactions, errorMessage}
 }
 const mapValuesToIndex = (headersArray: string[]): Map<string, number> => {
-    const requiredHeaders = ['Kuupäev', 'Saaja/Maksja', 'Selgitus', 'Summa', 'Deebet/Kreedit']
+    const requiredHeaders = ['Reatüüp', 'Kuupäev', 'Saaja/Maksja', 'Selgitus', 'Summa', 'Deebet/Kreedit']
     let map: Map<string, number> = new Map<string, number>();
     for (let i = 0; i < headersArray.length; i++) {
         const header = headersArray[i];
@@ -137,3 +161,5 @@ const addCategoriesToNewTransactions = async (transactions: TransactionItem[]): 
     });
     return transactions;
 }
+
+

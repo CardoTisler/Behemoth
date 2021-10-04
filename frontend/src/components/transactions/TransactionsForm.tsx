@@ -71,7 +71,10 @@ const TransactionsForm: React.FC<any> = () => {
 
     const onSubmit = async (e: any): Promise<void> => {
         e.preventDefault()
-        const newTransaction: Transaction = {date, name, description, amount, category: currentCategoryId}
+        //try to convert to date, if fails, dispatch error and do not continue
+        let convertedDate = new Date(date).toISOString();
+        
+        const newTransaction: Transaction = {date: convertedDate, name, description, amount, category: currentCategoryId}
         try{
             if(validateTransactionData(newTransaction)){
                 await addTransactionToDatabase(newTransaction)
@@ -105,7 +108,7 @@ const TransactionsForm: React.FC<any> = () => {
             onSubmit={onSubmit}>
                 <Grid item xs={2} className={classes.gridItem}>
                     <TextField
-                    label='Date'
+                    label='Date ( DD/MM/YYYY )'
                     name='date'
                     className={classes.field}
                     value={state.date}

@@ -1,8 +1,7 @@
 import {useEffect, useState} from 'react'
 import { useDispatch } from 'react-redux';
-import { showError } from '../redux/actions/errorActions';
 import { Transaction } from '../../@types/TransactionTypes/Transaction';
-import { hideInfo, showInfo } from 'src/redux/actions/infoActions';
+import { showInfo } from 'src/redux/actions/infoActions';
 
 interface fetchReturn {
     transactionsList: Transaction[],
@@ -31,6 +30,9 @@ export const useFetchTransactions = (): fetchReturn => {
         async function fetch(){
             await getData().then( res => {
                     setData([...res.transactionsList])
+                    setData(res.transactionsList.map((transaction: Transaction) => {
+                        return {...transaction, date: new Date(transaction.date).toLocaleDateString()}
+                    }))
                 }).catch((err: Error) => {
                     error = true
                     dispatch(showInfo('Did not find any transactions in the database.'))                

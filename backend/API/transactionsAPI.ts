@@ -6,11 +6,6 @@ import {Transaction as TransactionItem} from '../../frontend/@types/TransactionT
 import {Request, Response } from 'express'
 const stringify = require('csv-stringify')
 
-interface parserPayload {
-    transactions: TransactionItem[],
-    error?: string | null
-}
-
 const multer = require('multer')
 const storage = multer.diskStorage({
     destination: (req: Request, file: any, cb: (ifError: null, fileSavePath: string) => void) => {
@@ -39,20 +34,19 @@ router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: Requ
     let results: any = [];
     if(req.file?.filename){
         results = await parseFromFile('../csvData/', req.file?.filename)
+        .catch((err: Error) => res.json({status: 400, statusText: err.message}))
 
         if(results.length !== 0){
-            const {transactions, errorMessage} = await arrayToTransactions(results);
-            if(errorMessage === null){
-                await Transaction.insertMany(transactions)
-                .then( async () => {
-                    const newItems = await Transaction.find({}).populate('category')
-                    res.json({status: 200, statusText: 'Added new items to database!', newItems})
-                }).catch((err: Error) => {
-                    res.json({status: 400, statusText: err.message})
-                })
-            } else {
-                res.json({status: 400, statusText: errorMessage})
-            }
+            const {transactions, errorMessage} = await arrayToTransactions(results);  
+            console.log(transactions)     
+            await Transaction.insertMany(transactions)
+            .then( async () => {
+                const newItems = await Transaction.find({}).populate('category')
+                res.json({status: 200, statusText: 'Added new items to database!', newItems})
+            }).catch((err: Error) => {
+                res.json({status: 400, statusText: err.message})
+            })
+            
         }
     } else {
         res.json({status: 404, statusText: `Couldn't get filename for parsing.`})
@@ -62,19 +56,18 @@ router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: Requ
  
 router.post('/transactions/export', async (req: Request, res: Response) => {
     await Transaction.find({}).populate('category').then((foundItemsArray: TransactionItem[]) => {
+
         stringify(foundItemsArray, {
             header: true,
-            columns: ['date', 'name', 'description','amount','category.name','category.type']
+            columns: ['date', 'name', 'description','amount','category.name','category.type'],
+            delimiter: ';'
         }, (err: any, output: string) => {
             const filename = 'exported_'+new Date().toISOString().split('T')[0]+'.csv'
             // res.set('Content-Type', 'text/csv')
             // res.setHeader('Content-disposition', 'attachment; filename='+filename)
             res.attachment(filename)
             res.set('filename', filename)
-            const headers = res.getHeaders()
-            console.log(headers.filename)
             res.status(201).send(output)
-            // console.log(res)
         })
     })
 })
