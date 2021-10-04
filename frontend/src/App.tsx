@@ -1,4 +1,4 @@
-import './App.css';
+import "./App.css";
 import {useState, useEffect, SetStateAction} from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Banner from './components/window/Banner'

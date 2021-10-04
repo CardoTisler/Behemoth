@@ -63,11 +63,10 @@ const TransactionsRow: React.FC<Props> = (props) => {
         }
     }
 
-    // FIXME: Most likely creating a new Date object each row is bad practice.
     return (
         <Grid container className={classes.root}>
             <Grid item xs={2}>
-                <p>{new Date(date).toLocaleDateString()}</p> 
+                <p>{date}</p> 
             </Grid>
             <Grid item xs={2}>
                 <p>{name}</p>

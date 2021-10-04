@@ -37,12 +37,11 @@ router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: Requ
         .catch((err: Error) => res.json({status: 400, statusText: err.message}))
 
         if(results.length !== 0){
-            const {transactions, errorMessage} = await arrayToTransactions(results);  
-            console.log(transactions)     
+            const {transactions, errorMessage} = await arrayToTransactions(results);     
             await Transaction.insertMany(transactions)
             .then( async () => {
                 const newItems = await Transaction.find({}).populate('category')
-                res.json({status: 200, statusText: 'Added new items to database!', newItems})
+                res.json({status: 200, statusText: 'Added new items to database!', newItems, errorMessage})
             }).catch((err: Error) => {
                 res.json({status: 400, statusText: err.message})
             })

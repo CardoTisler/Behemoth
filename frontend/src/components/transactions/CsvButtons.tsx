@@ -1,6 +1,7 @@
 import { Button, Grid, makeStyles } from "@material-ui/core"
 import { useDispatch, useSelector } from "react-redux"
 import { showError } from "src/redux/actions/errorActions"
+import { showInfo } from "src/redux/actions/infoActions"
 import { hideSuccess, showSuccess } from "src/redux/actions/successActions"
 import { loadTransactions } from "src/redux/actions/transactionActions"
 import { RootState } from "src/redux/reducers"
@@ -50,6 +51,9 @@ const CsvButtons = () => {
             if(res.status === 200){
                 dispatch(showSuccess(res.statusText))
                 setTimeout(() => {dispatch(hideSuccess())}, 4000);
+                if(res.errorMessage !== null){
+                    dispatch(showInfo(res.errorMessage))
+                }
                 dispatch(loadTransactions(res.newItems))
             } else if (res.status === 500){
                 dispatch(showError(`Uploading CSV file failed.`, res.statusText))
