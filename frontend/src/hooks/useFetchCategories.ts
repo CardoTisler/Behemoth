@@ -1,49 +1,49 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import type { Category, categoryState } from "../../@types/CategoryTypes/category";
+import type { Category } from "../../@types/CategoryTypes/category";
 import { showError } from "../redux/actions/errorActions";
-import { Response } from "express";
 
-const getData = async () => 
-    await fetch('categories/show').then((res) => {
-        return res.json()
-    }).catch((err: Response) => {
-        throw new Error(err.statusMessage)
-    })
-    
+const getData = async () =>
+    await fetch("categories/show")
+        .then((res: any) => {
+            if (res.status === 200) {
+                return res.json();
+            }
+            throw new Error(res.statusText);
+        })
+        .catch((err) => { throw new Error(err.message); } );
+
 interface FetchCategories {
-    allCategories: categoryState, 
-    error: boolean
+    incomeCategories: Category[];
+    expenseCategories: Category[];
+    noneCategory: Category;
+    categoryError: boolean;
 }
 
 export const useFetchCategories = (): FetchCategories => {
     const [incomeCategories, setIncomeCategories] = useState<Category[]>([]);
     const [expenseCategories, setExpenseCategories] = useState<Category[]>([]);
     const [noneCategory, setNoneCategory] = useState<Category>({
-        type: "",
-        name: "",
+        _id: "",
         budget: 0,
-        _id: ""
-    })  
+        name: "",
+        type: "",
+    });
     let error = false;
-    const dispatch = useDispatch()
-    
+    const dispatch = useDispatch();
+
     useEffect( () => {
-        async function fetch(){
-            await getData().then(res => {
-                if(res.status === 200){
-                    setIncomeCategories([...res.incomeCategories])
-                    setExpenseCategories([...res.expenseCategories])
-                    setNoneCategory(res.noneCategory)
-                } else if (res.status === 400){
-                    dispatch(showError(`Error getting categories from database`, res.statusText))
-                    error = true;
-                }
+        async function fetch() {
+            await getData().then((res) => {
+                setIncomeCategories([...res.incomeCategories]);
+                setExpenseCategories([...res.expenseCategories]);
+                setNoneCategory(res.noneCategory);
             }).catch((err: Error) => {
-                dispatch(showError(`Error making API request to database.`, err.message))
-            })
+                error = true;
+                dispatch(showError(`Error making API request to database.`, err.message));
+            });
         }
-        fetch()
-    }, [])
-    return {allCategories:{incomeCategories, expenseCategories, noneCategory}, error};
-}
+        fetch();
+    }, []);
+    return {incomeCategories, expenseCategories, noneCategory, categoryError: error};
+};

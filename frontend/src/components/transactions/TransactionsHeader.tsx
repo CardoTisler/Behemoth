@@ -1,15 +1,15 @@
-import { makeStyles, Grid } from '@material-ui/core'
+import { Grid, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
     root: {
-        border: 'solid',
-        borderWidth: '1px',
-        textAlign: 'center'
-    }
-})
+        border: "solid",
+        borderWidth: "1px",
+        textAlign: "center",
+    },
+});
 
 const TransactionsHeader = () => {
-    const classes = useStyles()
+    const classes = useStyles();
 
     return (
         <div>
@@ -31,7 +31,7 @@ const TransactionsHeader = () => {
                 </Grid>
             </Grid>
         </div>
-    )
-}
+    );
+};
 
-export default TransactionsHeader
+export default TransactionsHeader;

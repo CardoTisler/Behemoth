@@ -1,139 +1,146 @@
-import {Grid, TextField, makeStyles, Button} from '@material-ui/core'
-import { Transaction } from '../../../@types/TransactionTypes/Transaction'
-import React, {useState} from 'react'
-import { useDispatch } from 'react-redux'
-import { showError } from 'src/redux/actions/errorActions'
-import { hideSuccess, showSuccess } from 'src/redux/actions/successActions'
-import { getTransactions, loadTransactions } from 'src/redux/actions/transactionActions'
-import RowDropdown from './RowDropdown'
+import {Button, Grid, makeStyles, TextField} from "@material-ui/core";
+import React, {useState} from "react";
+import { useDispatch } from "react-redux";
+import { showError } from "src/redux/actions/errorActions";
+import { hideSuccess, showSuccess } from "src/redux/actions/successActions";
+import { loadTransactions } from "src/redux/actions/transactionActions";
+import { Transaction } from "../../../@types/TransactionTypes/Transaction";
+import RowDropdown from "./RowDropdown";
 
-//TODO: Add integer validation for amount input
+// TODO: Add integer validation for amount input
 const useStyles = makeStyles({
-    root: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row'
+    gridItem: {
+        padding: "0.5%",
+    }, root: {
+        display: "flex",
+        flexDirection: "row",
+        width: "100%",
     }, field: {
-        width: '100%'
-    }, gridItem: {
-        padding: '0.5%'
+        width: "100%",
     }, button: {
-        width: '100%',
-        height: '100%'
-    }
-})
-//TODO: Add input validation hints to UI.
-const validateTransactionData = (data: Transaction): boolean => { //TODO: Add proper error handling.
-    if(typeof data.name === 'string'){
+        height: "100%",
+        width: "100%",
+    },
+});
+// TODO: Add input validation hints to UI.
+const validateTransactionData = (data: Transaction): boolean => { // TODO: Add proper error handling.
+    if (typeof data.name === "string") {
         return true;
     } else {
         return false;
     }
-}
-
-const addTransactionToDatabase = async (newTransaction: any) => {
-    const response = await fetch('/transactions/new', {
-        method: 'POST',
-        mode:'cors',
+};
+// FIXME: Figure out how the Promise<T> system works and implement proper types.
+const addTransactionToDatabase = async (newTransaction: any): Promise<any> => {
+    await fetch("/transactions/new", {
+        body: JSON.stringify(newTransaction),
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
         },
-        body: JSON.stringify(newTransaction)
-    })
-    return response
-}
-const TransactionsForm: React.FC<any> = () => {
-    const dispatch = useDispatch()
-    const [state, setState] = useState({
-        date: '',
-        name: '',
-        description: '',
-        amount: ''
-    })
-    const {date, name, description, amount} = state;
-    const [currentCategoryId, setCurrentCategoryId] = useState('0')
+        method: "POST",
+        mode: "cors",
+    }).then((res) => {
+            if (res.status === 200) {
+                return res.json();
+            }
+            throw new Error(res.statusText);
+        }).catch((err: Error) => {
+            throw new Error(err.message);
+        });
+};
 
-    const classes = useStyles()
+const TransactionsForm: React.FC<any> = () => {
+    const dispatch = useDispatch();
+    const [state, setState] = useState({
+        amount: "",
+        date: "",
+        description: "",
+        name: "",
+    });
+    const {date, name, description, amount} = state;
+    const [currentCategoryId, setCurrentCategoryId] = useState("0");
+
+    const classes = useStyles();
 
     const handleInput = (e: { target: { name: string; value: string } }) => {
         setState({
             ...state,
-            [e.target.name]: e.target.value
-        })
-    }
+            [e.target.name]: e.target.value,
+        });
+    };
 
     const handleChange = (e: any): void => {
-        if(e.target !== null){
+        if (e.target !== null) {
             const newCategoryId = e.target.value;
-            setCurrentCategoryId(newCategoryId)
+            setCurrentCategoryId(newCategoryId);
         }
-    }
+    };
 
     const onSubmit = async (e: any): Promise<void> => {
-        e.preventDefault()
-        //try to convert to date, if fails, dispatch error and do not continue
-        let convertedDate = new Date(date).toISOString();
-        
-        const newTransaction: Transaction = {date: convertedDate, name, description, amount, category: currentCategoryId}
-        try{
-            if(validateTransactionData(newTransaction)){
+        e.preventDefault();
+        const convertedDate = new Date(date).toISOString();
+        const newTransaction: Transaction = {
+            amount,
+            category: currentCategoryId,
+            date: convertedDate,
+            description,
+            name,
+        };
+        try {
+            if (validateTransactionData(newTransaction)) {
                 await addTransactionToDatabase(newTransaction)
-                .then((res: any) => res.json())
-                .then(res => {
-                    if(res.status === 200){
-                        dispatch(showSuccess(res.statusText))
-                        dispatch(loadTransactions([{...newTransaction}]))
-                        setTimeout(() => {dispatch(hideSuccess())}, 4000);
+                .then((res) => {
+                        dispatch(showSuccess(res.statusText));
+                        dispatch(loadTransactions([{...newTransaction}]));
+                        setTimeout(() => {dispatch(hideSuccess()); }, 4000);
 
-                        setState({name: '', description: '', amount: '', date:''})
-                        setCurrentCategoryId('0')
-                        
-                    } else if (res.status === 400){
-                        dispatch(showError(res.statusText, res.message))
-                    }
-                })
+                        setState({name: "", description: "", amount: "", date: ""});
+                        setCurrentCategoryId("0");
+                }).catch((err: Error) => {
+                        dispatch(showError(`Could not add new transaction to database`, err.message));
+                });
             } else {
-                throw new Error('Inserted data has wrong format!')
+                throw new Error("Inserted data has wrong format!");
             }
-        } catch (err: any){
-            dispatch(showError(`Cannot add new transaction.`, err.message))
+        } catch (err: any) {
+            dispatch(showError(`Cannot add new transaction.`, err.message));
         }
-    }
+    };
 
     return (
         <Grid container spacing={2}>
-            <form 
-            encType="multipart/form-data" //required for Multer middleware to work.
+            <form
+            encType="multipart/form-data" // required for Multer middleware to work.
             className={classes.root}
             onSubmit={onSubmit}>
                 <Grid item xs={2} className={classes.gridItem}>
                     <TextField
-                    label='Date ( DD/MM/YYYY )'
-                    name='date'
+                    label="Date ( DD/MM/YYYY )"
+                    name="date"
                     className={classes.field}
                     value={state.date}
                     onChange={handleInput} />
                 </Grid>
                 <Grid item xs={2} className={classes.gridItem}>
                     <TextField
-                        label='Name'
-                        name='name'
+                        label="Name"
+                        name="name"
                         className={classes.field}
                         value={state.name}
                         onChange={handleInput} />
                 </Grid>
                 <Grid item xs={5} className={classes.gridItem}>
                     <TextField
-                        label='Description'
-                        name='description'
+                        label="Description"
+                        name="description"
                         className={classes.field}
                         value={state.description}
                         onChange={handleInput} />
                 </Grid>
                 <Grid item xs={1} className={classes.gridItem}>
                     <TextField
-                        label='Amount'
-                        name='amount'
+                        label="Amount"
+                        name="amount"
                         className={classes.field}
                         value={state.amount}
                         onChange={handleInput} />
@@ -144,14 +151,14 @@ const TransactionsForm: React.FC<any> = () => {
                 <Grid item xs={1} className={classes.gridItem}>
                     <Button
                     className={classes.button}
-                    type='submit'
-                    variant='contained'
-                    color='primary'
+                    type="submit"
+                    variant="contained"
+                    color="primary"
                     >Add</Button>
                 </Grid>
             </form>
         </Grid>
-    )
-}
+    );
+};
 
-export default TransactionsForm
+export default TransactionsForm;

@@ -3,6 +3,20 @@ import { useDispatch } from "react-redux";
 import { showInfo } from "src/redux/actions/infoActions";
 import { Transaction } from "../../@types/TransactionTypes/Transaction";
 
+/**
+ * Requests all transactions from database and then evaluates response based on response statusCode
+ * If statuscode = 200 then it returns response, if statuscode is anything else (typically 400) then it throws an error
+ */
+const getData = async (): Promise<any> =>
+    await fetch("transactions/show")
+        .then((res) => {
+            if (res.status === 200) {
+                return res.json();
+            }
+            throw new Error(res.statusText);
+        })
+        .catch((err) => { throw new Error(err.message); });
+
 interface fetchReturn {
     transactionsList: Transaction[];
     error: boolean;
@@ -16,19 +30,6 @@ export const useFetchTransactions = (): fetchReturn => {
     const dispatch = useDispatch();
     const [data, setData] = useState<Transaction[]>([]);
     let error = false;
-    console.log("fetching transactions");
-    const getData = async (): Promise<any> =>
-        await fetch("transactions/show")
-            .then((res) => {
-                if (res.status === 200) {
-                    return res.json();
-                } else if (res.status === 400) {
-                    throw new Error(res.statusText);
-                }
-            })
-            .catch((err) => {
-                throw new Error(err.message);
-            });
 
     useEffect( () => {
         async function fetch() {

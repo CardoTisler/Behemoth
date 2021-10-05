@@ -1,26 +1,26 @@
-import {useSelector, useDispatch} from 'react-redux'
-import {Alert, AlertTitle} from '@material-ui/lab'
-import { IconButton } from '@material-ui/core'
-import { hideError } from '../../redux/actions/errorActions'
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import {RootState} from '../../redux/reducers/index'
+import { IconButton } from "@material-ui/core";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import {Alert, AlertTitle} from "@material-ui/lab";
+import {useDispatch, useSelector} from "react-redux";
+import { hideError } from "../../redux/actions/errorActions";
+import {RootState} from "../../redux/reducers";
 
 const ErrorToolbar = () => {
-    const dispatch = useDispatch()
-    const {showError, message, title} = useSelector((state: RootState) => state.errorReducer)
+    const dispatch = useDispatch();
+    const {showError, message, title} = useSelector((state: RootState) => state.errorReducer);
 
     return (
         <>
-        {showError && 
-            <Alert 
-            severity='error'
+        {showError &&
+            <Alert
+            severity="error"
             action={
                 <IconButton
-                aria-label='close'
-                color='inherit'
-                size='small'
+                aria-label="close"
+                color="inherit"
+                size="small"
                 onClick={() => {
-                    dispatch(hideError())
+                    dispatch(hideError());
                 }}>
                     <HighlightOffIcon />
                 </IconButton>
@@ -30,7 +30,7 @@ const ErrorToolbar = () => {
             </Alert>
         }
         </>
-    )
-}
+    );
+};
 
-export default ErrorToolbar
+export default ErrorToolbar;

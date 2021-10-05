@@ -37,13 +37,11 @@ function App() {
   const handleBannerText = (componentName: string) => { setBannerTitle(componentName); };
 
   const dispatch = useDispatch();
-  const fetchData = useFetchCategories();
-  const {incomeCategories, expenseCategories, noneCategory} = fetchData.allCategories;
+  const {incomeCategories, expenseCategories, noneCategory, categoryError} = useFetchCategories();
   const {transactionsList, error} = useFetchTransactions();
-  const categoriesError = fetchData.error;
 
   useEffect( () => {
-      if (!categoriesError && !error) {
+      if (!categoryError && !error) {
         dispatch(loadCategories({
           expenseCategories,
           incomeCategories,

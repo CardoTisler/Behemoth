@@ -1,9 +1,9 @@
+import {Transaction as TransactionItem} from '../../frontend/@types/TransactionTypes/Transaction'
+import {Request, Response } from 'express'
 const express = require('express')
 const router = express.Router();
 const Transaction = require('../models/transaction')
 const {parseFromFile, arrayToTransactions} = require('../csvParser');
-import {Transaction as TransactionItem} from '../../frontend/@types/TransactionTypes/Transaction'
-import {Request, Response } from 'express'
 const stringify = require('csv-stringify')
 
 const multer = require('multer')
@@ -20,10 +20,10 @@ const upload = multer({storage: storage})
 router.post('/transactions/new', async (req: Request, res: Response) => {
     const newTransaction = req.body
     Transaction.insertMany([newTransaction])
-    .then((newTransaction: TransactionItem) => {
-        res.json({status: 200, statusText: 'Added new transaction.'})
+    .then(() => {
+        res.status(200).send({statusText: 'Added new transaction'})
     }).catch((err: Error) => {
-        res.json({status: 400, statusText: 'Database error when trying to add new transaction', message: err.message})
+        res.status(400).send({statusText: 'Database error when trying to add new transaction', message: err.message})
     })
 })
 
@@ -34,21 +34,21 @@ router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: Requ
     let results: any = [];
     if(req.file?.filename){
         results = await parseFromFile('../csvData/', req.file?.filename)
-        .catch((err: Error) => res.json({status: 400, statusText: err.message}))
+        .catch((err: Error) => res.status(400).send({statusText: err.message}))
 
         if(results.length !== 0){
             const {transactions, errorMessage} = await arrayToTransactions(results);     
             await Transaction.insertMany(transactions)
             .then( async () => {
                 const newItems = await Transaction.find({}).populate('category')
-                res.json({status: 200, statusText: 'Added new items to database!', newItems, errorMessage})
+                res.status(200).send({statusText: 'Added new items to database!', newItems, errorMessage})
             }).catch((err: Error) => {
-                res.json({status: 400, statusText: err.message})
+                res.status(400).send({statusText: err.message})
             })
             
         }
     } else {
-        res.json({status: 404, statusText: `Couldn't get filename for parsing.`})
+        res.status(404).send({statusText: `Couldn't get filename for parsing.`})
     }
     
 })
@@ -71,16 +71,18 @@ router.post('/transactions/export', async (req: Request, res: Response) => {
     })
 })
 
-router.get('/transactions/show', async (req: Request, res: Response) => 
-await Transaction.find({}).populate('category').then((foundItemsArray: TransactionItem[]) => {
-    if (foundItemsArray.length === 0) {
-        res.json({status: 400, statusText: 'Did not find any transactions.'})
-    } else {
-        res.json({status: 200, transactionsList: [...foundItemsArray]})
-    }
-}).catch((err: any) => {
-    res.json({ status: 400, statusMessage: err.message });
-}))
+router.get('/transactions/show', async (req: Request, res: Response) => {
+    await Transaction.find({}).populate('category').then((foundItemsArray: TransactionItem[]) => {
+        if (foundItemsArray.length === 0) {
+            res.status(400).send({statusText: 'Did not find any transactions.'})
+        } else {
+            res.status(200).send({transactionsList: [...foundItemsArray]})
+        }
+    }).catch((err: any) => {
+        res.status(400).send({statusMessage: err.message });
+    })
+})
+
 
 router.put('/transactions/update/:id', async (req: Request, res: Response) => {
     const transactionId: string = req.params.id
@@ -92,34 +94,33 @@ router.put('/transactions/update/:id', async (req: Request, res: Response) => {
         const name = transaction.name
         await Transaction.updateMany({name}, {$set: {category: newCategoryId}})
         .then( () => {
-            res.json({status: 200, statusText: `Transactions' update successful.`})
+            res.status(200).send({statusText: `Transactions' update successful.`})
         }).catch((err: any) => {
-            res.status(400).json({status: 400, statusText: err.message})
+            res.status(400).json({statusText: err.message})
         })
     }).catch((err: any) => {
-        res.json({status: 404, statusText: err.message})
+        res.status(404).send({statusText: err.message})
     })
 })
 
 router.put('/transactions/updatecategories/:id', async(req: Request, res: Response) => {
     const oldCategoryId = req.params.id
     const { newCategoryId } = req.body
-    req
     await Transaction.updateMany({category: oldCategoryId}, {$set: {category: newCategoryId}})
     .then(() => {
-        res.json({status: 200})
+        res.status(200)
     })
     .catch((err: any) => {
-        res.json({status: 400, statusText: err.message})
+        res.status(400).send({statusText: err.message})
     })
 })
 
 router.delete('transactions/delete/:id', async (req: Request, res: Response) => {
     const removedItemId = req.params.id;
     Transaction.remove({_id: removedItemId}).then(() => {
-        res.json({status: 200, statusText: 'Item deleted.'})
+        res.status(200).send({statusText: 'Item deleted.'})
     }).catch((err: Error) => {
-        res.json({status: 400, statusText: 'Item deletion failed.'})
+        res.status(400).send({statusText: 'Item deletion failed.'})
     })
 })
 module.exports = router;

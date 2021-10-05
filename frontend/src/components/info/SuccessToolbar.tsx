@@ -1,28 +1,28 @@
-import {useDispatch, useSelector} from 'react-redux'
-import {Alert} from '@material-ui/lab'
-import { IconButton } from '@material-ui/core'
-import { hideSuccess } from '../../redux/actions/successActions'
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import CheckIcon from '@material-ui/icons/Check'
-import {RootState} from '../../redux/reducers/index'
+import { IconButton } from "@material-ui/core";
+import CheckIcon from "@material-ui/icons/Check";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import {Alert} from "@material-ui/lab";
+import {useDispatch, useSelector} from "react-redux";
+import { hideSuccess } from "../../redux/actions/successActions";
+import {RootState} from "../../redux/reducers";
 
 const SuccessToolbar: React.FC = () => {
-    const dispatch = useDispatch()
-    const {showSuccess, message} = useSelector((state: RootState) => state.successReducer)
+    const dispatch = useDispatch();
+    const {showSuccess, message} = useSelector((state: RootState) => state.successReducer);
 
     return (
         <>
-        {showSuccess && 
+        {showSuccess &&
             <Alert
-            icon={<CheckIcon fontSize='inherit'/>}
-            severity='success'
+            icon={<CheckIcon fontSize="inherit"/>}
+            severity="success"
             action={
                 <IconButton
-                aria-label='close'
-                color='inherit'
-                size='small'
+                aria-label="close"
+                color="inherit"
+                size="small"
                 onClick={() => {
-                    dispatch(hideSuccess())
+                    dispatch(hideSuccess());
                 }}>
                     <HighlightOffIcon />
                 </IconButton>
@@ -31,7 +31,7 @@ const SuccessToolbar: React.FC = () => {
             </Alert>
         }
         </>
-    )
-}
+    );
+};
 
-export default SuccessToolbar
+export default SuccessToolbar;

@@ -1,88 +1,88 @@
-import { makeStyles, ListItem, ListItemText, Button } from '@material-ui/core'
-import DeleteIcon from '@material-ui/icons/Delete'
-import { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { deleteCategory } from '../../redux/actions/categoryActions'
-import { showError } from '../../redux/actions/errorActions'
-import { hideSuccess, showSuccess } from '../../redux/actions/successActions'
-import type { Category } from '../../../@types/CategoryTypes/category'
-import {RootState} from '../../redux/reducers/index'
+import { Button, ListItem, ListItemText, makeStyles } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import type { Category } from "../../../@types/CategoryTypes/category";
+import { deleteCategory } from "../../redux/actions/categoryActions";
+import { showError } from "../../redux/actions/errorActions";
+import { hideSuccess, showSuccess } from "../../redux/actions/successActions";
+import {RootState} from "../../redux/reducers";
 
 const useStyles = makeStyles({
     display: {
-        display: 'flex'
+        display: "flex",
     }, dontDisplay: {
-        display: 'none'
-    }
-})
+        display: "none",
+    },
+});
 
 const removeFromDatabase = async (url: string) => {
     await fetch(url, {
-        method: 'DELETE',
-        mode: 'cors',
+        method: "DELETE",
+        mode: "cors",
         headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(res => {
-        
-        if (res.status === 200){
-            return res
-        } else if(res.status === 404 || res.status === 400){
-            throw new Error(res.statusText)
+            "Content-Type": "application/json",
+        },
+    }).then((res) => {
+
+        if (res.status === 200) {
+            return res;
+        } else if (res.status === 404 || res.status === 400) {
+            throw new Error(res.statusText);
         } else {
-            throw new Error(`Couldn't read server response.`)
+            throw new Error(`Couldn't read server response.`);
         }
-    })
-}
+    });
+};
 
 const updateTransactionCategories = async (newCategoryId: string, oldCategoryId: string) => {
-    await fetch('/transactions/updatecategories/'.concat(oldCategoryId), {
-        method: 'PUT',
-        mode: 'cors',
+    await fetch("/transactions/updatecategories/".concat(oldCategoryId), {
+        method: "PUT",
+        mode: "cors",
         headers: {
-            'Content-Type':'application/json'
+            "Content-Type": "application/json",
         },
-        body: JSON.stringify({newCategoryId})
-    }).then((res) => { 
-        if(res.status !== 200){
-            throw new Error(res.statusText)
+        body: JSON.stringify({newCategoryId}),
+    }).then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.statusText);
         }
-    }).catch(err => {
-        throw new Error(err.message)
-    })
-}
+    }).catch((err) => {
+        throw new Error(err.message);
+    });
+};
 
-interface Props{
-    element: Category,
-    key: string //for React list rendering purposes
+interface Props {
+    element: Category;
+    key: string; // for React list rendering purposes
 }
 
 const ListRow: React.FC<Props> = (props) => {
     const classes = useStyles();
-    const [showButton, setShowButton] = useState(false)
-    const dispatch = useDispatch()
-    const {name, _id} = props.element
-    const { noneCategory } = useSelector((state: RootState) => state.categoryReducer)
-    
+    const [showButton, setShowButton] = useState(false);
+    const dispatch = useDispatch();
+    const {name, _id} = props.element;
+    const { noneCategory } = useSelector((state: RootState) => state.categoryReducer);
+
     const handleElementDelete = async () => {
-        await removeFromDatabase('/categories/delete/'.concat(_id)).then( async () => {
-            dispatch(deleteCategory(_id))
-            
+        await removeFromDatabase("/categories/delete/".concat(_id)).then( async () => {
+            dispatch(deleteCategory(_id));
+
             await updateTransactionCategories(noneCategory._id, _id)
             .then(() => {
-                dispatch(showSuccess(`Item deleted and transactions updated!`))
-                setTimeout(() => {dispatch(hideSuccess())}, 4000)
+                dispatch(showSuccess(`Item deleted and transactions updated!`));
+                setTimeout(() => {dispatch(hideSuccess()); }, 4000);
             })
-            .catch(err => {
-                dispatch(showError(`Could not change transactions' category to NONE`, err.message))
-            })
-            //deleting category successful - find all transactions that had this category and
-            //switch their linked category id to the NONE category id  
-        }).catch(err => dispatch(showError(`Could not delete element.`, err.message)))
-    }
-    
+            .catch((err) => {
+                dispatch(showError(`Could not change transactions' category to NONE`, err.message));
+            });
+            // deleting category successful - find all transactions that had this category and
+            // switch their linked category id to the NONE category id
+        }).catch((err) => dispatch(showError(`Could not delete element.`, err.message)));
+    };
+
     return (
-        <ListItem button 
+        <ListItem button
         onMouseEnter={() => setShowButton(true)}
         onMouseLeave={() => setShowButton(false)}>
             <ListItemText primary={name}/>
@@ -96,9 +96,7 @@ const ListRow: React.FC<Props> = (props) => {
                 Delete
                 </Button>
 
-        </ListItem>)
-}
+        </ListItem>);
+};
 
-
-
-export default ListRow
+export default ListRow;

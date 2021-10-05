@@ -1,15 +1,14 @@
 import {addDays} from "date-fns/esm";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {DateRangePicker} from "react-date-range";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { changeDateRange } from "src/redux/actions/dateFilterActions";
-import { RootState } from "src/redux/reducers";
 import {Transaction, TransactionState} from "../../../@types/TransactionTypes/Transaction";
+import {useFetchTransactions} from "../../hooks/useFetchTransactions";
 import useUpdateEffect from "../../hooks/useUpdateEffect";
 import {loadTransactions} from "../../redux/actions/transactionActions";
-import {useFetchTransactions} from "../../hooks/useFetchTransactions";
 
 /**
  * Predicate function that checks if given transactiondate is in between startDate and endDate

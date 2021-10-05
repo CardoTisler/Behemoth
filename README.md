@@ -19,10 +19,10 @@ MongoDB
 This project is currently in development. User can add categories and transactions, but currently has to delete transactions via MongoDB Shell.
 
 #### Future functionality roadmap
-- [ ] Dashboard (based on currrently stored transactions)
+- [x] Dashboard (based on currrently stored transactions)
     - [x] Working summary elements (Income, Expenses, Budget, Savings)
     - [x] Expense Categories visualization via barchart
-    - [ ] Currently stored transactions filtering via Calendar component
+    - [x] Currently stored transactions filtering via Calendar component
 - [x] Categories
     - [x] Add and store Categories in db
     - [x] category-transactions relations configuration

@@ -1,38 +1,47 @@
-import {Transaction, Payload, Action} from '../../../@types/TransactionTypes/Transaction'
+import {Action, Payload, Transaction} from "../../../@types/TransactionTypes/Transaction";
 
 const payload: Payload = {
-    transactionName: '',
-    newCategoryId: '',
-    allTransactions: []
-}
+    allTransactions: [],
+    newCategoryId: "",
+    transactionName: "",
+};
 
-
+/**
+ * Returns the current transactions state.
+ */
 export const getTransactions = (): Action => {
     return {
-        type: 'GET_TRANSACTIONS',
-        payload: {...payload}
-    }
-}
+        type: "GET_TRANSACTIONS",
+        payload: {...payload},
+    };
+};
 
-//transactionIdentifier - name field of transactions that we want to change
-//newCategoryId - id of the new category that was applied to the corresponding transactions
+// transactionIdentifier - name field of transactions that we want to change
+// newCategoryId - id of the new category that was applied to the corresponding transactions
+/**
+ * @param transactionName Name of transactions' we want to change. Matches against every record in database.
+ * @param newCategoryId _id of the Category record that we want to apply to the chosen transactions.
+ */
 export const updateTransactionsCategory = (transactionName: string, newCategoryId: string): Action => {
     return {
-        type: 'UPDATE_TRANSACTIONS_CAT',
+        type: "UPDATE_TRANSACTIONS_CAT",
         payload: {
             ...payload,
             transactionName,
-            newCategoryId
-        }
-    }
-}
-
+            newCategoryId,
+        },
+    };
+};
+/**
+ * Add new transactions to the state.
+ * @param allTransactions Array of transaction objects that we want to add to the state.
+ */
 export const loadTransactions = (allTransactions: Transaction[]): Action => {
     return {
-        type: 'LOAD_TRANSACTIONS',
+        type: "LOAD_TRANSACTIONS",
         payload: {
             ...payload,
-            allTransactions
-        }
-    }
-}
+            allTransactions,
+        },
+    };
+};

@@ -1,19 +1,19 @@
-interface Action{
-    type: string,
-    payload: Payload
+interface Action {
+    type: string;
+    payload: Payload;
 }
 
-interface Payload{
-    message: string
+interface Payload {
+    message: string;
 }
 
 interface successState {
-    showSuccess: boolean,
-    message: string | null
+    showSuccess: boolean;
+    message: string | null;
 }
 
 export type {
     Action,
     Payload,
-    successState
-}
+    successState,
+};
