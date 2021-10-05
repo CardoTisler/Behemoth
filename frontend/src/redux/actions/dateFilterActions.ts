@@ -1,8 +1,8 @@
-import { DateFilterAction, DateFilterPayload } from '../reducers/dateFilterReducer'
+import { DateFilterAction, DateFilterState } from "../reducers/dateFilterReducer"
 
-export const changeDateRange = (payload: DateFilterPayload): DateFilterAction => {
+export const changeDateRange = (payload: DateFilterState): DateFilterAction => {
     return {
-        type: 'CHANGE_DATERANGE',
-        payload
-    }
-}
+        payload,
+        type: "CHANGE_DATERANGE",
+    };
+};

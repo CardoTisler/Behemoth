@@ -1,16 +1,49 @@
-import "react-date-range/dist/styles.css"; // main style file
-import "react-date-range/dist/theme/default.css"; // theme css file
-import {DateRangePicker, OnDateRangeChangeProps} from "react-date-range";
 import {addDays} from "date-fns/esm";
 import { useEffect, useState } from "react";
+import {DateRangePicker} from "react-date-range";
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css"; // theme css file
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from 'src/redux/reducers';
-import { changeDateRange } from 'src/redux/actions/dateFilterActions';
+import { changeDateRange } from "src/redux/actions/dateFilterActions";
+import { RootState } from "src/redux/reducers";
+import {Transaction, TransactionState} from "../../../@types/TransactionTypes/Transaction";
+import useUpdateEffect from "../../hooks/useUpdateEffect";
+import {loadTransactions} from "../../redux/actions/transactionActions";
+import {useFetchTransactions} from "../../hooks/useFetchTransactions";
+
+/**
+ * Predicate function that checks if given transactiondate is in between startDate and endDate
+ * @param transactionDate Date of transaction in milliseconds.
+ * @param startDate Daterange beginning date in milliseconds.
+ * @param endDate Daterange enddate in milliseconds.
+ * @return boolean startDate <= transactionDate <= endDate
+ */
+function isInDateRange(transactionDate: string, startDate: number, endDate: number): boolean {
+    const transactionDateMs = new Date(transactionDate).getTime();
+    if (startDate <= transactionDateMs && transactionDateMs <= endDate) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * @param transactions Array of all transaction objects
+ * @param startDate Date object that represents the start of specified daterange
+ * @param endDate Date object that  represents the end of specified daterange
+ * @return array Returns an array of transactions with transaction.date between specified daterange.
+ */
+function filterTransactions(transactions: TransactionState, startDate: Date, endDate: Date) {
+    const startDateMs = startDate.getTime();
+    const endDateMs = endDate.getTime();
+    return transactions
+        .filter((transaction: Transaction) =>
+            isInDateRange(transaction.date, startDateMs, endDateMs));
+}
 
 const DateFilter: React.FC = () => {
     const dispatch = useDispatch();
-    // const ranges: any = useSelector((state: RootState) => state.dateFilterReducer)
-    // console.log(ranges)
+    const {transactionsList, error} = useFetchTransactions();
+
     const [state, setState] = useState([
         {
             endDate: addDays(new Date(), 7),
@@ -19,9 +52,14 @@ const DateFilter: React.FC = () => {
         },
     ]);
 
-    useEffect(() => {
-        console.log("Do nothing.");
-    }, [state]);
+    useUpdateEffect(() => {
+        if (!error) {
+            const {endDate, startDate} = state[0];
+            dispatch(changeDateRange(state[0]));
+            const transactions = filterTransactions(transactionsList, startDate, endDate);
+            dispatch(loadTransactions(transactions));
+        }
+    }, [dispatch, state]);
 
     return (
         <DateRangePicker
