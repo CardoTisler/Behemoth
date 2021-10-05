@@ -1,17 +1,18 @@
 import { Category } from "../../../@types/CategoryTypes/category";
-import { showError } from "src/redux/actions/errorActions";
 import { Transaction } from "../../../@types/TransactionTypes/Transaction";
 
 interface summarizeTransactions {
     income: string,
     expenses: string,
-    savings: string
+    savings: string,
+    error: null | string
 }
 interface summarizedData {
     income: string,
     expenses: string,
     budget: string,
-    savings: string
+    savings: string,
+    error: null | string
 }
 //income is the sum of all transactions that have category type Income
 //expenses is the sum of all transactions that have category type Expense
@@ -36,7 +37,7 @@ const parseTransactionAmounts = (transactions: Transaction[]): summarizeTransact
                     return;
                 }
         } else {
-            //TODO: Add error handling here. Error is caused by unpopulated transactions.
+            return {income: '', expenses: '', savings: '', error: 'Can not work with unpopulated Transactions.'}
         }
     })
 
@@ -44,7 +45,8 @@ const parseTransactionAmounts = (transactions: Transaction[]): summarizeTransact
     return {
         income: income.toFixed(2).concat('€'),
         expenses: expenses.toFixed(2).concat('€'),
-        savings: savings.toFixed(2).concat('€')
+        savings: savings.toFixed(2).concat('€'),
+        error: null
     }
 }
 
@@ -68,14 +70,19 @@ function handleExpenseTransaction(transaction: Transaction) {
 }
 
 export const getSummaryData = (transactions: Transaction[], expenseCategories: Category[]): summarizedData => {
-    const {income, expenses, savings} = parseTransactionAmounts(transactions)
+    const {income, expenses, savings, error} = parseTransactionAmounts(transactions)
     const {budgetTotal} = parseExpenseCategories(expenseCategories)
     const budget = expenses + '/' + budgetTotal
-    return {
-        income,
-        expenses,
-        savings,
-        budget
+    if(!error){
+        return {
+            income,
+            expenses,
+            savings,
+            budget,
+            error: null
+        }
+    } else {
+        return {income, expenses, savings, budget, error}
     }
 }
 

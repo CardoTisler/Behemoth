@@ -33,11 +33,11 @@ interface Props{
     data: Transaction
 }
 const TransactionsRow: React.FC<Props> = (props) => {
-    const {date, name, description, amount, category, _id} = props.data;
+    let {date, name, description, amount, category, _id} = props.data;
     const classes = useStyles()
     const [currentCategoryId, setCurrentCategoryId] = useState("0");
     const dispatch = useDispatch();
-
+    
     useEffect(() => {
         if(typeof category != 'string'){
             setCurrentCategoryId(category._id)
@@ -62,10 +62,11 @@ const TransactionsRow: React.FC<Props> = (props) => {
           })
         }
     }
+
     return (
         <Grid container className={classes.root}>
             <Grid item xs={2}>
-                <p>{date}</p>
+                <p>{date}</p> 
             </Grid>
             <Grid item xs={2}>
                 <p>{name}</p>

@@ -6,9 +6,10 @@ import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import { RootState } from 'src/redux/reducers';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Transaction } from '../../../@types/TransactionTypes/Transaction';
 import {getSummaryData} from './summaryParse'
+import { showError } from 'src/redux/actions/errorActions';
 
 const useStyles = makeStyles({
     root: {
@@ -23,8 +24,10 @@ const SummaryPanels: React.FC = () => {
     const classes = useStyles();
     const transactions: Transaction[] = useSelector((state: RootState) => state.transactionReducer)
     const expenseCategories = useSelector((state: RootState) => state.categoryReducer.expenseCategories)
+    const dispatch = useDispatch()
+    const {income, expenses, budget, savings, error} = getSummaryData(transactions, expenseCategories)
     
-    const {income, expenses, budget, savings} = getSummaryData(transactions, expenseCategories)
+    if(error){ dispatch(showError(`Can not get data for Summary panels.`, error)) }
     
     return (
         <Grid container spacing={3} className={classes.root}>
