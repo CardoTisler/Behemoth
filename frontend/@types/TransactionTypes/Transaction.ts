@@ -1,6 +1,6 @@
 import {Category} from "../CategoryTypes/category";
 
-interface ITransaction {
+interface Transaction {
     _id?: string;
     date: string;
     name: string;
@@ -12,7 +12,7 @@ interface ITransaction {
 interface ITransactionPayload {
     transactionName?: string;
     newCategoryId?: string;
-    allTransactions: ITransaction[];
+    allTransactions: Transaction[];
 }
 
 interface ITransactionAction {
@@ -20,10 +20,10 @@ interface ITransactionAction {
     payload: ITransactionPayload;
 }
 
-interface ITransactionState extends Array<ITransaction> { }
+interface ITransactionState extends Array<Transaction> { }
 
 export type {
-    ITransaction,
+    Transaction,
     ITransactionPayload,
     ITransactionAction,
     ITransactionState,

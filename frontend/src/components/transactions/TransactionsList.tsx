@@ -1,18 +1,21 @@
 import {Grid} from "@material-ui/core";
 import { useSelector } from "react-redux";
-import { ITransaction } from "../../../@types/TransactionTypes/ITransaction";
+import { Transaction } from "../../../@types/TransactionTypes/Transaction";
 import { RootState } from "../../redux/reducers";
 import TransactionsHeader from "./TransactionsHeader";
 import TransactionsRow from "./TransactionsRow";
+import {useState} from "react";
 
 const TransactionsList = () => {
     const transactionsList = useSelector(({transactionReducer}: RootState) => transactionReducer);
+    const [isChecked, setIsChecked] = useState(false);
     const renderRows = () => {
-        return(transactionsList.map((element: ITransaction)  => {
+        return(transactionsList.map((element: Transaction)  => {
             return(
                 <Grid item xs={12} key={element._id}>
                     <TransactionsRow
-                    data={element}/>
+                    data={element}
+                    isAllChecked={isChecked}/>
                 </Grid> );
         }));
     };
@@ -20,7 +23,8 @@ const TransactionsList = () => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
-                <TransactionsHeader />
+                <TransactionsHeader
+                checkAll={setIsChecked}/>
             </Grid>
 
             {renderRows()}

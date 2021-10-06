@@ -1,5 +1,5 @@
 import { Category } from "../../../@types/CategoryTypes/category";
-import { ITransaction } from "../../../@types/TransactionTypes/ITransaction";
+import { Transaction } from "../../../@types/TransactionTypes/Transaction";
 
 interface graphBar {
     name: string;
@@ -12,7 +12,7 @@ interface graphData {
     error: string | null;
 }
 
-export const getDataForGraph = (transactions: ITransaction[], expenseCategories: Category[]): graphData => {
+export const getDataForGraph = (transactions: Transaction[], expenseCategories: Category[]): graphData => {
     return mapTransactionsAmountsToGDO(transactions, expenseCategories);
 };
 
@@ -29,9 +29,9 @@ const mapCategoriesToGDO = (expenseCategories: Category[]): graphData => {
 };
 
 // GDO = Graph Data Object (each GDO represents a dual-bar value in the dashboard graph)
-const mapTransactionsAmountsToGDO = (transactions: ITransaction[], expenseCategories: Category[]): graphData => {
+const mapTransactionsAmountsToGDO = (transactions: Transaction[], expenseCategories: Category[]): graphData => {
     const {data} = mapCategoriesToGDO(expenseCategories);
-    transactions.forEach((transaction: ITransaction) => {
+    transactions.forEach((transaction: Transaction) => {
         if (typeof transaction.category !== "string") {
             if (transaction.category.type === "Expense") {
                 const amount = handleAmountFormat(transaction.amount);

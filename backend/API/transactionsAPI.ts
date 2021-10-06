@@ -1,4 +1,4 @@
-import {ITransaction as TransactionItem} from '../../frontend/@types/TransactionTypes/ITransaction'
+import {Transaction as TransactionItem} from '../../frontend/@types/TransactionTypes/Transaction'
 import {Request, Response } from 'express'
 const express = require('express')
 const router = express.Router();

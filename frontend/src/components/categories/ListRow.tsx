@@ -52,12 +52,12 @@ const updateTransactionCategories = async (newCategoryId: string, oldCategoryId:
     });
 };
 
-interface Props {
+interface IProps {
     element: Category;
     key: string; // for React list rendering purposes
 }
 
-const ListRow: React.FC<Props> = (props) => {
+const ListRow: React.FC<IProps> = (props) => {
     const classes = useStyles();
     const [showButton, setShowButton] = useState(false);
     const dispatch = useDispatch();

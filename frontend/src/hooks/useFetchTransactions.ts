@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import { useDispatch } from "react-redux";
 import { showInfo } from "src/redux/actions/infoActions";
-import { ITransaction } from "../../@types/TransactionTypes/ITransaction";
+import { Transaction } from "../../@types/TransactionTypes/Transaction";
 
 /**
  * Requests all transactions from database and then evaluates response based on response statusCode
@@ -18,7 +18,7 @@ const getData = async (): Promise<any> =>
         }).catch((err) => { throw new Error(err.message); });
 
 interface IfetchReturn {
-    transactionsList: ITransaction[];
+    transactionsList: Transaction[];
     error: boolean;
 }
 
@@ -28,7 +28,7 @@ interface IfetchReturn {
  */
 export const useFetchTransactions = (): IfetchReturn => {
     const dispatch = useDispatch();
-    const [data, setData] = useState<ITransaction[]>([]);
+    const [data, setData] = useState<Transaction[]>([]);
     let error = false;
 
     useEffect( () => {
@@ -44,4 +44,3 @@ export const useFetchTransactions = (): IfetchReturn => {
     }, []);
     return {transactionsList: data, error};
 };
-

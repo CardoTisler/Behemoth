@@ -1,4 +1,4 @@
-import {ITransactionAction, ITransactionPayload, ITransaction} from "../../../@types/TransactionTypes/ITransaction";
+import {ITransactionAction, ITransactionPayload, Transaction} from "../../../@types/TransactionTypes/Transaction";
 
 const payload: ITransactionPayload = {
     allTransactions: [],
@@ -36,7 +36,7 @@ export const updateTransactionsCategory = (transactionName: string, newCategoryI
  * Add new transactions to the state.
  * @param allTransactions Array of transaction objects that we want to add to the state.
  */
-export const loadTransactions = (allTransactions: ITransaction[]): ITransactionAction => {
+export const loadTransactions = (allTransactions: Transaction[]): ITransactionAction => {
     return {
         type: "LOAD_TRANSACTIONS",
         payload: {

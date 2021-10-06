@@ -1,7 +1,7 @@
 ## Categorizer
 
 
-Categorizer is a tool that helps you categorize your financial statements and visualize them. The end goal for this project is to be able to import a large amount of transactions via .CSV file, categorize them into similar groups based on ITransaction name and then export the categorized file for personal storage. This tool is not meant for storing large amounts of data for a long time.
+Categorizer is a tool that helps you categorize your financial statements and visualize them. The end goal for this project is to be able to import a large amount of transactions via .CSV file, categorize them into similar groups based on Transaction name and then export the categorized file for personal storage. This tool is not meant for storing large amounts of data for a long time.
 
 #### Current stack
 
@@ -14,9 +14,13 @@ MongoDB
 
 ## Project Status
 
+**This project is currently in development.**
 #### Current features:
 
-This project is currently in development. User can add categories and transactions, but currently has to delete transactions via MongoDB Shell.
+User can add and delete both transactions and categories.
+Dashboard helps visualize the data and summarize the finances into 4 main categories - Income, Expenses,
+Budget _(Total planned budget - current spending)_ and Savings (Income - Expenses). Dashboard also gives a more detailed
+bar graph about expenses by visualizing each expense category alongside the planned budget for that category.
 
 #### Future functionality roadmap
 - [x] Dashboard (based on currrently stored transactions)
@@ -27,13 +31,15 @@ This project is currently in development. User can add categories and transactio
     - [x] Add and store Categories in db
     - [x] category-transactions relations configuration
 - [ ] Transactions
-    - [x] ITransaction categorizing functionality
+    - [x] Transaction categorizing functionality
     - [x] Multi-add transactions via .csv
     - [x] Export categorized transactions to new .csv file
     - [ ] Functional filtering system in Transactions view
+    - [ ] Transaction individual categorizing functionality
 - [ ] Reports
     - [ ] Currently no idea what to do here, but some more thorough statistics would be fun.
-        
+- [ ] General
+    - [ ] Light mode / Dark mode toggle
 
 
 

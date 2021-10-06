@@ -4,11 +4,14 @@ import { useDispatch } from "react-redux";
 import { showError } from "src/redux/actions/errorActions";
 import { hideSuccess, showSuccess } from "src/redux/actions/successActions";
 import { loadTransactions } from "src/redux/actions/transactionActions";
-import { ITransaction } from "../../../@types/TransactionTypes/ITransaction";
+import { Transaction } from "../../../@types/TransactionTypes/Transaction";
 import RowDropdown from "./RowDropdown";
 
-// TODO: Add integer validation for amount input
 const useStyles = makeStyles({
+    dropdown: {
+        marginTop: "1rem",
+        padding: "0.5%",
+    },
     gridItem: {
         padding: "0.5%",
     }, root: {
@@ -22,8 +25,10 @@ const useStyles = makeStyles({
         width: "100%",
     },
 });
-// TODO: Add input validation hints to UI.
-const validateTransactionData = (data: ITransaction): boolean => { // TODO: Add proper error handling.
+// TODO: Add input validation hints to UI (display helpertext if validation rule broken)
+const validateTransactionData = (data: Transaction): boolean => { // TODO: Add proper error handling.
+    // date must be convertable to Date object
+    // Amount must be convertable to float
     if (typeof data.name === "string") {
         return true;
     } else {
@@ -79,7 +84,7 @@ const TransactionsForm: React.FC<any> = () => {
     const onSubmit = async (e: any): Promise<void> => {
         e.preventDefault();
         const convertedDate = new Date(date).toISOString();
-        const newTransaction: ITransaction = {
+        const newTransaction: Transaction = {
             amount,
             category: currentCategoryId,
             date: convertedDate,
@@ -145,8 +150,8 @@ const TransactionsForm: React.FC<any> = () => {
                         value={state.amount}
                         onChange={handleInput} />
                 </Grid>
-                <Grid item xs={1} className={classes.gridItem}>
-                    <RowDropdown currentCategory={currentCategoryId} handleChange={handleChange}/>
+                <Grid item xs={1} className={classes.dropdown}>
+                        <RowDropdown currentCategory={currentCategoryId} handleChange={handleChange}/>
                 </Grid>
                 <Grid item xs={1} className={classes.gridItem}>
                     <Button

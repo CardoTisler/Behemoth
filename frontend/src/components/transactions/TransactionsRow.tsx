@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { showError } from "src/redux/actions/errorActions";
 import { updateTransactionsCategory } from "src/redux/actions/transactionActions";
-import { ITransaction } from "../../../@types/TransactionTypes/ITransaction";
+import { Transaction } from "../../../@types/TransactionTypes/Transaction";
 import {checkTransaction, unCheckTransaction} from "../../redux/actions/transactionCheckboxActions";
 import RowDropdown from "./RowDropdown";
 
@@ -14,15 +14,14 @@ const useStyles = makeStyles({
     },
 });
 // TODO: if rendering positive or 0 number to amount column, font green, otherwise default
-// TODO: Implement transaction delete button
-
+// TODO: Implement single category change functionality
 /**
  * Find the transaction.name value based on transactionId, then find all transactions
  * that have the same name value and update their transaction.category field to reference
  * the new category Id.
  * @async
- * @param newCategoryId The _id value of the category that is applied to ITransaction
- * @param transactionId The _id of ITransaction that was modified.
+ * @param newCategoryId The _id value of the category that is applied to Transaction
+ * @param transactionId The _id of Transaction that was modified.
  */
 const handleCategoryUpdate = async (newCategoryId: string, transactionId: string): Promise<any> => {
     const url = "/transactions/update/".concat(transactionId);
@@ -44,12 +43,14 @@ const handleCategoryUpdate = async (newCategoryId: string, transactionId: string
   };
 
 interface IProps {
-    data: ITransaction;
+    data: Transaction;
+    isAllChecked: boolean;
 }
 const TransactionsRow: React.FC<IProps> = (props) => {
     const {date, name, description, amount, category, _id} = props.data;
     const classes = useStyles();
     const [currentCategoryId, setCurrentCategoryId] = useState("0");
+    const [isThisChecked, setIsThisChecked] = useState(false);
     const dispatch = useDispatch();
     useEffect(() => {
         // Unpopulated (Mongoose population) Transactions SHOULD NOT arrive here but if they
@@ -79,8 +80,10 @@ const TransactionsRow: React.FC<IProps> = (props) => {
     };
     const handleCheckboxChange = (event: {target: {checked: boolean}}) => {
         if (event.target.checked) {
+            setIsThisChecked(true);
             dispatch(checkTransaction({transactionId: _id!}));
         } else {
+            setIsThisChecked(false);
             dispatch(unCheckTransaction({transactionId: _id!}));
         }
     };
@@ -88,10 +91,12 @@ const TransactionsRow: React.FC<IProps> = (props) => {
     return (
         <Grid container className={classes.root}>
             <Grid container item xs={2}>
-                <Grid item xs={1}>
-                    <Checkbox onChange={handleCheckboxChange}/>
+                <Grid item xs={2}>
+                    <Checkbox
+                    onChange={handleCheckboxChange}
+                    checked={props.isAllChecked || isThisChecked}/>
                 </Grid>
-                <Grid item xs={11}>
+                <Grid item xs={10}>
                     <p>{day.concat("/").concat(month).concat("/").concat(year)}</p>
                 </Grid>
             </Grid>

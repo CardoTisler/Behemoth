@@ -5,7 +5,7 @@ import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { useDispatch } from "react-redux";
 import { changeDateRange } from "src/redux/actions/dateFilterActions";
-import {ITransaction, ITransactionState} from "../../../@types/TransactionTypes/ITransaction";
+import {Transaction, ITransactionState} from "../../../@types/TransactionTypes/Transaction";
 import {useFetchTransactions} from "../../hooks/useFetchTransactions";
 import useUpdateEffect from "../../hooks/useUpdateEffect";
 import {loadTransactions} from "../../redux/actions/transactionActions";
@@ -35,7 +35,7 @@ function filterTransactions(transactions: ITransactionState, startDate: Date, en
     const startDateMs = startDate.getTime();
     const endDateMs = endDate.getTime();
     return transactions
-        .filter((transaction: ITransaction) =>
+        .filter((transaction: Transaction) =>
             isInDateRange(transaction.date, startDateMs, endDateMs));
 }
 

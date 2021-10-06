@@ -75,18 +75,19 @@ const handleFileSelected = async (e: React.ChangeEvent<HTMLInputElement>, dispat
  */
 const handleTransactionsDelete = async (checkedTransactions: string[], dispatch: any): Promise<void> => {
     await fetch("transactions/delete", {
+        body: JSON.stringify({checkedTransactions}),
         method: "DELETE",
         mode: "cors",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({checkedTransactions}),
     }).then((res) => {
         if (res.status === 200) {
             return res.json();
         }
         throw new Error(res.statusText);
     }).then((res) => {
+        // FIXME: res.allTransactions should return 0 transactions after delete all
         dispatch(loadTransactions(res.allTransactions));
         dispatch(showSuccess(res.statusText));
         setTimeout(() => dispatch(hideSuccess()), 4000);

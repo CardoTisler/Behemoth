@@ -1,8 +1,8 @@
+import { Transaction as TransactionItem } from "../frontend/@types/TransactionTypes/Transaction";
+import {Category as CategoryItem} from '../frontend/@types/CategoryTypes/category'
 const csv = require('csv-parse')
 const fs = require('fs')
-import { ITransaction as TransactionItem } from "../frontend/@types/TransactionTypes/ITransaction";
 const Category = require('../backend/models/category')
-import {Category as CategoryItem} from '../frontend/@types/CategoryTypes/category'
 //const verifyDataAmount
 
  

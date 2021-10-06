@@ -1,4 +1,4 @@
-import {ITransactionAction, ITransaction, ITransactionState} from "../../../@types/TransactionTypes/ITransaction";
+import {ITransactionAction, Transaction, ITransactionState} from "../../../@types/TransactionTypes/Transaction";
 
 const defaultState: ITransactionState = [];
 
@@ -20,7 +20,7 @@ const transactionReducer = (state: ITransactionState = defaultState, action: ITr
                                                                 // for some reason it thinks it can be undefined
                                                                 // even tho action UDPATE does not let anything but
                                                                 // string value in.
-            const updatedTransactions = state.map((transaction: ITransaction) => {
+            const updatedTransactions = state.map((transaction: Transaction) => {
                 if (transaction.name === name) {
                     return { ...transaction,
                         category: newCategoryId,
