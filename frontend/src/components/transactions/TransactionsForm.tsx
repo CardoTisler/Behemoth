@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { showError } from "src/redux/actions/errorActions";
 import { hideSuccess, showSuccess } from "src/redux/actions/successActions";
 import { loadTransactions } from "src/redux/actions/transactionActions";
-import { Transaction } from "../../../@types/TransactionTypes/Transaction";
+import { ITransaction } from "../../../@types/TransactionTypes/ITransaction";
 import RowDropdown from "./RowDropdown";
 
 // TODO: Add integer validation for amount input
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
     },
 });
 // TODO: Add input validation hints to UI.
-const validateTransactionData = (data: Transaction): boolean => { // TODO: Add proper error handling.
+const validateTransactionData = (data: ITransaction): boolean => { // TODO: Add proper error handling.
     if (typeof data.name === "string") {
         return true;
     } else {
@@ -79,7 +79,7 @@ const TransactionsForm: React.FC<any> = () => {
     const onSubmit = async (e: any): Promise<void> => {
         e.preventDefault();
         const convertedDate = new Date(date).toISOString();
-        const newTransaction: Transaction = {
+        const newTransaction: ITransaction = {
             amount,
             category: currentCategoryId,
             date: convertedDate,

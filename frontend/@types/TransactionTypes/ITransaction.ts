@@ -1,6 +1,6 @@
 import {Category} from "../CategoryTypes/category";
 
-interface Transaction {
+interface ITransaction {
     _id?: string;
     date: string;
     name: string;
@@ -9,22 +9,22 @@ interface Transaction {
     category: Category | string; // must be string when adding but Category when retrieving from db
 }
 
-interface Payload {
+interface ITransactionPayload {
     transactionName?: string;
     newCategoryId?: string;
-    allTransactions: Transaction[];
+    allTransactions: ITransaction[];
 }
 
-interface Action {
+interface ITransactionAction {
     type: string;
-    payload: Payload;
+    payload: ITransactionPayload;
 }
 
-interface TransactionState extends Array<Transaction> { }
+interface ITransactionState extends Array<ITransaction> { }
 
 export type {
-    Transaction,
-    Payload,
-    Action,
-    TransactionState,
+    ITransaction,
+    ITransactionPayload,
+    ITransactionAction,
+    ITransactionState,
 };

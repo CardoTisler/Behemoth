@@ -5,7 +5,7 @@ import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { useDispatch } from "react-redux";
 import { changeDateRange } from "src/redux/actions/dateFilterActions";
-import {Transaction, TransactionState} from "../../../@types/TransactionTypes/Transaction";
+import {ITransaction, ITransactionState} from "../../../@types/TransactionTypes/ITransaction";
 import {useFetchTransactions} from "../../hooks/useFetchTransactions";
 import useUpdateEffect from "../../hooks/useUpdateEffect";
 import {loadTransactions} from "../../redux/actions/transactionActions";
@@ -31,11 +31,11 @@ function isInDateRange(transactionDate: string, startDate: number, endDate: numb
  * @param endDate Date object that  represents the end of specified daterange
  * @return array Returns an array of transactions with transaction.date between specified daterange.
  */
-function filterTransactions(transactions: TransactionState, startDate: Date, endDate: Date) {
+function filterTransactions(transactions: ITransactionState, startDate: Date, endDate: Date) {
     const startDateMs = startDate.getTime();
     const endDateMs = endDate.getTime();
     return transactions
-        .filter((transaction: Transaction) =>
+        .filter((transaction: ITransaction) =>
             isInDateRange(transaction.date, startDateMs, endDateMs));
 }
 

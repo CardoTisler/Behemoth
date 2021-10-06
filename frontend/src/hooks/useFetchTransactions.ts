@@ -1,12 +1,13 @@
 import {useEffect, useState} from "react";
 import { useDispatch } from "react-redux";
 import { showInfo } from "src/redux/actions/infoActions";
-import { Transaction } from "../../@types/TransactionTypes/Transaction";
+import { ITransaction } from "../../@types/TransactionTypes/ITransaction";
 
 /**
  * Requests all transactions from database and then evaluates response based on response statusCode
  * If statuscode = 200 then it returns response, if statuscode is anything else (typically 400) then it throws an error
  */
+
 const getData = async (): Promise<any> =>
     await fetch("transactions/show")
         .then((res) => {
@@ -14,11 +15,10 @@ const getData = async (): Promise<any> =>
                 return res.json();
             }
             throw new Error(res.statusText);
-        })
-        .catch((err) => { throw new Error(err.message); });
+        }).catch((err) => { throw new Error(err.message); });
 
-interface fetchReturn {
-    transactionsList: Transaction[];
+interface IfetchReturn {
+    transactionsList: ITransaction[];
     error: boolean;
 }
 
@@ -26,18 +26,15 @@ interface fetchReturn {
  * Fetches all transactions currently stored in the database
  * @returns Object transactionsList - array of all transaction objects and error boolean
  */
-export const useFetchTransactions = (): fetchReturn => {
+export const useFetchTransactions = (): IfetchReturn => {
     const dispatch = useDispatch();
-    const [data, setData] = useState<Transaction[]>([]);
+    const [data, setData] = useState<ITransaction[]>([]);
     let error = false;
 
     useEffect( () => {
         async function fetch() {
             await getData().then( (res) => {
                     setData([...res.transactionsList]);
-                    setData(res.transactionsList.map((transaction: Transaction) => {
-                        return {...transaction, date: new Date(transaction.date).toLocaleDateString()};
-                    }));
                 }).catch((err: Error) => {
                     error = true;
                     dispatch(showInfo("Did not find any transactions in the database."));
@@ -47,3 +44,4 @@ export const useFetchTransactions = (): fetchReturn => {
     }, []);
     return {transactionsList: data, error};
 };
+

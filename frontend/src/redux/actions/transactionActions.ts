@@ -1,6 +1,6 @@
-import {Action, Payload, Transaction} from "../../../@types/TransactionTypes/Transaction";
+import {ITransactionAction, ITransactionPayload, ITransaction} from "../../../@types/TransactionTypes/ITransaction";
 
-const payload: Payload = {
+const payload: ITransactionPayload = {
     allTransactions: [],
     newCategoryId: "",
     transactionName: "",
@@ -9,7 +9,7 @@ const payload: Payload = {
 /**
  * Returns the current transactions state.
  */
-export const getTransactions = (): Action => {
+export const getTransactions = (): ITransactionAction => {
     return {
         type: "GET_TRANSACTIONS",
         payload: {...payload},
@@ -22,7 +22,7 @@ export const getTransactions = (): Action => {
  * @param transactionName Name of transactions' we want to change. Matches against every record in database.
  * @param newCategoryId _id of the Category record that we want to apply to the chosen transactions.
  */
-export const updateTransactionsCategory = (transactionName: string, newCategoryId: string): Action => {
+export const updateTransactionsCategory = (transactionName: string, newCategoryId: string): ITransactionAction => {
     return {
         type: "UPDATE_TRANSACTIONS_CAT",
         payload: {
@@ -36,7 +36,7 @@ export const updateTransactionsCategory = (transactionName: string, newCategoryI
  * Add new transactions to the state.
  * @param allTransactions Array of transaction objects that we want to add to the state.
  */
-export const loadTransactions = (allTransactions: Transaction[]): Action => {
+export const loadTransactions = (allTransactions: ITransaction[]): ITransactionAction => {
     return {
         type: "LOAD_TRANSACTIONS",
         payload: {

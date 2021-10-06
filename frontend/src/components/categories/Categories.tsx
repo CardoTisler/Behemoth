@@ -1,5 +1,5 @@
 import { Grid } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers";
 import CategoryForm from "./CategoryForm";
 import CategoryList from "./CategoryList";

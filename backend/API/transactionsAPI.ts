@@ -1,4 +1,4 @@
-import {Transaction as TransactionItem} from '../../frontend/@types/TransactionTypes/Transaction'
+import {ITransaction as TransactionItem} from '../../frontend/@types/TransactionTypes/ITransaction'
 import {Request, Response } from 'express'
 const express = require('express')
 const router = express.Router();
@@ -43,7 +43,7 @@ router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: Requ
                 const newItems = await Transaction.find({}).populate('category')
                 res.status(200).send({statusText: 'Added new items to database!', newItems, errorMessage})
             }).catch((err: Error) => {
-                res.status(400).send({statusText: err.message})
+                res.status(500).send({statusText: err.message})
             })
             
         }
@@ -96,7 +96,7 @@ router.put('/transactions/update/:id', async (req: Request, res: Response) => {
         .then( () => {
             res.status(200).send({statusText: `Transactions' update successful.`})
         }).catch((err: any) => {
-            res.status(400).json({statusText: err.message})
+            res.status(400).send({statusText: err.message})
         })
     }).catch((err: any) => {
         res.status(404).send({statusText: err.message})
@@ -115,12 +115,16 @@ router.put('/transactions/updatecategories/:id', async(req: Request, res: Respon
     })
 })
 
-router.delete('transactions/delete/:id', async (req: Request, res: Response) => {
-    const removedItemId = req.params.id;
-    Transaction.remove({_id: removedItemId}).then(() => {
-        res.status(200).send({statusText: 'Item deleted.'})
+router.delete('/transactions/delete', async (req: Request, res: Response) => {
+    const {checkedTransactions} = req.body
+    Transaction.deleteMany({_id: {$in: checkedTransactions}})
+        .catch((err: any) => {
+            res.status(400).send({statusText: err.message})
+    })
+    Transaction.find({}).then((allTransactions: TransactionItem[]) => {
+        res.status(200).send({statusText: `Successfully deleted Transactions.`, allTransactions})
     }).catch((err: Error) => {
-        res.status(400).send({statusText: 'Item deletion failed.'})
+        res.status(400).send({statusText: err.message})
     })
 })
 module.exports = router;

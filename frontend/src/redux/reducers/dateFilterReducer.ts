@@ -8,7 +8,7 @@ export interface DateFilterAction {
     type: string;
     payload: DateFilterState;
 }
-
+// TODO: Perhaps store ISO strings instead?
 const initialState: DateFilterState = {
     endDate: new Date("01.01.1970"),
     key: "selection",

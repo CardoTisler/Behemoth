@@ -1,22 +1,24 @@
-import { combineReducers } from 'redux'
-import categoryReducer from './categoryReducer'
-import transactionReducer from './transactionReducer'
-import errorReducer from './errorReducer'
-import successReducer from './successReducer'
-import loadingReducer from './loadingReducer'
-import infoReducer from './infoReducer'
-import dateFilterReducer from './dateFilterReducer'
+import { combineReducers } from "redux";
+import categoryReducer from "./categoryReducer";
+import dateFilterReducer from "./dateFilterReducer";
+import errorReducer from "./errorReducer";
+import infoReducer from "./infoReducer";
+import loadingReducer from "./loadingReducer";
+import successReducer from "./successReducer";
+import transactionCheckboxReducer from "./transactionCheckboxReducer";
+import transactionReducer from "./transactionReducer";
 
 const allReducers = combineReducers({
-    transactionReducer,
-    categoryReducer, 
+    categoryReducer,
+    dateFilterReducer,
     errorReducer,
-    successReducer,
-    loadingReducer,
     infoReducer,
-    dateFilterReducer
-})
+    loadingReducer,
+    successReducer,
+    transactionCheckboxReducer,
+    transactionReducer,
+});
 
 export default allReducers;
 
-export type RootState = ReturnType<typeof allReducers>
+export type RootState = ReturnType<typeof allReducers>;

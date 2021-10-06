@@ -1,8 +1,8 @@
-import {Action, Transaction, TransactionState} from "../../../@types/TransactionTypes/Transaction";
+import {ITransactionAction, ITransaction, ITransactionState} from "../../../@types/TransactionTypes/ITransaction";
 
-const defaultState: TransactionState = [];
+const defaultState: ITransactionState = [];
 
-const transactionReducer = (state: TransactionState = defaultState, action: Action): TransactionState => {
+const transactionReducer = (state: ITransactionState = defaultState, action: ITransactionAction): ITransactionState => {
     switch (action.type) {
         default:
             return [...state];
@@ -20,7 +20,7 @@ const transactionReducer = (state: TransactionState = defaultState, action: Acti
                                                                 // for some reason it thinks it can be undefined
                                                                 // even tho action UDPATE does not let anything but
                                                                 // string value in.
-            const updatedTransactions = state.map((transaction: Transaction) => {
+            const updatedTransactions = state.map((transaction: ITransaction) => {
                 if (transaction.name === name) {
                     return { ...transaction,
                         category: newCategoryId,

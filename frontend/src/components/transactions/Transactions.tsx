@@ -1,5 +1,5 @@
 import { Box, Grid, makeStyles} from "@material-ui/core";
-import CsvButtons from "./CsvButtons";
+import TransactionButtons from "./TransactionButtons";
 import TransactionsForm from "./TransactionsForm";
 import TransactionsList from "./TransactionsList";
 import TransactionsSearch from "./TransactionsSearch";
@@ -16,7 +16,7 @@ const Transactions: React.FC = () => {
         <Box boxShadow={2} className={classes.root}>
             <Grid container spacing={1}>
                 <Grid item xs={12}>
-                    <CsvButtons />
+                    <TransactionButtons />
                 </Grid>
                 <Grid item xs={12}>
                     <TransactionsForm />

@@ -9,8 +9,8 @@ test('renders learn react link', () => {
 
 
 //TODO: Database connectivity test
-//TODO: Transaction add test
-//TODO: Transaction category change test
-//TODO: Transaction delete test
+//TODO: ITransaction add test
+//TODO: ITransaction category change test
+//TODO: ITransaction delete test
 //TODO: Category add test
 //TODO: Category delete test

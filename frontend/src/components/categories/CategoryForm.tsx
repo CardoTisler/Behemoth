@@ -61,11 +61,8 @@ const addToDatabase = async (url: string, data: formPayload): Promise<CategoryAd
     }).then((res) => {
         if (res.status === 200) {
             return res.json();
-        } else if (res.status === 400) {
-            throw new Error(res.statusText);
-        } else {
-            throw new Error(`Server response broken.`);
         }
+        throw new Error(res.statusText);
     });
 
 const CategoryForm: React.FC = () => {
@@ -84,10 +81,8 @@ const CategoryForm: React.FC = () => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        // build object with data from states
-
         const data: submitPayload = {name: state.name, budget: state.budget, isIncomeCategory};
-
+        // TODO: Add useDispatchSuccess custom hook to avoid repetetitive code
         addToDatabase("/categories/new", data).then((res) => {
                 dispatch(addCategory(res.addedItem!, isIncomeCategory));
                 dispatch(showSuccess(`New category added.`));

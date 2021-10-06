@@ -1,7 +1,7 @@
 ## Categorizer
 
 
-Categorizer is a tool that helps you categorize your financial statements and visualize them. The end goal for this project is to be able to import a large amount of transactions via .CSV file, categorize them into similar groups based on Transaction name and then export the categorized file for personal storage. This tool is not meant for storing large amounts of data for a long time.
+Categorizer is a tool that helps you categorize your financial statements and visualize them. The end goal for this project is to be able to import a large amount of transactions via .CSV file, categorize them into similar groups based on ITransaction name and then export the categorized file for personal storage. This tool is not meant for storing large amounts of data for a long time.
 
 #### Current stack
 
@@ -27,7 +27,7 @@ This project is currently in development. User can add categories and transactio
     - [x] Add and store Categories in db
     - [x] category-transactions relations configuration
 - [ ] Transactions
-    - [x] Transaction categorizing functionality
+    - [x] ITransaction categorizing functionality
     - [x] Multi-add transactions via .csv
     - [x] Export categorized transactions to new .csv file
     - [ ] Functional filtering system in Transactions view

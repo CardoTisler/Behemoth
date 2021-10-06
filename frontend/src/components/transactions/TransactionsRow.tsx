@@ -1,11 +1,11 @@
 import {Grid} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core";
+import { Checkbox, makeStyles } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { showError } from "src/redux/actions/errorActions";
 import { updateTransactionsCategory } from "src/redux/actions/transactionActions";
-import type { APIinfo } from "../../../@types/API";
-import { Transaction } from "../../../@types/TransactionTypes/Transaction";
+import { ITransaction } from "../../../@types/TransactionTypes/ITransaction";
+import {checkTransaction, unCheckTransaction} from "../../redux/actions/transactionCheckboxActions";
 import RowDropdown from "./RowDropdown";
 
 const useStyles = makeStyles({
@@ -16,57 +16,84 @@ const useStyles = makeStyles({
 // TODO: if rendering positive or 0 number to amount column, font green, otherwise default
 // TODO: Implement transaction delete button
 
-const handleCategoryUpdate = async (newCategoryId: string, transactionId: string): Promise<APIinfo> => {
+/**
+ * Find the transaction.name value based on transactionId, then find all transactions
+ * that have the same name value and update their transaction.category field to reference
+ * the new category Id.
+ * @async
+ * @param newCategoryId The _id value of the category that is applied to ITransaction
+ * @param transactionId The _id of ITransaction that was modified.
+ */
+const handleCategoryUpdate = async (newCategoryId: string, transactionId: string): Promise<any> => {
     const url = "/transactions/update/".concat(transactionId);
-    const response = await fetch(url, {
+    await fetch(url, {
         method: "PUT",
         mode: "cors",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({newCategoryId}),
+    }).then((res) => {
+        if (res.status === 200) {
+            return res.json();
+        }
+        throw new Error(res.statusText);
+    }).catch((err: Error) => {
+        throw new Error(err.message);
     });
-    return response.json();
   };
 
-interface Props {
-    data: Transaction;
+interface IProps {
+    data: ITransaction;
 }
-const TransactionsRow: React.FC<Props> = (props) => {
+const TransactionsRow: React.FC<IProps> = (props) => {
     const {date, name, description, amount, category, _id} = props.data;
     const classes = useStyles();
     const [currentCategoryId, setCurrentCategoryId] = useState("0");
     const dispatch = useDispatch();
-
     useEffect(() => {
+        // Unpopulated (Mongoose population) Transactions SHOULD NOT arrive here but if they
+        // do then this logic avoids unneccesary crash.
         if (typeof category !== "string") {
             setCurrentCategoryId(category._id);
         } else {
             setCurrentCategoryId(category);
         }
-    }, [currentCategoryId]);
-
-    const handleChange = async (e: any) => {
+    }, [category, currentCategoryId]);
+    /**
+     * Triggered when user clicks on an option in RowDropdown component.
+     * Takes the click event as parameter and extracts option value (category._id) from it
+     * and then makes API request to change all suitable transactions' categories.
+     * @param e Event generated when clicking on an option in the dropdown.
+     */
+    const handleChange = async (e: { target: { value: string; } }) => {
         if (e.target !== null) {
           const newCategoryId = e.target.value;
           await handleCategoryUpdate(newCategoryId, _id!).then((res: any) => {
-            if (res.status === 200) {
               setCurrentCategoryId(newCategoryId);
               dispatch(updateTransactionsCategory(name, newCategoryId));
-
-            } else if (res.status === 400) {
-              throw new Error(res.statusText);
-            }
           }).catch((err: Error) => {
             dispatch(showError(`Couldn't update transaction category.`, err.message));
           });
         }
     };
-
+    const handleCheckboxChange = (event: {target: {checked: boolean}}) => {
+        if (event.target.checked) {
+            dispatch(checkTransaction({transactionId: _id!}));
+        } else {
+            dispatch(unCheckTransaction({transactionId: _id!}));
+        }
+    };
+    const [month, day, year] = new Date(date).toLocaleDateString().split("/");
     return (
         <Grid container className={classes.root}>
-            <Grid item xs={2}>
-                <p>{date}</p>
+            <Grid container item xs={2}>
+                <Grid item xs={1}>
+                    <Checkbox onChange={handleCheckboxChange}/>
+                </Grid>
+                <Grid item xs={11}>
+                    <p>{day.concat("/").concat(month).concat("/").concat(year)}</p>
+                </Grid>
             </Grid>
             <Grid item xs={2}>
                 <p>{name}</p>
@@ -87,4 +114,3 @@ const TransactionsRow: React.FC<Props> = (props) => {
 };
 
 export default TransactionsRow;
-

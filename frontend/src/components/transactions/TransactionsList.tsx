@@ -1,14 +1,14 @@
 import {Grid} from "@material-ui/core";
 import { useSelector } from "react-redux";
-import { Transaction } from "../../../@types/TransactionTypes/Transaction";
+import { ITransaction } from "../../../@types/TransactionTypes/ITransaction";
 import { RootState } from "../../redux/reducers";
 import TransactionsHeader from "./TransactionsHeader";
 import TransactionsRow from "./TransactionsRow";
 
 const TransactionsList = () => {
-    const transactionsList = useSelector((state: RootState) => state.transactionReducer);
+    const transactionsList = useSelector(({transactionReducer}: RootState) => transactionReducer);
     const renderRows = () => {
-        return(transactionsList.map((element: Transaction)  => {
+        return(transactionsList.map((element: ITransaction)  => {
             return(
                 <Grid item xs={12} key={element._id}>
                     <TransactionsRow

@@ -1,5 +1,5 @@
 import { Category } from "../../../@types/CategoryTypes/category";
-import { Transaction } from "../../../@types/TransactionTypes/Transaction";
+import { ITransaction } from "../../../@types/TransactionTypes/ITransaction";
 
 interface summarizeTransactions {
     income: string;
@@ -19,11 +19,11 @@ interface summarizedData {
 // budget is the ratio between Expenses and the sum of Expense category budgets
 // savings is the division between income and expenses
 
-const parseTransactionAmounts = (transactions: Transaction[]): summarizeTransactions => {
+const parseTransactionAmounts = (transactions: ITransaction[]): summarizeTransactions => {
     let income: number = 0;
     let expenses: number = 0;
 
-    transactions.forEach((transaction: Transaction) => {
+    transactions.forEach((transaction: ITransaction) => {
         if (typeof transaction.category !== "string") {
             switch (transaction.category.type) {
                 default:
@@ -50,7 +50,7 @@ const parseTransactionAmounts = (transactions: Transaction[]): summarizeTransact
     };
 };
 
-function handleIncomeTransaction(transaction: Transaction): number {
+function handleIncomeTransaction(transaction: ITransaction): number {
     const income = transaction.amount;
     if (typeof income === "string") {
         return parseFloat(income);
@@ -58,7 +58,7 @@ function handleIncomeTransaction(transaction: Transaction): number {
     return income;
 }
 
-function handleExpenseTransaction(transaction: Transaction) {
+function handleExpenseTransaction(transaction: ITransaction) {
     // if expense, the incoming amount will have a dash infront of it (negative number)
     let expense = transaction.amount;
     if (typeof expense === "string") {
@@ -69,7 +69,7 @@ function handleExpenseTransaction(transaction: Transaction) {
     }
 }
 
-export const getSummaryData = (transactions: Transaction[], expenseCategories: Category[]): summarizedData => {
+export const getSummaryData = (transactions: ITransaction[], expenseCategories: Category[]): summarizedData => {
     const {income, expenses, savings, error} = parseTransactionAmounts(transactions);
     const {budgetTotal} = parseExpenseCategories(expenseCategories);
     const budget = expenses + "/" + budgetTotal;

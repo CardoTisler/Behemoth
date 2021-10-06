@@ -4,13 +4,13 @@ import type { Category } from "../../../@types/CategoryTypes/category";
 import { showError } from "../../redux/actions/errorActions";
 import { RootState } from "../../redux/reducers";
 
-interface Props {
+interface IProps {
   currentCategory: string | Category;
   handleChange: any;
 }
 // FIXME: Invalid category ID in transaction record causes populating to fail,
 // however it still arrives here as undefined.
-const RowDropdown: React.FC<Props> = (props) => {
+const RowDropdown: React.FC<IProps> = (props) => {
   const {handleChange, currentCategory} = props;
   const currentCategoryId = typeof currentCategory === "string" ? currentCategory : currentCategory._id;
 
@@ -20,7 +20,10 @@ const RowDropdown: React.FC<Props> = (props) => {
     noneCategory } = useSelector((state: RootState) => state.categoryReducer);
 
   const dispatch = useDispatch();
-
+    /**
+     * Returns an array of <option> elements where element is a Category object
+     * @param categories Array of category objects to be rendered into a single list.
+     */
   const renderOptions = (categories: Category[]) => {
       if (categories) {
           return categories.map((element) => {
