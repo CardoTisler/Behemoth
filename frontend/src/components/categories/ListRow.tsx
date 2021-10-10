@@ -3,6 +3,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { Category } from "../../../@types/CategoryTypes/category";
+import {removeFromDatabase} from "../../fetch/categories";
+import {updateTransactionCategories} from "../../fetch/transactions";
 import { deleteCategory } from "../../redux/actions/categoryActions";
 import { showError } from "../../redux/actions/errorActions";
 import { hideSuccess, showSuccess } from "../../redux/actions/successActions";
@@ -15,42 +17,6 @@ const useStyles = makeStyles({
         display: "none",
     },
 });
-
-const removeFromDatabase = async (url: string) => {
-    await fetch(url, {
-        method: "DELETE",
-        mode: "cors",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    }).then((res) => {
-
-        if (res.status === 200) {
-            return res;
-        } else if (res.status === 404 || res.status === 400) {
-            throw new Error(res.statusText);
-        } else {
-            throw new Error(`Couldn't read server response.`);
-        }
-    });
-};
-
-const updateTransactionCategories = async (newCategoryId: string, oldCategoryId: string) => {
-    await fetch("/transactions/updatecategories/".concat(oldCategoryId), {
-        method: "PUT",
-        mode: "cors",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({newCategoryId}),
-    }).then((res) => {
-        if (res.status !== 200) {
-            throw new Error(res.statusText);
-        }
-    }).catch((err) => {
-        throw new Error(err.message);
-    });
-};
 
 interface IProps {
     element: Category;
@@ -67,7 +33,6 @@ const ListRow: React.FC<IProps> = (props) => {
     const handleElementDelete = async () => {
         await removeFromDatabase("/categories/delete/".concat(_id)).then( async () => {
             dispatch(deleteCategory(_id));
-
             await updateTransactionCategories(noneCategory._id, _id)
             .then(() => {
                 dispatch(showSuccess(`Item deleted and transactions updated!`));

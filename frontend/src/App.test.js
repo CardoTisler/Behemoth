@@ -7,7 +7,6 @@ test('renders learn react link', () => {
   expect(linkElement).toBeInTheDocument();
 });
 
-
 //TODO: Database connectivity test
 //TODO: Transaction add test
 //TODO: Transaction category change test

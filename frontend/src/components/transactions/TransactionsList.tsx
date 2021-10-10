@@ -1,10 +1,10 @@
 import {Grid} from "@material-ui/core";
+import {useState} from "react";
 import { useSelector } from "react-redux";
 import { Transaction } from "../../../@types/TransactionTypes/Transaction";
 import { RootState } from "../../redux/reducers";
 import TransactionsHeader from "./TransactionsHeader";
 import TransactionsRow from "./TransactionsRow";
-import {useState} from "react";
 
 const TransactionsList = () => {
     const transactionsList = useSelector(({transactionReducer}: RootState) => transactionReducer);

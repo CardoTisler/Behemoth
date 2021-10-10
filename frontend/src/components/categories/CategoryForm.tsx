@@ -1,10 +1,11 @@
 import { Box, Button, makeStyles, TextField } from "@material-ui/core";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {Category} from "../../../@types/CategoryTypes/category";
+import {addToDatabase} from "../../fetch/categories";
 import { addCategory } from "../../redux/actions/categoryActions";
 import { showError } from "../../redux/actions/errorActions";
 import { hideSuccess, showSuccess } from "../../redux/actions/successActions";
+
 const useStyles = makeStyles({
     root: {
         padding: "1rem",
@@ -33,37 +34,11 @@ const useStyles = makeStyles({
     },
 });
 
-interface formPayload {
-    name: string;
-    budget: string | number;
-    isIncomeCategory: boolean;
-}
-interface CategoryAddRes {
-    status: number;
-    statusText: string;
-    addedItem?: Category;
-
-}
 interface submitPayload {
     name: string;
     budget: number | string;
     isIncomeCategory: boolean;
 }
-
-const addToDatabase = async (url: string, data: formPayload): Promise<CategoryAddRes> =>
-    await fetch(url, {
-        headers: {
-            "Content-Type": "application/json",
-        },
-        method: "POST",
-        mode: "cors",
-        body: JSON.stringify(data),
-    }).then((res) => {
-        if (res.status === 200) {
-            return res.json();
-        }
-        throw new Error(res.statusText);
-    });
 
 const CategoryForm: React.FC = () => {
     const classes = useStyles();

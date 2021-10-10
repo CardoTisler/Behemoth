@@ -7,6 +7,7 @@ import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import { useDispatch, useSelector } from "react-redux";
 import { showError } from "src/redux/actions/errorActions";
 import { RootState } from "src/redux/reducers";
+import {Category} from "../../../@types/CategoryTypes/category";
 import { Transaction } from "../../../@types/TransactionTypes/Transaction";
 import SummaryElement from "./SummaryElement";
 import {getSummaryData} from "./summaryParse";
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
 const SummaryPanels: React.FC = () => {
     const classes = useStyles();
     const transactions: Transaction[] = useSelector((state: RootState) => state.transactionReducer);
-    const expenseCategories = useSelector((state: RootState) => state.categoryReducer.expenseCategories);
+    const expenseCategories: Category[] = useSelector((state: RootState) => state.categoryReducer.expenseCategories);
     const dispatch = useDispatch();
     const {income, expenses, budget, savings, error} = getSummaryData(transactions, expenseCategories);
 

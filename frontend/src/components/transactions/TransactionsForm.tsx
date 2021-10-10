@@ -5,6 +5,7 @@ import { showError } from "src/redux/actions/errorActions";
 import { hideSuccess, showSuccess } from "src/redux/actions/successActions";
 import { loadTransactions } from "src/redux/actions/transactionActions";
 import { Transaction } from "../../../@types/TransactionTypes/Transaction";
+import {addTransactionToDatabase} from "../../fetch/transactions";
 import RowDropdown from "./RowDropdown";
 
 const useStyles = makeStyles({
@@ -34,24 +35,6 @@ const validateTransactionData = (data: Transaction): boolean => { // TODO: Add p
     } else {
         return false;
     }
-};
-// FIXME: Figure out how the Promise<T> system works and implement proper types.
-const addTransactionToDatabase = async (newTransaction: any): Promise<any> => {
-    await fetch("/transactions/new", {
-        body: JSON.stringify(newTransaction),
-        headers: {
-            "Content-Type": "application/json",
-        },
-        method: "POST",
-        mode: "cors",
-    }).then((res) => {
-            if (res.status === 200) {
-                return res.json();
-            }
-            throw new Error(res.statusText);
-        }).catch((err: Error) => {
-            throw new Error(err.message);
-        });
 };
 
 const TransactionsForm: React.FC<any> = () => {

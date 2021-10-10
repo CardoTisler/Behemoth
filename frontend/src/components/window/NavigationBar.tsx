@@ -9,13 +9,13 @@ import {BrowserRouter as Router, Link} from "react-router-dom";
 import NavButton from "./NavButton";
 
 const useStyles = makeStyles({
+    link: {
+        textDecoration: "none",
+    },
     root: {
         background: "linear-gradient(180deg , #3f51b5 30%, rgb(0 0 0 / 0%) 100%)",
         height: "80vh",
         width: "10%",
-    },
-    link: {
-        textDecoration: "none",
     },
 });
 

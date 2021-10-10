@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { showError } from "src/redux/actions/errorActions";
 import { updateTransactionsCategory } from "src/redux/actions/transactionActions";
 import { Transaction } from "../../../@types/TransactionTypes/Transaction";
+import {handleCategoryUpdate} from "../../fetch/transactions";
 import {checkTransaction, unCheckTransaction} from "../../redux/actions/transactionCheckboxActions";
 import RowDropdown from "./RowDropdown";
 
@@ -15,32 +16,6 @@ const useStyles = makeStyles({
 });
 // TODO: if rendering positive or 0 number to amount column, font green, otherwise default
 // TODO: Implement single category change functionality
-/**
- * Find the transaction.name value based on transactionId, then find all transactions
- * that have the same name value and update their transaction.category field to reference
- * the new category Id.
- * @async
- * @param newCategoryId The _id value of the category that is applied to Transaction
- * @param transactionId The _id of Transaction that was modified.
- */
-const handleCategoryUpdate = async (newCategoryId: string, transactionId: string): Promise<any> => {
-    const url = "/transactions/update/".concat(transactionId);
-    await fetch(url, {
-        method: "PUT",
-        mode: "cors",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({newCategoryId}),
-    }).then((res) => {
-        if (res.status === 200) {
-            return res.json();
-        }
-        throw new Error(res.statusText);
-    }).catch((err: Error) => {
-        throw new Error(err.message);
-    });
-  };
 
 interface IProps {
     data: Transaction;

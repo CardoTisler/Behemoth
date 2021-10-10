@@ -23,7 +23,8 @@ router.post('/categories/new', async (req: Request, res: Response) => {
                     res.status(400).send({statusText: "Couldn't add the item to database"}));
             } else {
                 await Category.create({ name, budget, type: 'Expense' })
-                .then( (addedItem: Category) => res.status(200).send({addedItem}))
+                .then( (addedItem: Category) =>
+                    res.status(200).send({addedItem, statusText: "Item added to database"}))
                 .catch(() => res.status(400).send({statusText: `Couldn't add the item to database.`}))
             }
         }
@@ -51,7 +52,7 @@ router.delete('/categories/delete/:id', async (req: Request, res: Response) => {
     await Category.findByIdAndDelete({ _id: req.params.id })
     .then((dbResponse: null) => {
         if(dbResponse !== null){
-            res.status(200);
+            res.status(200).send({statusText: "Item deleted."});
         } else {
             res.status(404).send({statusText: `Didn't find anything to delete.`})}
 

@@ -5,6 +5,7 @@ import { showError } from "src/redux/actions/errorActions";
 import { hideSuccess, showSuccess } from "src/redux/actions/successActions";
 import { loadTransactions } from "src/redux/actions/transactionActions";
 import { RootState } from "src/redux/reducers";
+import {handleCsvExport, handleTransactionsDelete} from "../../fetch/transactions";
 
 const useStyles = makeStyles({
     button: {
@@ -12,23 +13,6 @@ const useStyles = makeStyles({
         width: "100%",
     },
 });
-/**
- * Tells the API to bundle current stored Transactions to CSV format and send it to the client.
- * Client waits for the data and then downloads it as a .csv file.
- */
-const handleCsvExport = async () => {
-    await fetch("transactions/export", {
-        method: "POST",
-        mode: "cors",
-    }).then(async (res: any) => {
-        const blob = await res.blob();
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "exported_" + new Date().toISOString().split("T")[0] + ".csv";
-        link.click();
-        setTimeout(() => URL.revokeObjectURL(link.href), 0);
-    });
-};
 
 /**
  * Receives file from client, sends it to server in binary format, server handles it by saving it and then
@@ -68,25 +52,8 @@ const handleFileSelected = async (e: React.ChangeEvent<HTMLInputElement>, dispat
             dispatch(showError(`Uploading CSV file failed.`, err.message));
         });
 };
-/**
- * Delete all Transactions that correspond to the _id values in checkedTransactions array
- * @param checkedTransactions Array of Transaction _id's
- * @param dispatch Dispatch function to display success/error tooltips
- */
-const handleTransactionsDelete = async (checkedTransactions: string[], dispatch: any): Promise<void> => {
-    await fetch("transactions/delete", {
-        body: JSON.stringify({checkedTransactions}),
-        method: "DELETE",
-        mode: "cors",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    }).then((res) => {
-        if (res.status === 200) {
-            return res.json();
-        }
-        throw new Error(res.statusText);
-    }).then((res) => {
+const deleteTransaction = (checkedTransactions: string[], dispatch: any) => {
+    handleTransactionsDelete(checkedTransactions).then((res) => {
         // FIXME: res.allTransactions should return 0 transactions after delete all
         dispatch(loadTransactions(res.allTransactions));
         dispatch(showSuccess(res.statusText));
@@ -141,7 +108,7 @@ const TransactionButtons = () => {
                 disabled={checkedTransactions.length === 0}
                 component="span"
                 className={classes.button}
-                onClick={() => handleTransactionsDelete(checkedTransactions, dispatch)}>
+                onClick={() => deleteTransaction(checkedTransactions, dispatch)}>
                     Delete Transactions
                 </Button>
             </Grid>
