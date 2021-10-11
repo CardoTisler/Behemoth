@@ -31,7 +31,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "rimraf ./dist && tsc",
-    "test": "react-scripts test",
+    "test": "jest --watchAll",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -55,6 +55,8 @@
   "devDependencies": {
     "@types/react-date-range": "^1.1.7",
     "@types/react-router-dom": "^5.1.8",
+    "jest": "^27.2.5",
+    "supertest": "^6.1.6",
     "tslint": "^5.12.1"
   }
 }

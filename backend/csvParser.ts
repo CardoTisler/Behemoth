@@ -2,7 +2,7 @@ import { Transaction as TransactionItem } from "../frontend/@types/TransactionTy
 import {Category as CategoryItem} from '../frontend/@types/CategoryTypes/category'
 const csv = require('csv-parse')
 const fs = require('fs')
-const Category = require('../backend/models/category')
+const Category = require('./models/category')
 //const verifyDataAmount
 
  

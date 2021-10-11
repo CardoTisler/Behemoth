@@ -29,7 +29,6 @@ app.use((err: any, req:any, res:any, next:any) => {
     res.json({status: 500, statusText: 'Middleware exception caught: '+err.message})
 })
 
-
 app.listen(3001, process.env.IP, function(){
     console.log('Server running on port', 3001)
 })
