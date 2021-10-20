@@ -49,7 +49,7 @@ bar graph about expenses by visualizing each expense category alongside the plan
 
 ![Dashboard](https://i.ibb.co/g6YQ5Kx/dashboard.png)
 
-![Transactions](https://i.ibb.co/k35gxZJ/transactions.png)
+![Transactions](https://i.ibb.co/VSTM2Xj/transactions.png)
 
 ![Categories](https://i.ibb.co/SmXwjTL/categories.png)
 
