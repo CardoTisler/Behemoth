@@ -55,7 +55,8 @@
   "devDependencies": {
     "@types/react-date-range": "^1.1.7",
     "@types/react-router-dom": "^5.1.8",
-    "jest": "^27.2.5",
+    "@types/recharts": "^1.8.21",
+    "jest": "26.6.0",
     "supertest": "^6.1.6",
     "tslint": "^5.12.1"
   }

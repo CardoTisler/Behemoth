@@ -5,7 +5,7 @@ import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { useDispatch } from "react-redux";
 import { changeDateRange } from "src/redux/actions/dateFilterActions";
-import {Transaction, ITransactionState} from "../../../@types/TransactionTypes/Transaction";
+import {ITransactionState, Transaction} from "../../../@types/TransactionTypes/Transaction";
 import {useFetchTransactions} from "../../hooks/useFetchTransactions";
 import useUpdateEffect from "../../hooks/useUpdateEffect";
 import {loadTransactions} from "../../redux/actions/transactionActions";
@@ -63,7 +63,6 @@ const DateFilter: React.FC = () => {
     return (
         <DateRangePicker
         weekStartsOn={1}
-        showSelectionPreview={true}
         ranges={state}
         onChange={(item: any) => setState([item.selection])} />
      );

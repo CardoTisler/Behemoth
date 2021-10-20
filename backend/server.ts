@@ -6,7 +6,7 @@ const cors = require('cors')
 const categoriesAPI = require('./API/categoriesAPI.ts')
 const transactionsAPI = require('./API/transactionsAPI.ts')
 const bodyParser = require('body-parser')
-const url = require('./abtok.js')
+const {url} = require('./abtok.js')
 
 mongoose.connect(url, {
     useNewUrlParser: true,

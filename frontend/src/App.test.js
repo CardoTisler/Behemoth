@@ -33,10 +33,3 @@
 //     return request(App).get("/categories/falserequest").expect(404);
 //   });
 // })
-
-//TODO: Database connectivity test
-//TODO: Transaction add test
-//TODO: Transaction category change test
-//TODO: Transaction delete test
-//TODO: Category add test
-//TODO: Category delete test

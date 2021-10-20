@@ -5,7 +5,8 @@ const fs = require('fs')
 const Category = require('./models/category')
 //const verifyDataAmount
 
- 
+// TODO: Add unit tests for csvParser
+
 export async function parseFromFile(pathToFolder: string, fileName: string): Promise<void> {
     let results: any = [];
     await new Promise<void>((resolve) => {
