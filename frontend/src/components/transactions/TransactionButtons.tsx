@@ -1,11 +1,12 @@
+import React from "react";
 import { Button, Grid, makeStyles } from "@material-ui/core";
 import {ChangeEvent} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { showError } from "src/redux/actions/errorActions";
-import { hideSuccess, showSuccess } from "src/redux/actions/successActions";
-import { loadTransactions } from "src/redux/actions/transactionActions";
-import { RootState } from "src/redux/reducers";
 import {handleCsvExport, handleTransactionsDelete} from "../../fetch/transactions";
+import { showError } from "../../redux/actions/errorActions";
+import { hideSuccess, showSuccess } from "../../redux/actions/successActions";
+import { loadTransactions } from "../../redux/actions/transactionActions";
+import { RootState } from "../../redux/reducers";
 
 const useStyles = makeStyles({
     button: {
@@ -22,7 +23,7 @@ const useStyles = makeStyles({
  * @returns statusCode - 200 if OK, 400 if any error encountered
  * @returns newItems - Array of Transaction objects if statusCode 200
  */
-const handleFileSelected = async (e: React.ChangeEvent<HTMLInputElement>, dispatch: any): Promise<void> => {
+async function handleFileSelected(e: React.ChangeEvent<HTMLInputElement>, dispatch: any): Promise<void> {
     e.preventDefault();
     const data = new FormData();
     // Gets the file from HTML input from clientside
@@ -51,7 +52,7 @@ const handleFileSelected = async (e: React.ChangeEvent<HTMLInputElement>, dispat
         }).catch((err: Error) => {
             dispatch(showError(`Uploading CSV file failed.`, err.message));
         });
-};
+}
 const deleteTransaction = (checkedTransactions: string[], dispatch: any) => {
     handleTransactionsDelete(checkedTransactions).then((res) => {
         // FIXME: res.allTransactions should return 0 transactions after delete all

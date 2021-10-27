@@ -7,8 +7,7 @@ import { Transaction } from "../../@types/TransactionTypes/Transaction";
  * Requests all transactions from database and then evaluates response based on response statusCode
  * If statuscode = 200 then it returns response, if statuscode is anything else (typically 400) then it throws an error
  */
-
-const getData = async (): Promise<any> =>
+const getData = async (): Promise<FetchReturn> =>
     await fetch("transactions/show")
         .then((res) => {
             if (res.status === 200) {
@@ -17,7 +16,7 @@ const getData = async (): Promise<any> =>
             throw new Error(res.statusText);
         }).catch((err) => { throw new Error(err.message); });
 
-interface IfetchReturn {
+interface FetchReturn {
     transactionsList: Transaction[];
     error: boolean;
 }
@@ -26,7 +25,7 @@ interface IfetchReturn {
  * Fetches all transactions currently stored in the database
  * @returns Object transactionsList - array of all transaction objects and error boolean
  */
-export const useFetchTransactions = (): IfetchReturn => {
+export const useFetchTransactions = (): FetchReturn => {
     const dispatch = useDispatch();
     const [data, setData] = useState<Transaction[]>([]);
     let error = false;

@@ -1,14 +1,12 @@
-// const MongoClient = require('mongodb').MongoClient;
+require('dotenv').config()
 let mongoose = require('mongoose')
 const express = require('express')
 const app = express()
 const cors = require('cors')
 const categoriesAPI = require('./API/categoriesAPI.ts')
 const transactionsAPI = require('./API/transactionsAPI.ts')
-const bodyParser = require('body-parser')
-const {url} = require('./abtok.js')
 
-mongoose.connect(url, {
+mongoose.connect(process.env.DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true})
     .then(() => { 
@@ -29,6 +27,6 @@ app.use((err: any, req:any, res:any, next:any) => {
     res.json({status: 500, statusText: 'Middleware exception caught: '+err.message})
 })
 
-app.listen(3001, process.env.IP, function(){
-    console.log('Server running on port', 3001)
+app.listen(process.env.DEV_PORT, process.env.IP, function(){
+    console.log('Server running on port', process.env.DEV_PORT)
 })

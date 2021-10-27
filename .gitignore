@@ -7,7 +7,7 @@ backend/node_modules
 backend/abtok.js
 /.pnp
 .pnp.js
-
+.env
 # testing
 /coverage
 

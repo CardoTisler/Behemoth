@@ -37,7 +37,7 @@ bar graph about expenses by visualizing each expense category alongside the plan
     - [ ] Functional filtering system in Transactions view
     - [ ] Transaction individual categorizing functionality
 - [ ] Reports
-    - [ ] Currently no idea what to do here, but some more thorough statistics would be fun.
+    - [ ] Detailed statistics
 - [ ] General
     - [ ] Light mode / Dark mode toggle
 
