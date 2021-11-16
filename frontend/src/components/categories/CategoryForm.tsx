@@ -1,10 +1,10 @@
-import { Box, Button, makeStyles, TextField } from "@material-ui/core";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import {Box, Button, makeStyles, TextField} from "@material-ui/core";
+import {useState} from "react";
+import {useDispatch} from "react-redux";
 import {addToDatabase} from "../../fetch/categories";
-import { addCategory } from "../../redux/actions/categoryActions";
-import { showError } from "../../redux/actions/errorActions";
-import { hideSuccess, showSuccess } from "../../redux/actions/successActions";
+import {addCategory} from "../../redux/actions/categoryActions";
+import {showError} from "../../redux/actions/errorActions";
+import {hideSuccess, showSuccess} from "../../redux/actions/successActions";
 
 const useStyles = makeStyles({
     root: {
@@ -56,12 +56,15 @@ const CategoryForm: React.FC = () => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
+        if (showErrorMessage) { return; }
         const data: submitPayload = {name: state.name, budget: state.budget, isIncomeCategory};
         // TODO: Add useDispatchSuccess custom hook to avoid repetetitive code
         addToDatabase("/categories/new", data).then((res) => {
-                dispatch(addCategory(res.addedItem!, isIncomeCategory));
-                dispatch(showSuccess(`New category added.`));
-                setTimeout(() => {dispatch(hideSuccess()); }, 4000);
+            dispatch(addCategory(res.addedItem!, isIncomeCategory));
+            dispatch(showSuccess(`New category added.`));
+            setTimeout(() => {
+                dispatch(hideSuccess());
+            }, 4000);
         }).catch((err: Error) => {
             dispatch(showError(`Couldn't make API request.`, err.message));
         });
@@ -77,12 +80,12 @@ const CategoryForm: React.FC = () => {
         // dynamic state update based on input in textfield
         if (e.target !== null) {
             if (e.target.name === "categoryNameField") {
-                setState({ ...state, name: e.target.value });
+                setState({...state, name: e.target.value});
             } else {
                 // this regex checks if value contains only numbers
                 if (/^\d+$/.test(e.target.value) || e.target.value === "") {
                     setState({...state, budget: e.target.value});
-                    if (showErrorMessage) { // TODO: Replace with Material UI helpertext
+                    if (showErrorMessage) {
                         setShowErrorMessage(false);
                     }
                 } else {
@@ -100,33 +103,33 @@ const CategoryForm: React.FC = () => {
             <form onSubmit={handleSubmit} className={classes.formLayout}>
                 <div className={classes.textFields}>
                     <TextField
-                    label="Category Name"
-                    name="categoryNameField"
-                    value={state.name}
-                    onChange={handleInput}/>
+                        label="Category Name"
+                        name="categoryNameField"
+                        value={state.name}
+                        onChange={handleInput}/>
 
-                {!isIncomeCategory &&
+                    {!isIncomeCategory &&
                     <TextField
-                    label="Monthly Budget (€)"
-                    name="budgetValueField"
-                    value={state.budget}
-                    onChange={handleInput}/>}
-
-                    {showErrorMessage && <p className={classes.errorText}>Invalid input!</p>}
+                        error={showErrorMessage}
+                        helperText={showErrorMessage && "Invalid input"}
+                        label="Monthly Budget (€)"
+                        name="budgetValueField"
+                        value={state.budget}
+                        onChange={handleInput}/>}
                 </div>
                 <div className={classes.buttonLayout}>
-                        <Button
+                    <Button
                         type="submit"
                         variant="contained"
                         color="primary">Add</Button>
 
-                        <Button
+                    <Button
                         className={isIncomeCategory ? classes.incomeButton : classes.expensesButton}
                         variant="contained"
                         color="primary"
                         onClick={handleCategoryChange}>
-                            {isIncomeCategory ? "Income" : "Expense"}
-                        </Button>
+                        {isIncomeCategory ? "Income" : "Expense"}
+                    </Button>
                 </div>
             </form>
         </Box>

@@ -1,4 +1,5 @@
 import {Transaction} from "../../@types/TransactionTypes/Transaction";
+
 /**
  * Tells the API to bundle current stored Transactions to CSV format and send it to the client.
  * Client waits for the data and then downloads it as a .csv file.
@@ -21,6 +22,7 @@ interface IDeleteTransaction {
     allTransactions: Transaction[];
     statusText: string;
 }
+
 /**
  * Delete all Transactions that correspond to the _id values in checkedTransactions array
  * @param checkedTransactions Array of Transaction _id's
@@ -64,6 +66,7 @@ export const addTransactionToDatabase = async (newTransaction: any): Promise<ISt
 interface IStatusText {
     statusText: string;
 }
+
 /**
  * Find the transaction.name value based on transactionId, then find all transactions
  * that have the same name value and update their transaction.category field to reference
