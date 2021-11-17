@@ -14,7 +14,6 @@ const useStyles = makeStyles({
         textAlign: "center",
     },
 });
-// TODO: if rendering positive or 0 number to amount column, font green, otherwise default
 // TODO: Implement single category change functionality
 
 interface IProps {

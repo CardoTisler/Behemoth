@@ -27,7 +27,6 @@ const useStyles = makeStyles({
     },
 });
 
-
 const TransactionsForm: React.FC<any> = () => {
     const dispatch = useDispatch();
     const [state, setState] = useState({
@@ -112,8 +111,7 @@ const TransactionsForm: React.FC<any> = () => {
         return true;
     };
 
-    // TODO: Add input validation hints to UI (display helpertext if validation rule broken)
-    const validateTransactionData = (): boolean => { // TODO: Add proper error handling.
+    const validateTransactionData = (): boolean => {
         // date must be convertable to Date object
         // Amount must be convertable to float
         let validationPassed = true;

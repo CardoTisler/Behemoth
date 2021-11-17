@@ -58,7 +58,6 @@ const CategoryForm: React.FC = () => {
         e.preventDefault();
         if (showErrorMessage) { return; }
         const data: submitPayload = {name: state.name, budget: state.budget, isIncomeCategory};
-        // TODO: Add useDispatchSuccess custom hook to avoid repetetitive code
         addToDatabase("/categories/new", data).then((res) => {
             dispatch(addCategory(res.addedItem!, isIncomeCategory));
             dispatch(showSuccess(`New category added.`));
