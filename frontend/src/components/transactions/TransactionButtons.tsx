@@ -55,7 +55,6 @@ async function handleFileSelected(e: React.ChangeEvent<HTMLInputElement>, dispat
 }
 const deleteTransaction = (checkedTransactions: string[], dispatch: any) => {
     handleTransactionsDelete(checkedTransactions).then((res) => {
-        // FIXME: res.allTransactions should return 0 transactions after delete all
         dispatch(loadTransactions(res.allTransactions));
         dispatch(showSuccess(res.statusText));
         setTimeout(() => dispatch(hideSuccess()), 4000);

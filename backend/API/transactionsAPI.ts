@@ -27,7 +27,7 @@ router.post('/transactions/new', async (req: Request, res: Response) => {
     })
 })
 
-//multer searches for key 'csvUpload' value from FormData() created in frontend. 
+//multer searches for key 'csvUpload' value from FormData() created in frontend.
 router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: Request, res: Response) => {
     //if there is an error in uploading the file, multer will throw an error and it will be caught in server.ts
     //if the code reaches here then middleware has succeeded and we can send back OK
@@ -37,7 +37,7 @@ router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: Requ
         .catch((err: Error) => res.status(400).send({statusText: err.message}))
 
         if(results.length !== 0){
-            const {transactions, errorMessage} = await arrayToTransactions(results);     
+            const {transactions, errorMessage} = await arrayToTransactions(results);
             await Transaction.insertMany(transactions)
             .then( async () => {
                 const newItems = await Transaction.find({}).populate('category')
@@ -45,14 +45,14 @@ router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: Requ
             }).catch((err: Error) => {
                 res.status(500).send({statusText: err.message})
             })
-            
+
         }
     } else {
         res.status(404).send({statusText: `Couldn't get filename for parsing.`})
     }
-    
+
 })
- 
+
 router.post('/transactions/export', async (req: Request, res: Response) => {
     await Transaction.find({}).populate('category').then((foundItemsArray: TransactionItem[]) => {
 
@@ -117,11 +117,11 @@ router.put('/transactions/updatecategories/:id', async(req: Request, res: Respon
 
 router.delete('/transactions/delete', async (req: Request, res: Response) => {
     const {checkedTransactions} = req.body
-    Transaction.deleteMany({_id: {$in: checkedTransactions}})
+    await Transaction.deleteMany({_id: {$in: checkedTransactions}})
         .catch((err: any) => {
             res.status(400).send({statusText: err.message})
     })
-    Transaction.find({}).then((allTransactions: TransactionItem[]) => {
+    await Transaction.find({}).then((allTransactions: TransactionItem[]) => {
         res.status(200).send({statusText: `Successfully deleted Transactions.`, allTransactions})
     }).catch((err: Error) => {
         res.status(400).send({statusText: err.message})
