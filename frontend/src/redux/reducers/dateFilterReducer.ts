@@ -1,6 +1,6 @@
 export interface DateFilterState {
-    startDate: Date;
-    endDate: Date;
+    startDateISO: string;
+    endDateISO: string;
     key: string;
 }
 
@@ -8,11 +8,10 @@ export interface DateFilterAction {
     type: string;
     payload: DateFilterState;
 }
-// TODO: Perhaps store ISO strings instead?
 const initialState: DateFilterState = {
-    endDate: new Date("01.01.1970"),
+    endDateISO: new Date("01.01.2021").toISOString(),
     key: "selection",
-    startDate: new Date("01.01.1970"),
+    startDateISO: new Date("01.01.1970").toISOString(),
 };
 
 export const dateFilterReducer = (state: DateFilterState = initialState,

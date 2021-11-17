@@ -53,8 +53,11 @@ const DateFilter: React.FC = () => {
 
     useUpdateEffect(() => {
         if (!error) {
-            const {endDate, startDate} = state[0];
-            dispatch(changeDateRange(state[0]));
+            const {endDate, startDate, key} = state[0];
+            dispatch(changeDateRange({
+                endDateISO: endDate.toISOString(),
+                key,
+                startDateISO: startDate.toISOString()}));
             const transactions = filterTransactions(transactionsList, startDate, endDate);
             dispatch(loadTransactions(transactions));
         }
