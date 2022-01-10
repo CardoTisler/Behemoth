@@ -2,7 +2,7 @@ import { Transaction as TransactionItem } from "../frontend/@types/TransactionTy
 import {Category as CategoryItem} from '../frontend/@types/CategoryTypes/category'
 const csv = require('csv-parse')
 const fs = require('fs')
-const Category = require('./models/category')
+const Category = require('./db/models/category')
 //const verifyDataAmount
 
 // TODO: Add unit tests for csvParser
@@ -12,7 +12,7 @@ export async function parseFromFile(pathToFolder: string, fileName: string): Pro
     await new Promise<void>((resolve) => {
         fs.createReadStream(pathToFolder.concat(fileName))
         .pipe(csv({
-            delimiter: ';' 
+            delimiter: ';'
         }))
         .on('data', async (data: any) => {
             await results.push(data)
@@ -37,22 +37,22 @@ export async function arrayToTransactions(results: string[][]): Promise<parserPa
     const headersIndex: Map<string, number> = mapValuesToIndex(results[0])
     let transactions: TransactionItem[] = [];
     results = results.slice(1, results.length)
-    
+
     for (const entry of results){
         if(entry[headersIndex.get('Reatüüp')!] === '20'){
             const debitOrCredit: string = entry[headersIndex.get('Deebet/Kreedit')!]
             let amount: string = debitOrCredit === 'D' ? '-' : '' //if K then its an outgoing transaction, if C then incoming
             amount = amount.concat(entry[headersIndex.get('Summa')!]).replace(',', '.');
-            
+
             const newTransaction: TransactionItem | null = validateDataForTransaction(entry, headersIndex)
             if(newTransaction !== null){
                 transactions.push(newTransaction)
             }
         }
         //if null then dont push to results array.
-    }    
+    }
 
-    
+
     transactions = await addCategoriesToNewTransactions(transactions)
     .then((transactions) => transactions )
     .catch((err: Error) => {
@@ -70,14 +70,14 @@ const validateDataForTransaction = (array: string[], headersMap: Map<string, num
     const debitOrCredit: string = array[headersMap.get('Deebet/Kreedit')!]
     let amount: string = debitOrCredit === 'D' ? '-' : '' //if K then its an outgoing transaction, if C then incoming
     amount = amount.concat(array[headersMap.get('Summa')!]).replace(',', '.');
-    
+
     try{
         const [day, month, year] = array[headersMap.get('Kuupäev')!].split('.')
         resultItem.date = new Date(month.concat('.').concat(day).concat('.').concat(year)).toISOString()
 
         resultItem.name = array[headersMap.get('Saaja/Maksja')!].replace(/\s+/g, ' ').trim()
         resultItem.description = array[headersMap.get('Selgitus')!].replace(/\s+/g, ' ').trim()
-        
+
         resultItem.amount = amount
 
         return resultItem
@@ -146,7 +146,7 @@ const mapValuesToIndex = (headersArray: string[]): Map<string, number> => {
         const header = headersArray[i];
         if(requiredHeaders.includes(header)){
             map.set(header, i); //set header and its corresponding index in results array
-        }   
+        }
     }
     return map;
 }

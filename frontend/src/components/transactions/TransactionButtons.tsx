@@ -6,6 +6,7 @@ import {handleCsvExport, handleTransactionsDelete} from "../../fetch/transaction
 import { showError } from "../../redux/actions/errorActions";
 import { hideSuccess, showSuccess } from "../../redux/actions/successActions";
 import { loadTransactions } from "../../redux/actions/transactionActions";
+import {unCheckAllTransactions} from "../../redux/actions/transactionCheckboxActions";
 import { RootState } from "../../redux/reducers";
 
 const useStyles = makeStyles({
@@ -56,6 +57,7 @@ async function handleFileSelected(e: React.ChangeEvent<HTMLInputElement>, dispat
 const deleteTransaction = (checkedTransactions: string[], dispatch: any) => {
     handleTransactionsDelete(checkedTransactions).then((res) => {
         dispatch(loadTransactions(res.allTransactions));
+        dispatch(unCheckAllTransactions());
         dispatch(showSuccess(res.statusText));
         setTimeout(() => dispatch(hideSuccess()), 4000);
     }).catch((err: Error) => {
