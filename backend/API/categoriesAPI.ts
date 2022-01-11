@@ -3,6 +3,7 @@ import {Request, Response} from 'express'
 const express = require('express')
 const router = express.Router();
 const Category = require('../db/models/category')
+const {validateName, validateBudget} = require("../validation/categories")
 
 interface Category {
     _id: string,
@@ -13,6 +14,10 @@ interface Category {
 
 router.post('/categories/new', async (req: Request, res: Response) => {
     const {isIncomeCategory, name, budget} = req.body
+    if(!validateName(name)){res.status(400).send({statusText: "Name validation failed."}); return;}
+    if(!validateBudget(budget)){res.status(400).send({statusText: "Budget validation failed."}); return;}
+    if(typeof isIncomeCategory === "undefined"){res.status(400).send({statusText: "Type of category is not defined."}); return;}
+
     await Category.find({name}).then(async (foundItemsArray: Category[]) => {
         if (foundItemsArray.length !== 0) {
             res.status(400).send({statusText: 'Will not add duplicate item to database!'})

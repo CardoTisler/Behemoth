@@ -1,10 +1,11 @@
 import {Transaction as TransactionItem} from '../../frontend/@types/TransactionTypes/Transaction'
-import {Request, Response } from 'express'
+import { Request, Response } from 'express'
 const express = require('express')
 const router = express.Router();
 const Transaction = require('../db/models/transaction')
 const {parseFromFile, arrayToTransactions} = require('../csvParser');
 const stringify = require('csv-stringify')
+const { validateNameField, validateDate, validateDescription, validateAmount, validateCategoryId } = require("../validation/transactions")
 
 const multer = require('multer')
 const storage = multer.diskStorage({
@@ -19,6 +20,15 @@ const upload = multer({storage: storage})
 
 router.post('/transactions/new', async (req: Request, res: Response) => {
     const newTransaction = req.body
+    const {date, name, description, amount, category} = newTransaction;
+    if(!(validateDate(date) &&
+        validateNameField(name) &&
+        validateDescription(description) &&
+        validateAmount(amount) &&
+        validateCategoryId(category))){
+        res.status(400).send({statusText: "Validation failed, will not add transaction to db."})
+        return;
+    }
     Transaction.insertMany([newTransaction])
     .then(() => {
         res.status(200).send({statusText: 'Added new transaction'})
@@ -27,32 +37,32 @@ router.post('/transactions/new', async (req: Request, res: Response) => {
     })
 })
 
-// FIXME: fix the file not on Request type error
+type FileRequest = Request & { file: any }
 //multer searches for key 'csvUpload' value from FormData() created in frontend.
-// router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: Request, res: Response) => {
-//     //if there is an error in uploading the file, multer will throw an error and it will be caught in app.ts
-//     //if the code reaches here then middleware has succeeded and we can send back OK
-//     let results: any = [];
-//     if(req.file?.filename){
-//         results = await parseFromFile('../csvData/', req.file?.filename)
-//         .catch((err: Error) => res.status(400).send({statusText: err.message}))
-//
-//         if(results.length !== 0){
-//             const {transactions, errorMessage} = await arrayToTransactions(results);
-//             await Transaction.insertMany(transactions)
-//             .then( async () => {
-//                 const newItems = await Transaction.find({}).populate('category')
-//                 res.status(200).send({statusText: 'Added new items to database!', newItems, errorMessage})
-//             }).catch((err: Error) => {
-//                 res.status(500).send({statusText: err.message})
-//             })
-//
-//         }
-//     } else {
-//         res.status(404).send({statusText: `Couldn't get filename for parsing.`})
-//     }
-//
-// })
+router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: FileRequest, res: Response) => {
+    //if there is an error in uploading the file, multer will throw an error and it will be caught in app.ts
+    //if the code reaches here then middleware has succeeded and we can send back OK
+    let results: any = [];
+    if(req.file?.filename){
+        results = await parseFromFile('../csvData/', req.file?.filename)
+        .catch((err: Error) => res.status(400).send({statusText: err.message}))
+
+        if(results.length !== 0){
+            const {transactions, errorMessage} = await arrayToTransactions(results);
+            await Transaction.insertMany(transactions)
+            .then( async () => {
+                const newItems = await Transaction.find({}).populate('category')
+                res.status(200).send({statusText: 'Added new items to database!', newItems, errorMessage})
+            }).catch((err: Error) => {
+                res.status(500).send({statusText: err.message})
+            })
+
+        }
+    } else {
+        res.status(404).send({statusText: `Couldn't get filename for parsing.`})
+    }
+
+})
 
 router.post('/transactions/export', async (req: Request, res: Response) => {
     await Transaction.find({}).populate('category').then((foundItemsArray: TransactionItem[]) => {
@@ -127,5 +137,11 @@ router.delete('/transactions/delete', async (req: Request, res: Response) => {
     }).catch((err: Error) => {
         res.status(400).send({statusText: err.message})
     })
+})
+
+router.delete("/transactions/deleteAll", async (req: Request, res: Response) => {
+    await Transaction.deleteMany({})
+        .then(() => res.status(200).send({statusText: `Successfully deleted all transactions`}))
+        .catch((err: Error) => res.status(400).send({statusText: err.message}))
 })
 module.exports = router;

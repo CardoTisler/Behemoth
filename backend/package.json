@@ -6,7 +6,7 @@
   "proxy": "http://localhost:27017",
   "scripts": {
     "test": "SET NODE_ENV=test&& mocha --check-leaks -r tsconfig-paths/register -r ts-node/register \"test/**/*.test.js\" --exit",
-    "start": "SET NODE_ENV=dev&& nodemon server.ts"
+    "start": "SET NODE_ENV=test&& nodemon server.ts"
   },
   "type": "commonjs",
   "keywords": [],

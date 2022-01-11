@@ -5,6 +5,7 @@ import {addToDatabase} from "../../fetch/categories";
 import {addCategory} from "../../redux/actions/categoryActions";
 import {showError} from "../../redux/actions/errorActions";
 import {hideSuccess, showSuccess} from "../../redux/actions/successActions";
+// TODO: Implement clientside validation for new category input values
 
 const useStyles = makeStyles({
     root: {
@@ -33,7 +34,7 @@ const useStyles = makeStyles({
         backgroundColor: "red",
     },
 });
-
+// FIXME: Budget should be number -> ValidationMethods in backend should expect only number
 interface submitPayload {
     name: string;
     budget: number | string;
