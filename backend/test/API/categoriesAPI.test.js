@@ -17,10 +17,12 @@ describe("Category Tests", () => {
             .delete("/categories/deleteAll")
             .expect(200, done)
     })
-    after("Disconnect from database", (done) => {
-        connection.disconnect()
-        server.close()
-        done()
+    after("Disconnect from database", async () => {
+        await request(app)
+            .delete("/categories/deleteAll")
+            .expect(200)
+        await connection.disconnect()
+        await server.close()
     })
 
     it("Adding Income category returns statusCode 200", (done) => {

@@ -33,10 +33,12 @@ export const useFetchTransactions = (): FetchReturn => {
     useEffect( () => {
         async function fetch() {
             await getData().then( (res) => {
+                    if (res.transactionsList.length === 0) {
+                        dispatch(showInfo("Did not find any transactions in the database."));
+                    }
                     setData([...res.transactionsList]);
                 }).catch((err: Error) => {
                     error = true;
-                    dispatch(showInfo("Did not find any transactions in the database."));
                 });
         }
         fetch();

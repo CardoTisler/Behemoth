@@ -84,11 +84,7 @@ router.post('/transactions/export', async (req: Request, res: Response) => {
 
 router.get('/transactions/show', async (req: Request, res: Response) => {
     await Transaction.find({}).populate('category').then((foundItemsArray: TransactionItem[]) => {
-        if (foundItemsArray.length === 0) {
-            res.status(400).send({statusText: 'Did not find any transactions.'})
-        } else {
-            res.status(200).send({transactionsList: [...foundItemsArray]})
-        }
+        res.status(200).send({transactionsList: [...foundItemsArray]})
     }).catch((err: any) => {
         res.status(400).send({statusMessage: err.message });
     })
@@ -137,6 +133,12 @@ router.delete('/transactions/delete', async (req: Request, res: Response) => {
     }).catch((err: Error) => {
         res.status(400).send({statusText: err.message})
     })
+})
+
+router.delete("/transactions/delete/:id", async (req: Request, res: Response) => {
+    await Transaction.deleteOne({_id: req.params.id})
+        .then(() => res.status(200).send({statusText: `Successfully deleted Transaction.`}))
+        .catch((err: Error) => res.status(400).send({statusText: err.message}))
 })
 
 router.delete("/transactions/deleteAll", async (req: Request, res: Response) => {
