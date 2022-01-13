@@ -1,4 +1,4 @@
-import {Transaction as TransactionItem} from '../../frontend/@types/TransactionTypes/Transaction'
+import {Transaction as TransactionItem} from '../@types/TransactionTypes/Transaction'
 import { Request, Response } from 'express'
 const express = require('express')
 const router = express.Router();
