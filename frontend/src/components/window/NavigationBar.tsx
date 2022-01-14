@@ -21,7 +21,6 @@ const useStyles = makeStyles({
 
 interface Props {
     onButtonClick: any;
-
 }
 const NavigationBar: React.FC<Props> = (props) => {
     const classes = useStyles();
@@ -30,7 +29,7 @@ const NavigationBar: React.FC<Props> = (props) => {
         <nav className={classes.root}>
             <Grid container spacing={0}>
                 <Grid item xs={12} md={12}>
-                    <Link to="/" className={classes.link}>
+                    <Link to="/dashboard" className={classes.link}>
                         <NavButton text="Dashboard" icon={<DashboardIcon />} onClick={props.onButtonClick}/>
                     </Link>
                 </Grid>

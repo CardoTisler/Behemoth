@@ -7,6 +7,7 @@ import loadingReducer from "./loadingReducer";
 import successReducer from "./successReducer";
 import transactionCheckboxReducer from "./transactionCheckboxReducer";
 import transactionReducer from "./transactionReducer";
+import userReducer from "./userReducer";
 
 const allReducers = combineReducers({
     categoryReducer,
@@ -17,6 +18,7 @@ const allReducers = combineReducers({
     successReducer,
     transactionCheckboxReducer,
     transactionReducer,
+    userReducer,
 });
 
 export default allReducers;

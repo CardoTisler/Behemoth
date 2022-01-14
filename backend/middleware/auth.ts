@@ -16,14 +16,14 @@ export const verifyJWT = (req: AuthRequest, res: Response, next: NextFunction) =
             error: "JWT not in headers",
             isLoggedIn: false,
             statusText: "Failed to authenticate"
-        })}
+        });}
 
     jwt.verify(token, process.env.JWT_SECRET, (err: VerifyErrors, decoded: any) => {
         if(err) {return res.status(401).send({
             error: "Could not verify JWT token",
             isLoggedIn: false,
             statusText: "Failed to authenticate"
-        })}
+        });}
         req.user = {
             id: decoded.id,
             username: decoded.username

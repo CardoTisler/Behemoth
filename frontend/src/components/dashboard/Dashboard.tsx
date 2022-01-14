@@ -1,4 +1,5 @@
 import {Box, makeStyles} from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import React from "react";
 import DateFilter from "./DateFilter";
 import Graph from "./Graph";
@@ -22,10 +23,9 @@ const useStyles = makeStyles({
         marginBottom: "1%",
     },
 });
-
+// TODO: Kirjutada hook mis kontrollib kas sisse logitud, kui ei ss suunab /login?
 const Dashboard: React.FC = () => {
     const classes = useStyles();
-
     return (
         <Box className={classes.root} boxShadow={4}>
             <div className={classes.header}>

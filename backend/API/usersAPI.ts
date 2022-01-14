@@ -47,7 +47,7 @@ router.post("/login", (req: Request, res: Response) => {
             }
             bcrypt.compare(userLoggingIn.password, dbUser.password)
                 .then( (isCorrect: boolean) => {
-                    if(!isCorrect){ return res.status(400).send("Invalid username or password.")}
+                    if(!isCorrect){ return res.status(400).send({statusText: "Invalid username or password."})}
                     const payload = {id: dbUser._id, username: dbUser.username}
                     jwt.sign(
                         payload,
@@ -56,7 +56,10 @@ router.post("/login", (req: Request, res: Response) => {
                         (err: JsonWebTokenError, token: any) => {
                             if(err) {return res.status(401)
                                 .send({statusText: "Signing jwt failed.", error: err.message})}
-                            return res.status(200).send({message: "Success", token: `Bearer ${token}`})
+                            return res.status(200).send({
+                                message: "Success",
+                                token: `Bearer ${token}`,
+                                username: dbUser.username})
                         }
                     )
                 })
@@ -69,7 +72,7 @@ interface AuthenticatedUser {
 }
 type AuthRequest = Request & {user: AuthenticatedUser}
 //route for testing middleware
-router.get("/getUsername", verifyJWT, (req: AuthRequest, res: Response) => {
-    res.status(200).send({username: req.user.username})
+router.get("/isUserAuth", verifyJWT, (req: AuthRequest, res: Response) => {
+    res.status(200).send({username: req.user.username, isLoggedIn: true})
 })
 module.exports = router;
