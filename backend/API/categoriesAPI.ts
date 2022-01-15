@@ -1,4 +1,5 @@
 import {Request, Response} from 'express'
+import {verifyJWT} from "../middleware/auth";
 
 const express = require('express')
 const router = express.Router();
@@ -9,44 +10,67 @@ interface Category {
     _id: string,
     type: string,
     name: string,
-    budget: number
+    budget: number,
+    user: string
 }
-
-router.post('/categories/new', async (req: Request, res: Response) => {
+// TODO: these types are duplicated, define them somewhere and import
+interface AuthenticatedUser {
+    id: string,
+    username: string,
+}
+type AuthRequest = Request & {user: AuthenticatedUser}
+router.post('/categories/new', verifyJWT, async (req: AuthRequest, res: Response) => {
     const {isIncomeCategory, name, budget} = req.body
+    const {id} = req.user;
+    // TODO: Replace personal validation methods with joi package
     if(!validateName(name)){res.status(400).send({statusText: "Name validation failed."}); return;}
     if(!validateBudget(budget)){res.status(400).send({statusText: "Budget validation failed."}); return;}
     if(typeof isIncomeCategory === "undefined"){res.status(400).send({statusText: "Type of category is not defined."}); return;}
 
-    await Category.find({name}).then(async (foundItemsArray: Category[]) => {
+    await Category.find({name: name, user: id}).then(async (foundItemsArray: Category[]) => {
         if (foundItemsArray.length !== 0) {
             res.status(400).send({statusText: 'Will not add duplicate item to database!'})
         } else {
             if (isIncomeCategory) {
-                await Category.create({name, type: 'Income'})
+                await Category.create({name, type: 'Income', user: id})
                     .then((addedItem: Category) =>
                         res.status(200).send({addedItem, statusText: 'Item added to database.'}))
-                    .catch(() =>
-                        res.status(400).send({statusText: "Couldn't add the item to database"}));
+                    .catch((err: Error) =>
+                        res.status(400).send({
+                            statusText: "Couldn't add the item to database",
+                            error: err.message
+                        }));
             } else {
-                await Category.create({name, budget, type: 'Expense'})
+                await Category.create({name, budget, type: 'Expense', user: id})
                     .then((addedItem: Category) =>
                         res.status(200).send({addedItem, statusText: "Item added to database"}))
                     .catch(() => res.status(400).send({statusText: `Couldn't add the item to database.`}))
             }
         }
-    }).catch(() => res.status(400).send({statusText: `Finding category from database failed.`}))
+    }).catch((err: Error) => res.status(401).send({
+        statusText: `Finding category from database failed.`,
+        error: err.message
+    }))
 })
+router.get('/categories/show', verifyJWT, async (req: AuthRequest, res: Response) => {
+    const {id} = req.user
+    const incomeCategories = await Category.find({type: 'Income', user: id})
+        .catch((err: Error) => res.status(400).send({
+            statusText: `Couldn't retrieve income categories.`,
+            error: err.message
+        }))
 
-router.get('/categories/show', async (req: Request, res: Response) => {
-    const incomeCategories = await Category.find({type: 'Income'})
-        .catch(() => res.status(400).send({statusText: `Couldn't retrieve income categories.`}))
+    const expenseCategories = await Category.find({type: 'Expense', user: id})
+        .catch((err: Error) => res.status(400).send(
+            {statusText: `Couldn't retrieve expense categories.`,
+            error: err.message
+            }))
 
-    const expenseCategories = await Category.find({type: 'Expense'})
-        .catch(() => res.status(400).send({statusText: `Couldn't retrieve expense categories.`}))
-
-    const noneCategory = await Category.find({type: 'NONE'})
-        .catch(() => res.status(400).send({statusText: `Couldn't retrieve NONE category.`}))
+    const noneCategory = await Category.find({type: 'NONE', user: id})
+        .catch((err: Error) => res.status(400).send({
+            statusText: `Couldn't retrieve NONE category.`,
+            error: err.message
+        }))
 
     res.status(200).send({
         incomeCategories,
@@ -55,24 +79,27 @@ router.get('/categories/show', async (req: Request, res: Response) => {
     })
 })
 
-router.delete('/categories/delete/:id', async (req: Request, res: Response) => {
-    await Category.findByIdAndDelete({_id: req.params.id})
-        .then((dbResponse: any) => {
-            if (dbResponse !== null) {
-                res.status(200).send({statusText: "Item deleted."});
-            } else {
-                res.status(404).send({statusText: `Didn't find anything to delete.`})
+router.delete('/categories/delete/:id', verifyJWT, async (req: AuthRequest, res: Response) => {
+    const {id} = req.user
+    await Category.find({_id: req.params.id, user: id})
+        .then( async (foundItems: Category[]) => {
+            if(foundItems.length !== 1){
+                return res.status(401).send({
+                    statusText: "Did not find exactly 1 record for deletion, aborting...",
+                    error: ""
+                })
             }
-
-            //if delete request succeeds, deletedItem gets returned => return status code 200 (OK)
-        })
-        .catch(() => {
-            res.status(400).send({statusText: `Category deletion from database failed.`})
-        })
-
+            await Category.deleteOne(foundItems[0])
+                .then(() => res.status(200).send({statusText: "Item deleted."}))
+                .catch((err: Error) => res.status(401).send({
+                    statusText: "Item deletion failed",
+                    error: err.message
+                }))
+    })
 })
 
 //this nukes the entire categories collection
+// TODO: Move this to the test suite
 router.delete("/categories/deleteAll", async (req: Request, res: Response) => {
     await Category.deleteMany({})
         .then(() => res

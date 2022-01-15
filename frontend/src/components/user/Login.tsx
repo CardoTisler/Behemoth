@@ -47,14 +47,16 @@ const Login = () => {
             }),
         }).then((res: any) => {
             if (res.status !== 200) {
-                console.error("Login failed");
                 // TODO: Signal user that login failed and clear textfields
+                throw new Error("Login failed.");
             }
             return res.json();
         }).then((data: any) => {
             localStorage.setItem("token", data.token);
             dispatch(setUserLoggedIn({username: data.username, isLoggedIn: true}));
             history.push("/");
+        }).catch((err: Error) => {
+            history.push("/login");
         });
     };
 

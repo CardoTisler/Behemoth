@@ -1,14 +1,20 @@
 export {}
 const mongoose = require('mongoose')
-// TODO: Change the design of the schema so type and name are required, decide what to do with budget if Income cat.
-// TODO: Category must have field for User.
+// TODO: Rewrite logic so choosing between income and expense isnt dealt via boolean, instead type
 const categorySchema = mongoose.Schema({
     type: {
         type: String,
-        enum: ['Income', 'Expense', 'NONE']
+        enum: ['Income', 'Expense', 'NONE'],
+        // required: true
     },
-    name: String,
-    budget: Number
+    name: {
+        type: String,
+        required: true,
+    },
+    budget: {
+        type: Number,
+    },
+    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 }, {timestamps: true})
 
 module.exports = mongoose.model("Category", categorySchema)

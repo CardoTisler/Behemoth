@@ -1,5 +1,6 @@
 import {Transaction as TransactionItem} from '../@types/TransactionTypes/Transaction'
 import { Request, Response } from 'express'
+import {verifyJWT} from "../middleware/auth";
 const express = require('express')
 const router = express.Router();
 const Transaction = require('../db/models/transaction')
@@ -17,7 +18,7 @@ const storage = multer.diskStorage({
     }
 })
 const upload = multer({storage: storage})
-
+// TODO: Transaction must have user id attached to it
 router.post('/transactions/new', async (req: Request, res: Response) => {
     const newTransaction = req.body
     const {date, name, description, amount, category} = newTransaction;
@@ -36,7 +37,7 @@ router.post('/transactions/new', async (req: Request, res: Response) => {
         res.status(400).send({statusText: 'Database error when trying to add new transaction', message: err.message})
     })
 })
-
+// TODO: Does current logic work with new authent logic?
 type FileRequest = Request & { file: any }
 //multer searches for key 'csvUpload' value from FormData() created in frontend.
 router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: FileRequest, res: Response) => {
@@ -64,7 +65,7 @@ router.post('/transactions/addcsv', upload.single('csvUpload'), async (req: File
 
 })
 
-router.post('/transactions/export', async (req: Request, res: Response) => {
+router.post('/transactions/export', verifyJWT, async (req: Request, res: Response) => {
     await Transaction.find({}).populate('category').then((foundItemsArray: TransactionItem[]) => {
 
         stringify(foundItemsArray, {
@@ -81,7 +82,7 @@ router.post('/transactions/export', async (req: Request, res: Response) => {
         })
     })
 })
-
+// TODO: Find only transactions where transaction.user.id === req.user.id
 router.get('/transactions/show', async (req: Request, res: Response) => {
     await Transaction.find({}).populate('category').then((foundItemsArray: TransactionItem[]) => {
         res.status(200).send({transactionsList: [...foundItemsArray]})
@@ -90,7 +91,7 @@ router.get('/transactions/show', async (req: Request, res: Response) => {
     })
 })
 
-
+// TODO: Add verification that the updated transaction belongs to authented user
 router.put('/transactions/update/:id', async (req: Request, res: Response) => {
     const transactionId: string = req.params.id
     const {newCategoryId} = req.body
@@ -109,7 +110,7 @@ router.put('/transactions/update/:id', async (req: Request, res: Response) => {
         res.status(404).send({statusText: err.message})
     })
 })
-
+// TODO: Should probably verify that the oldCategoryId and newCategoryId are in users' categories list
 router.put('/transactions/updatecategories/:id', async(req: Request, res: Response) => {
     const oldCategoryId = req.params.id
     const { newCategoryId } = req.body
@@ -121,7 +122,7 @@ router.put('/transactions/updatecategories/:id', async(req: Request, res: Respon
         res.status(400).send({statusText: err.message})
     })
 })
-
+// TODO: Verify that checkedTransactions are all in users' transactions list
 router.delete('/transactions/delete', async (req: Request, res: Response) => {
     const {checkedTransactions} = req.body
     await Transaction.deleteMany({_id: {$in: checkedTransactions}})
@@ -134,13 +135,13 @@ router.delete('/transactions/delete', async (req: Request, res: Response) => {
         res.status(400).send({statusText: err.message})
     })
 })
-
+// TODO: Verify that the transaction is in users' transaction list
 router.delete("/transactions/delete/:id", async (req: Request, res: Response) => {
     await Transaction.deleteOne({_id: req.params.id})
         .then(() => res.status(200).send({statusText: `Successfully deleted Transaction.`}))
         .catch((err: Error) => res.status(400).send({statusText: err.message}))
 })
-
+// TODO: Move this request to test suite because having it here doesnt seem very secure
 router.delete("/transactions/deleteAll", async (req: Request, res: Response) => {
     await Transaction.deleteMany({})
         .then(() => res.status(200).send({statusText: `Successfully deleted all transactions`}))

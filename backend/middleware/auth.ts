@@ -28,6 +28,7 @@ export const verifyJWT = (req: AuthRequest, res: Response, next: NextFunction) =
             id: decoded.id,
             username: decoded.username
         }
+        console.log(`Successfuly validated user ${req.user.username}`)
         next();
     })
 }

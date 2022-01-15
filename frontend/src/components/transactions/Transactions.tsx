@@ -3,7 +3,9 @@ import TransactionButtons from "./TransactionButtons";
 import TransactionsForm from "./TransactionsForm";
 import TransactionsList from "./TransactionsList";
 import TransactionsSearch from "./TransactionsSearch";
-
+// FIXME: Think of a solution so that Transactions tab wont crash if NONE category nonexistent
+// Either add global defautl NONE category or modify register route to automatically add NONE category
+// for new users?
 const useStyles = makeStyles({
     root: {
         padding: "0.7rem",

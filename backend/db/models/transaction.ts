@@ -1,10 +1,5 @@
 export {}
 const mongoose = require('mongoose')
-//Date
-//Name
-//Description
-//Amount
-//Category -> Category has its own schema, a different collection
 // TODO: Change the design of the schema so fields are required.
 // TODO: Transaction must have field for User
 const transactionSchema = new mongoose.Schema({
@@ -12,7 +7,8 @@ const transactionSchema = new mongoose.Schema({
     name: String,
     description: String,
     amount: Number,
-    category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category'}
+    category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category'},
+    // user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 }, {timestamps: true})
 
 module.exports = mongoose.model("Transaction", transactionSchema);
