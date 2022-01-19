@@ -6,6 +6,7 @@ interface Transaction {
     name: string;
     description: string;
     amount: number | string;
+    user: string;
     category: Category | string; // must be string when adding but Category when retrieving from db
 }
 

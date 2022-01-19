@@ -18,6 +18,7 @@ export const addToDatabase = async (url: string, data: IFormPayload): Promise<IC
     await fetch(url, {
         headers: {
             "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token") as string,
         },
         method: "POST",
         mode: "cors",
@@ -36,6 +37,7 @@ export const removeFromDatabase = async (url: string): Promise<ITextResponse> =>
         mode: "cors",
         headers: {
             "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token") as string,
         },
     }).then((res) => {
 

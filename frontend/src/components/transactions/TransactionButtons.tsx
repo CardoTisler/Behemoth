@@ -36,11 +36,14 @@ async function handleFileSelected(e: React.ChangeEvent<HTMLInputElement>, dispat
     } else {
         dispatch(showError(`Can't upload file.`, `e.target.files[0] is null.`));
     }
-
+    console.log(`AddCSV token ${localStorage.getItem("token") as string}`);
     await fetch("/transactions/addcsv", {
         body: data,
         method: "POST",
         mode: "cors",
+        headers: {
+            "x-access-token": localStorage.getItem("token") as string,
+        },
     })
         .then((res) => {
             if (res.status === 200) {

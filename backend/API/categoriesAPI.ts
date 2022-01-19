@@ -19,6 +19,7 @@ interface AuthenticatedUser {
     username: string,
 }
 type AuthRequest = Request & {user: AuthenticatedUser}
+// FIXME: Do not choose between category types via boolean
 router.post('/categories/new', verifyJWT, async (req: AuthRequest, res: Response) => {
     const {isIncomeCategory, name, budget} = req.body
     const {id} = req.user;
@@ -52,6 +53,13 @@ router.post('/categories/new', verifyJWT, async (req: AuthRequest, res: Response
         error: err.message
     }))
 })
+// TODO: This is a temporary solution, must change /categories/new to insert categories based on Type not boolean
+router.post("/categories/new/noneCategory", verifyJWT, async( req: AuthRequest, res: Response) => {
+    Category.insertMany([{type: "NONE", name: "NONE", user: req.user.id}])
+        .then(() => res.status(200).send({statusText: `Added NONE category to user ${req.user.username}`}))
+        .catch(() => res.status(401).send({statusText: `Could not add NONE category to user ${req.user.username}`}))
+})
+
 router.get('/categories/show', verifyJWT, async (req: AuthRequest, res: Response) => {
     const {id} = req.user
     const incomeCategories = await Category.find({type: 'Income', user: id})

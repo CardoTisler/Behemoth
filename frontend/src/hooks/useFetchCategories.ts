@@ -4,7 +4,11 @@ import type { Category } from "../../@types/CategoryTypes/category";
 import { showError } from "../redux/actions/errorActions";
 
 const getData = async () =>
-    await fetch("categories/show")
+    await fetch("categories/show", {
+        headers: {
+            "x-access-token": localStorage.getItem("token") as string,
+        },
+    })
         .then((res: any) => {
             if (res.status === 200) {
                 return res.json();

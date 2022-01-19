@@ -8,6 +8,9 @@ export const handleCsvExport = async (): Promise<void> => {
     return await fetch("transactions/export", {
         method: "POST",
         mode: "cors",
+        headers: {
+            "x-access-token": localStorage.getItem("token") as string,
+        },
     }).then(async (res: Response) => {
         const blob = await res.blob();
         const link = document.createElement("a");
@@ -35,6 +38,7 @@ export const handleTransactionsDelete = async (checkedTransactions: string[]): P
         mode: "cors",
         headers: {
             "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token") as string,
         },
     }).then((res) => {
         if (res.status === 200) {
@@ -50,10 +54,12 @@ export const addTransactionToDatabase = async (newTransaction: any): Promise<ISt
         body: JSON.stringify(newTransaction),
         headers: {
             "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token") as string,
         },
         method: "POST",
         mode: "cors",
     }).then((res) => {
+        console.log(res.status);
         if (res.status === 200) {
             return res.json();
         }
@@ -81,6 +87,7 @@ export const handleCategoryUpdate = async (newCategoryId: string, transactionId:
         mode: "cors",
         headers: {
             "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token") as string,
         },
         body: JSON.stringify({newCategoryId}),
     }).then((res) => {
@@ -102,6 +109,7 @@ export const updateTransactionCategories = async (newCategoryId: string, oldCate
         mode: "cors",
         headers: {
             "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token") as string,
         },
         body: JSON.stringify({newCategoryId}),
     }).then((res) => {

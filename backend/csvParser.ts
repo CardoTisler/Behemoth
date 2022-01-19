@@ -1,5 +1,6 @@
 import { Transaction as TransactionItem } from "../frontend/@types/TransactionTypes/Transaction";
 import {Category as CategoryItem} from '../frontend/@types/CategoryTypes/category'
+import {Map} from "mongodb";
 const csv = require('csv-parse')
 const fs = require('fs')
 const Category = require('./db/models/category')
@@ -30,9 +31,10 @@ interface parserPayload {
     transactions: TransactionItem[],
     errorMessage: string | null
 }
-export async function arrayToTransactions(results: string[][]): Promise<parserPayload>{
+export async function arrayToTransactions(results: string[][], userId: string): Promise<parserPayload>{
+    // if true then added csv file was previously exported from Categorizer
     if(results[0][5] === 'category.type'){
-        return handleExportedCsv(results)
+        return handleExportedCsv(results, userId)
     }
     const headersIndex: Map<string, number> = mapValuesToIndex(results[0])
     let transactions: TransactionItem[] = [];
@@ -43,21 +45,21 @@ export async function arrayToTransactions(results: string[][]): Promise<parserPa
             const debitOrCredit: string = entry[headersIndex.get('Deebet/Kreedit')!]
             let amount: string = debitOrCredit === 'D' ? '-' : '' //if K then its an outgoing transaction, if C then incoming
             amount = amount.concat(entry[headersIndex.get('Summa')!]).replace(',', '.');
-
+            // FIXME: This validation system sucks - refactor it
             const newTransaction: TransactionItem | null = validateDataForTransaction(entry, headersIndex)
             if(newTransaction !== null){
-                transactions.push(newTransaction)
+                transactions.push({...newTransaction, user: userId})
             }
         }
         //if null then dont push to results array.
     }
-
 
     transactions = await addCategoriesToNewTransactions(transactions)
     .then((transactions) => transactions )
     .catch((err: Error) => {
         return err;
     })
+    //FIXME: Make sure this errorMessage isnt ignored in frontend
     if(results.length === transactions.length){
         return {transactions, errorMessage: null}
     } else {
@@ -66,7 +68,7 @@ export async function arrayToTransactions(results: string[][]): Promise<parserPa
 }
 
 const validateDataForTransaction = (array: string[], headersMap: Map<string, number>): TransactionItem | null => {
-    const resultItem: TransactionItem = {date: '', category: '', name: '', description: '', amount: '' }
+    const resultItem: TransactionItem = {date: '', category: '', name: '', description: '', amount: '', user: ''}
     const debitOrCredit: string = array[headersMap.get('Deebet/Kreedit')!]
     let amount: string = debitOrCredit === 'D' ? '-' : '' //if K then its an outgoing transaction, if C then incoming
     amount = amount.concat(array[headersMap.get('Summa')!]).replace(',', '.');
@@ -90,14 +92,14 @@ const validateDataForTransaction = (array: string[], headersMap: Map<string, num
 
 }
 
-const handleExportedCsv = async (results: string[][]): Promise<parserPayload> => {
+const handleExportedCsv = async (results: string[][], userId: string): Promise<parserPayload> => {
     let transactions: TransactionItem[] = []
     //remove headers
     results = results.slice(1, results.length)
     let incomeCategories: CategoryItem[] = []
     let expenseCategories: CategoryItem[] = []
     let noneCategory: CategoryItem = {type:'NONE', name:'NONE', _id:'x', budget:0}
-    await Category.find({}).then((foundItemsArray: CategoryItem[]) => {
+    await Category.find({user: userId}).then((foundItemsArray: CategoryItem[]) => {
         for (const category of foundItemsArray){
             if(category.type === 'Income'){
                 incomeCategories.push(category)
@@ -115,7 +117,8 @@ const handleExportedCsv = async (results: string[][]): Promise<parserPayload> =>
             name: row[1],
             description: row[2],
             amount: row[3],
-            category: ''
+            category: '',
+            user: userId
         }
         if(row[5] === 'Income'){
             for(const category of incomeCategories){

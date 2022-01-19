@@ -8,7 +8,11 @@ import { Transaction } from "../../@types/TransactionTypes/Transaction";
  * If statuscode = 200 then it returns response, if statuscode is anything else (typically 400) then it throws an error
  */
 const getData = async (): Promise<FetchReturn> =>
-    await fetch("transactions/show")
+    await fetch("transactions/show", {
+        headers: {
+            "x-access-token": localStorage.getItem("token") as string,
+        },
+    })
         .then((res) => {
             if (res.status === 200) {
                 return res.json();

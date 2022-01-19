@@ -26,6 +26,7 @@ const TransactionsRow: React.FC<IProps> = (props) => {
     const [currentCategoryId, setCurrentCategoryId] = useState("0");
     const [isThisChecked, setIsThisChecked] = useState(false);
     const dispatch = useDispatch();
+    // FIXME: This duplicates solution in RowDropdown
     useEffect(() => {
         // Unpopulated (Mongoose population) Transactions SHOULD NOT arrive here but if they
         // do then this logic avoids unneccesary crash.

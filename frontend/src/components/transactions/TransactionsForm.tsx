@@ -1,12 +1,13 @@
 import {Button, Grid, makeStyles, TextField} from "@material-ui/core";
 import React, {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {showError} from "src/redux/actions/errorActions";
 import {hideSuccess, showSuccess} from "src/redux/actions/successActions";
 import {loadTransactions} from "src/redux/actions/transactionActions";
 import {Transaction} from "../../../@types/TransactionTypes/Transaction";
 import {addTransactionToDatabase} from "../../fetch/transactions";
 import RowDropdown from "./RowDropdown";
+import {RootState} from "../../redux/reducers";
 
 const useStyles = makeStyles({
     dropdown: {
@@ -29,6 +30,7 @@ const useStyles = makeStyles({
 
 const TransactionsForm: React.FC<any> = () => {
     const dispatch = useDispatch();
+    const {noneCategory} = useSelector((rootstate: RootState) => rootstate.categoryReducer);
     const [state, setState] = useState({
         amount: "",
         date: "",
@@ -36,7 +38,7 @@ const TransactionsForm: React.FC<any> = () => {
         name: "",
     });
     const {date, name, description, amount} = state;
-    const [currentCategoryId, setCurrentCategoryId] = useState("0");
+    const [currentCategoryId, setCurrentCategoryId] = useState(noneCategory._id);
     const [showErrorDate, setShowErrorDate] = useState(false);
     const [dateErrorMessage, setDateErrorMessage] = useState("");
     const [showErrorName, setShowErrorName] = useState(false);
@@ -45,7 +47,6 @@ const TransactionsForm: React.FC<any> = () => {
     const [descErrorMessage, setDescErrorMessage] = useState("");
     const [showErrorAmount, setShowErrorAmount] = useState(false);
     const [amountErrorMessage, setAmountErrorMessage] = useState("");
-
     const classes = useStyles();
     const handleInput = (e: { target: { name: string; value: string } }) => {
         setState({
@@ -146,6 +147,7 @@ const TransactionsForm: React.FC<any> = () => {
             date: convertedDate,
             description,
             name,
+            user: "",
         };
         await addTransactionToDatabase(newTransaction)
             .then((res) => {

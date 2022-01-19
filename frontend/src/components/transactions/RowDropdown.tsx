@@ -12,6 +12,7 @@ interface IProps {
 // however it still arrives here as undefined.
 const RowDropdown: React.FC<IProps> = (props) => {
   const {handleChange, currentCategory} = props;
+  // FIXME: This solution feels very hacky, should find a better solution
   const currentCategoryId = typeof currentCategory === "string" ? currentCategory : currentCategory._id;
 
   const {

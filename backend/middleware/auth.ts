@@ -10,13 +10,17 @@ interface AuthenticatedUser {
 type AuthRequest = Request & {user: AuthenticatedUser}
 
 export const verifyJWT = (req: AuthRequest, res: Response, next: NextFunction) => {
-    const token = (<string> req.headers["x-access-token"]).split(" ")[1]
-    if(!token){return res.status(401)
-        .send({
-            error: "JWT not in headers",
-            isLoggedIn: false,
-            statusText: "Failed to authenticate"
-        });}
+    let token = "0";
+    try{
+        token = (req.headers["x-access-token"] as string).split(" ")[1]
+    } catch (err) {
+        return res.status(401)
+            .send({
+                error: "JWT not in headers",
+                isLoggedIn: false,
+                statusText: "Failed to authenticate"
+            });
+    }
 
     jwt.verify(token, process.env.JWT_SECRET, (err: VerifyErrors, decoded: any) => {
         if(err) {return res.status(401).send({
