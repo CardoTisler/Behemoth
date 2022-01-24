@@ -1,13 +1,9 @@
 import Button from "@material-ui/core/Button";
-import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import { makeStyles } from "@material-ui/core/styles";
-import { SvgIconTypeMap } from "@material-ui/core/SvgIcon/SvgIcon";
 
 interface Props {
-    // icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
     icon: any;
     text: string;
-    onClick: (buttonName: string) => void;
 }
 
 const useStyles = makeStyles({
@@ -24,18 +20,13 @@ const useStyles = makeStyles({
 });
 
 const NavButton: React.FC<Props> = (props) => {
-    const {text, icon, onClick} = props;
+    const {text, icon} = props;
     const classes = useStyles();
-
-    const handleClick = () => {
-        onClick(text);
-    };
 
     return (
         <Button className = {classes.root}
         variant="contained"
-        color="primary"
-        onClick={handleClick}>
+        color="primary">
         {icon}
         {text}
         </Button>

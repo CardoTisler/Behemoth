@@ -1,8 +1,15 @@
+import {useEffect} from "react";
+import {useDispatch} from "react-redux";
+import {setBannerTitle} from "../../redux/actions/bannerActions";
 
 const Reports: React.FC = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(setBannerTitle({bannerTitle: "Reports"}));
+    }, []);
     return (
         <div>
-            src/components/reports/Reports.js
+            To be developed...
         </div>
     );
 };

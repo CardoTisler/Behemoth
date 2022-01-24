@@ -3,11 +3,11 @@ import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {showError} from "src/redux/actions/errorActions";
 import {hideSuccess, showSuccess} from "src/redux/actions/successActions";
-import {loadTransactions} from "src/redux/actions/transactionActions";
-import {Transaction} from "../../../@types/TransactionTypes/Transaction";
+import {appendTransaction} from "src/redux/actions/transactionActions";
 import {addTransactionToDatabase} from "../../fetch/transactions";
-import RowDropdown from "./RowDropdown";
 import {RootState} from "../../redux/reducers";
+import RowDropdown from "./RowDropdown";
+import {transactionFormSchema} from "../../validation";
 
 const useStyles = makeStyles({
     dropdown: {
@@ -39,7 +39,7 @@ const TransactionsForm: React.FC<any> = () => {
     });
     const {date, name, description, amount} = state;
     const [currentCategoryId, setCurrentCategoryId] = useState(noneCategory._id);
-    const [showErrorDate, setShowErrorDate] = useState(false);
+    const [showDateError, setShowDateError] = useState(false);
     const [dateErrorMessage, setDateErrorMessage] = useState("");
     const [showErrorName, setShowErrorName] = useState(false);
     const [nameErrorMessage, setNameErrorMessage] = useState("");
@@ -117,7 +117,7 @@ const TransactionsForm: React.FC<any> = () => {
         // Amount must be convertable to float
         let validationPassed = true;
         if (!validateDate(date)) {
-            setShowErrorDate(true);
+            setShowDateError(true);
             validationPassed = false;
         }
         if (!validateDescription(description)) {
@@ -137,22 +137,33 @@ const TransactionsForm: React.FC<any> = () => {
 
     const onSubmit = async (e: any): Promise<void> => {
         e.preventDefault();
-        if (!validateTransactionData()) {
+        // if (!validateTransactionData()) {
+        //     return;
+        // }
+        try {
+            await transactionFormSchema.validate({
+                amount,
+                category: currentCategoryId,
+                date,
+                description,
+                name,
+            });
+        } catch (err: any) {
+            console.error(err.message);
             return;
         }
         const convertedDate = new Date(date).toISOString();
-        const newTransaction: Transaction = {
+        const newTransaction = {
             amount,
             category: currentCategoryId,
             date: convertedDate,
             description,
             name,
-            user: "",
         };
         await addTransactionToDatabase(newTransaction)
-            .then((res) => {
+            .then((res: any) => {
                 dispatch(showSuccess(res.statusText));
-                dispatch(loadTransactions([{...newTransaction}]));
+                dispatch(appendTransaction({...res.addedItem}));
                 setTimeout(() => {
                     dispatch(hideSuccess());
                 }, 4000);
@@ -173,8 +184,8 @@ const TransactionsForm: React.FC<any> = () => {
                 onSubmit={onSubmit}>
                 <Grid item xs={2} className={classes.gridItem}>
                     <TextField
-                        error={showErrorDate}
-                        helperText={showErrorDate && dateErrorMessage}
+                        error={showDateError}
+                        helperText={showDateError && dateErrorMessage}
                         label="Date ( DD/MM/YYYY )"
                         name="date"
                         className={classes.field}

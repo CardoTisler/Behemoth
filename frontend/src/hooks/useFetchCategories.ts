@@ -1,21 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import type { Category } from "../../@types/CategoryTypes/category";
+import { getData } from "../fetch/categories";
 import { showError } from "../redux/actions/errorActions";
-
-const getData = async () =>
-    await fetch("categories/show", {
-        headers: {
-            "x-access-token": localStorage.getItem("token") as string,
-        },
-    })
-        .then((res: any) => {
-            if (res.status === 200) {
-                return res.json();
-            }
-            throw new Error(res.statusText);
-        })
-        .catch((err) => { throw new Error(err.message); } );
 
 interface FetchCategories {
     incomeCategories: Category[];

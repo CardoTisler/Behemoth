@@ -22,7 +22,6 @@ const TransactionsSearch = () => {
 
     const handleInput = (e: { target: { value: SetStateAction<string>; }; }) => {
         setSearchInput(e.target.value);
-        // TODO: Add sleep timeout (0.5 sec perhaps) after that start running the filtering method
     };
 
     return (
@@ -35,7 +34,6 @@ const TransactionsSearch = () => {
             value={searchInput}
             className={classes.searchBar}
             />
-            {/* TODO: Fix searchIcon visuals, center it in div and enlarge */}
             <div className={classes.searchIcon}>
                 <SearchIcon />
             </div>

@@ -1,5 +1,5 @@
 import {Transaction} from "../../@types/TransactionTypes/Transaction";
-
+import {handleResponse} from "./common";
 /**
  * Tells the API to bundle current stored Transactions to CSV format and send it to the client.
  * Client waits for the data and then downloads it as a .csv file.
@@ -33,23 +33,21 @@ interface IDeleteTransaction {
  */
 export const handleTransactionsDelete = async (checkedTransactions: string[]): Promise<IDeleteTransaction> => {
     return await fetch("transactions/delete", {
-        body: JSON.stringify({checkedTransactions}),
+        body: JSON.stringify(checkedTransactions),
         method: "DELETE",
         mode: "cors",
         headers: {
             "Content-Type": "application/json",
             "x-access-token": localStorage.getItem("token") as string,
         },
-    }).then((res) => {
-        if (res.status === 200) {
-            return res.json();
-        }
-        throw new Error(res.statusText);
-    });
+    }).then(handleResponse)
+        .then((res: any) => res)
+        .catch((err: Error) => {
+            throw new Error(err.message);
+        });
 };
 
-// FIXME: route doesnt return new transaction
-export const addTransactionToDatabase = async (newTransaction: any): Promise<IStatusText> => {
+export const addTransactionToDatabase = async (newTransaction: any) => {
     return await fetch("/transactions/new", {
         body: JSON.stringify(newTransaction),
         headers: {
@@ -58,20 +56,12 @@ export const addTransactionToDatabase = async (newTransaction: any): Promise<ISt
         },
         method: "POST",
         mode: "cors",
-    }).then((res) => {
-        console.log(res.status);
-        if (res.status === 200) {
-            return res.json();
-        }
-        throw new Error(res.statusText);
-    }).catch((err: Error) => {
-        throw new Error(err.message);
-    });
+    }).then(handleResponse)
+        .then((res: any) => res)
+        .catch((err: Error) => {
+            throw new Error(err.message);
+        });
 };
-
-interface IStatusText {
-    statusText: string;
-}
 
 /**
  * Find the transaction.name value based on transactionId, then find all transactions
@@ -80,7 +70,7 @@ interface IStatusText {
  * @param newCategoryId The _id value of the category that is applied to Transaction
  * @param transactionId The _id of Transaction that was modified.
  */
-export const handleCategoryUpdate = async (newCategoryId: string, transactionId: string): Promise<IStatusText> => {
+export const handleCategoryUpdate = async (newCategoryId: string, transactionId: string) => {
     const url = "/transactions/update/".concat(transactionId);
     return await fetch(url, {
         method: "PUT",
@@ -90,12 +80,11 @@ export const handleCategoryUpdate = async (newCategoryId: string, transactionId:
             "x-access-token": localStorage.getItem("token") as string,
         },
         body: JSON.stringify({newCategoryId}),
-    }).then((res) => {
-        if (res.status === 200) {
-            return res.json();
-        }
-        throw new Error(res.statusText);
-    });
+    }).then(handleResponse)
+        .then((res: any) => res)
+        .catch((err: Error) => {
+            throw new Error(err.message);
+        });
 };
 
 /**
@@ -112,11 +101,9 @@ export const updateTransactionCategories = async (newCategoryId: string, oldCate
             "x-access-token": localStorage.getItem("token") as string,
         },
         body: JSON.stringify({newCategoryId}),
-    }).then((res) => {
-        if (res.status !== 200) {
-            throw new Error(res.statusText);
-        }
-    }).catch((err) => {
-        throw new Error(err.message);
-    });
+    }).then(handleResponse)
+        .then((res: any) => res)
+        .catch((err: Error) => {
+            throw new Error(err.message);
+        });
 };

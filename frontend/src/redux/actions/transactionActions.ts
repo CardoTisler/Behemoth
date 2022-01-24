@@ -45,3 +45,13 @@ export const loadTransactions = (allTransactions: Transaction[]): ITransactionAc
         },
     };
 };
+
+export const appendTransaction = (addedItem: Transaction[]) => {
+    return {
+        payload: {
+            ...payload,
+            addedItem,
+        },
+        type: "APPEND_TRANSACTION",
+    };
+};

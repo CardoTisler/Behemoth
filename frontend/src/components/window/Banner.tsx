@@ -1,9 +1,10 @@
 import {Box, makeStyles} from "@material-ui/core";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../redux/reducers";
 import Button from "@mui/material/Button";
+import {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
 import {setUserLoggedOut} from "../../redux/actions/userActions";
+import {RootState} from "../../redux/reducers";
 
 const useStyles = makeStyles({
     root: {
@@ -26,23 +27,18 @@ const useStyles = makeStyles({
     },
 });
 
-interface Props {
-    title: string;
-}
-
-const Banner: React.FC<Props> = (props) => {
-    const history = useHistory();
+const Banner = () => {
     const dispatch = useDispatch();
-    const {title} = props;
     const classes = useStyles();
-    const {isLoggedIn, username} = useSelector((state: RootState) => state.userReducer);
+    const {username} = useSelector((state: RootState) => state.userReducer);
+    const {bannerTitle} = useSelector((state: RootState) => state.bannerReducer);
     const handleLogout = () => {
         localStorage.removeItem("token");
         dispatch(setUserLoggedOut());
     };
     return (
         <Box className={classes.root} boxShadow={4}>
-            {title}
+            {bannerTitle}
             <div className={classes.buttons}>
                 <div><Button
                     variant="contained"

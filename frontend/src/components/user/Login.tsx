@@ -1,4 +1,3 @@
-// import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -7,63 +6,43 @@ import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import {useState} from "react";
 import {useDispatch} from "react-redux";
-import {useHistory, Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
+import {sendLoginRequest} from "../../fetch/user";
 import {setUserLoggedIn} from "../../redux/actions/userActions";
-import {Link as MuiLink} from "@mui/material";
-
-interface User {
-    username: string;
-    password: string;
-}
 
 const theme = createTheme();
 const Login = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const [showLoginFailed, setShowLoginFailed] = useState(false);
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        login({
+        await sendLoginRequest({
             password: data.get("password") as string,
             username: data.get("username") as string,
-        });
-    };
-
-    const login = async (user: User) => {
-        await fetch("/login", {
-            method: "POST",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                password: user.password,
-                username: user.username,
-            }),
         }).then((res: any) => {
-            if (res.status !== 200) {
-                // TODO: Signal user that login failed and clear textfields
-                throw new Error("Login failed.");
-            }
-            return res.json();
-        }).then((data: any) => {
-            localStorage.setItem("token", data.token);
-            dispatch(setUserLoggedIn({username: data.username, isLoggedIn: true}));
+            console.log(res);
+            localStorage.setItem("token", res.token);
+            dispatch(setUserLoggedIn({username: res.username, isLoggedIn: true}));
+            setShowLoginFailed(false);
             history.push("/");
+            return;
         }).catch((err: Error) => {
-            history.push("/login");
+            setShowLoginFailed(true);
+            return;
         });
     };
-
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
-                <CssBaseline />
+                <CssBaseline/>
                 <Box
                     sx={{
                         alignItems: "center",
@@ -72,14 +51,15 @@ const Login = () => {
                         marginTop: 8,
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                    <Avatar sx={{m: 1, bgcolor: "secondary.main"}}>
                         {/*<LockOutlinedIcon />*/}
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
                         <TextField
+                            error={showLoginFailed}
                             margin="normal"
                             required
                             fullWidth
@@ -90,6 +70,7 @@ const Login = () => {
                             autoFocus
                         />
                         <TextField
+                            error={showLoginFailed}
                             margin="normal"
                             required
                             fullWidth
@@ -100,14 +81,14 @@ const Login = () => {
                             autoComplete="current-password"
                         />
                         <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
+                            control={<Checkbox value="remember" color="primary"/>}
                             label="Remember me"
                         />
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{mt: 3, mb: 2}}
                         >
                             Sign In
                         </Button>

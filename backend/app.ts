@@ -18,7 +18,7 @@ app.use(usersAPI)
 //catch errors from middleware
 app.use((err:any, req:any, res:any, next:any) => {
     console.error(err.stack)
-    res.status(500).send({status: 500, statusText: 'Middleware exception caught: '+err.message})
+    res.status(500).send({statusText: 'Middleware exception caught.', error: err.message})
 })
 
 module.exports = app;

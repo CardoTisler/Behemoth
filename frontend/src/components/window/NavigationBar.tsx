@@ -1,4 +1,3 @@
-// TODO: Add highlight to currently selected button
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import BarChartIcon from "@material-ui/icons/BarChart";
@@ -19,10 +18,7 @@ const useStyles = makeStyles({
     },
 });
 
-interface Props {
-    onButtonClick: any;
-}
-const NavigationBar: React.FC<Props> = (props) => {
+const NavigationBar = () => {
     const classes = useStyles();
 
     return (
@@ -30,22 +26,22 @@ const NavigationBar: React.FC<Props> = (props) => {
             <Grid container spacing={0}>
                 <Grid item xs={12} md={12}>
                     <Link to="/dashboard" className={classes.link}>
-                        <NavButton text="Dashboard" icon={<DashboardIcon />} onClick={props.onButtonClick}/>
+                        <NavButton text="Dashboard" icon={<DashboardIcon />} />
                     </Link>
                 </Grid>
                 <Grid item xs={12} md={12}>
                     <Link to="/transactions" className={classes.link}>
-                        <NavButton text="Transactions" icon={<SyncAltIcon />} onClick={props.onButtonClick}/>
+                        <NavButton text="Transactions" icon={<SyncAltIcon />} />
                     </Link>
                 </Grid>
                 <Grid item xs={12} md={12}>
                     <Link to="/categories" className={classes.link} >
-                        <NavButton text="Categories" icon={<LocalAtmIcon />} onClick={props.onButtonClick}/>
+                        <NavButton text="Categories" icon={<LocalAtmIcon />} />
                     </Link>
                 </Grid>
                 <Grid item xs={12} md={12}>
                     <Link to="/reports" className={classes.link}>
-                        <NavButton text="Reports" icon={<BarChartIcon />} onClick={props.onButtonClick}/>
+                        <NavButton text="Reports" icon={<BarChartIcon />} />
                     </Link>
                 </Grid>
             </Grid>

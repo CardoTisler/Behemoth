@@ -9,7 +9,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import {useState} from "react";
 import {Link, useHistory} from "react-router-dom";
+import {sendRegisterRequest} from "../../fetch/user";
 
 interface User {
     username: string;
@@ -19,29 +21,20 @@ interface User {
 const theme = createTheme();
 const Register = () => {
     const history = useHistory();
+    const [showError, setShowError] = useState(false);
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        register({
+        sendRegisterRequest({
             password: data.get("password") as string,
             username: data.get("username") as string,
-        });
-    };
-
-    const register = async (user: User) => {
-        await fetch("/register", {
-            method: "POST",
-            body: JSON.stringify(user),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }).then((res: any) => {
-            if (res.status === 200) {
-                history.push("/login");
-            } else {
-                // TODO: Display reason for registration failure for user
-                console.error(`Registration failed: ${res.statusText}`);
-            }
+        }).then(() => {
+            // registration successful
+            history.push("/login");
+        }).catch((err: Error) => {
+            // registration fail
+            console.error(`Registration failed. Reason: ${err.message}`);
+            setShowError(true);
         });
     };
     return (
@@ -50,10 +43,10 @@ const Register = () => {
                 <CssBaseline />
                 <Box
                     sx={{
-                        marginTop: 8,
+                        alignItems: "center",
                         display: "flex",
                         flexDirection: "column",
-                        alignItems: "center",
+                        marginTop: 8,
                     }}
                 >
                     <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -64,29 +57,9 @@ const Register = () => {
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
-                            {/*<Grid item xs={12} sm={6}>*/}
-                            {/*    <TextField*/}
-                            {/*        autoComplete="given-name"*/}
-                            {/*        name="firstName"*/}
-                            {/*        required*/}
-                            {/*        fullWidth*/}
-                            {/*        id="firstName"*/}
-                            {/*        label="First Name"*/}
-                            {/*        autoFocus*/}
-                            {/*    />*/}
-                            {/*</Grid>*/}
-                            {/*<Grid item xs={12} sm={6}>*/}
-                            {/*    <TextField*/}
-                            {/*        required*/}
-                            {/*        fullWidth*/}
-                            {/*        id="lastName"*/}
-                            {/*        label="Last Name"*/}
-                            {/*        name="lastName"*/}
-                            {/*        autoComplete="family-name"*/}
-                            {/*    />*/}
-                            {/*</Grid>*/}
                             <Grid item xs={12}>
                                 <TextField
+                                    error={showError}
                                     required
                                     fullWidth
                                     id="username"
@@ -97,6 +70,7 @@ const Register = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
+                                    error={showError}
                                     required
                                     fullWidth
                                     name="password"
@@ -106,12 +80,6 @@ const Register = () => {
                                     autoComplete="new-password"
                                 />
                             </Grid>
-                            {/*<Grid item xs={12}>*/}
-                            {/*    <FormControlLabel*/}
-                            {/*        control={<Checkbox value="allowExtraEmails" color="primary" />}*/}
-                            {/*        label="I want to receive inspiration, marketing promotions and updates via email."*/}
-                            {/*    />*/}
-                            {/*</Grid>*/}
                         </Grid>
                         <Button
                             type="submit"

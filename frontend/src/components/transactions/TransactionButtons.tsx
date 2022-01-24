@@ -4,6 +4,7 @@ import {ChangeEvent} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {handleCsvExport, handleTransactionsDelete} from "../../fetch/transactions";
 import { showError } from "../../redux/actions/errorActions";
+import {hideInfo, showInfo} from "../../redux/actions/infoActions";
 import { hideSuccess, showSuccess } from "../../redux/actions/successActions";
 import { loadTransactions } from "../../redux/actions/transactionActions";
 import {unCheckAllTransactions} from "../../redux/actions/transactionCheckboxActions";
@@ -36,7 +37,6 @@ async function handleFileSelected(e: React.ChangeEvent<HTMLInputElement>, dispat
     } else {
         dispatch(showError(`Can't upload file.`, `e.target.files[0] is null.`));
     }
-    console.log(`AddCSV token ${localStorage.getItem("token") as string}`);
     await fetch("/transactions/addcsv", {
         body: data,
         method: "POST",
@@ -45,14 +45,22 @@ async function handleFileSelected(e: React.ChangeEvent<HTMLInputElement>, dispat
             "x-access-token": localStorage.getItem("token") as string,
         },
     })
-        .then((res) => {
-            if (res.status === 200) {
-                return res.json(); }
-            throw new Error(res.statusText);
+        .then((res: any) => {
+            if (res.status === 200 || res.status === 204) {
+                return res.json();
+            } else if (res.status === 400 || res.status === 500) {
+                throw new Error(res.error);
+            }
+            throw new Error("Unknown request status code");
         }).then((res) => {
-            dispatch(showSuccess(res.statusText));
-            setTimeout(() => {dispatch(hideSuccess()); }, 4000);
-            dispatch(loadTransactions(res.newItems));
+            if (res.newItems) {
+                dispatch(showSuccess(res.statusText));
+                setTimeout(() => dispatch(hideSuccess()), 4000);
+                dispatch(loadTransactions(res.newItems));
+            } else {
+                dispatch(showInfo(res.statusText));
+                setTimeout(() => dispatch(hideInfo()), 4000);
+            }
         }).catch((err: Error) => {
             dispatch(showError(`Uploading CSV file failed.`, err.message));
         });

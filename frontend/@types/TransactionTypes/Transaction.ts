@@ -13,7 +13,8 @@ interface Transaction {
 interface ITransactionPayload {
     transactionName?: string;
     newCategoryId?: string;
-    allTransactions: Transaction[];
+    allTransactions?: Transaction[];
+    addedItem?: Transaction;
 }
 
 interface ITransactionAction {

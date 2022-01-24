@@ -61,7 +61,7 @@ const DateFilter: React.FC = () => {
             const transactions = filterTransactions(transactionsList, startDate, endDate);
             dispatch(loadTransactions(transactions));
         }
-    }, [dispatch, state]);
+    }, [state]);
 
     return (
         <DateRangePicker

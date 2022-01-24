@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import bannerReducer from "../reducers/bannerReducer";
 import categoryReducer from "./categoryReducer";
 import dateFilterReducer from "./dateFilterReducer";
 import errorReducer from "./errorReducer";
@@ -10,6 +11,7 @@ import transactionReducer from "./transactionReducer";
 import userReducer from "./userReducer";
 
 const allReducers = combineReducers({
+    bannerReducer,
     categoryReducer,
     dateFilterReducer,
     errorReducer,

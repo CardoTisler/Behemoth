@@ -1,13 +1,13 @@
-import { Button, ListItem, ListItemText, makeStyles } from "@material-ui/core";
+import {Button, ListItem, ListItemText, makeStyles} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import type { Category } from "../../../@types/CategoryTypes/category";
+import {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import type {Category} from "../../../@types/CategoryTypes/category";
 import {removeFromDatabase} from "../../fetch/categories";
 import {updateTransactionCategories} from "../../fetch/transactions";
-import { deleteCategory } from "../../redux/actions/categoryActions";
-import { showError } from "../../redux/actions/errorActions";
-import { hideSuccess, showSuccess } from "../../redux/actions/successActions";
+import {deleteCategory} from "../../redux/actions/categoryActions";
+import {showError} from "../../redux/actions/errorActions";
+import {hideSuccess, showSuccess} from "../../redux/actions/successActions";
 import {RootState} from "../../redux/reducers";
 
 const useStyles = makeStyles({
@@ -28,38 +28,36 @@ const ListRow: React.FC<IProps> = (props) => {
     const [showButton, setShowButton] = useState(false);
     const dispatch = useDispatch();
     const {name, _id} = props.element;
-    const { noneCategory } = useSelector((state: RootState) => state.categoryReducer);
-
+    const {noneCategory} = useSelector((state: RootState) => state.categoryReducer);
     const handleElementDelete = async () => {
-        await removeFromDatabase("/categories/delete/".concat(_id)).then( async () => {
-            dispatch(deleteCategory(_id));
-            await updateTransactionCategories(noneCategory._id, _id)
-            .then(() => {
-                dispatch(showSuccess(`Item deleted and transactions updated!`));
-                setTimeout(() => {dispatch(hideSuccess()); }, 4000);
-            })
-            .catch((err) => {
+        await updateTransactionCategories(noneCategory._id, _id)
+            .then(async () => {
+                await removeFromDatabase(_id)
+                    .then( () => {
+                        dispatch(deleteCategory(_id));
+                        dispatch(showSuccess(`Item deleted and transactions updated!`));
+                        setTimeout(() => hideSuccess(), 4000);
+                }).catch((err: Error) => {
+                        dispatch(showError(`Could not remove category.`, err.message));
+                    });
+            }).catch((err: Error) => {
                 dispatch(showError(`Could not change transactions' category to NONE`, err.message));
             });
-            // deleting category successful - find all transactions that had this category and
-            // switch their linked category id to the NONE category id
-        }).catch((err) => dispatch(showError(`Could not delete element.`, err.message)));
     };
-
     return (
         <ListItem button
-        onMouseEnter={() => setShowButton(true)}
-        onMouseLeave={() => setShowButton(false)}>
+                  onMouseEnter={() => setShowButton(true)}
+                  onMouseLeave={() => setShowButton(false)}>
             <ListItemText primary={name}/>
-                <Button
+            <Button
                 className={showButton ? classes.display : classes.dontDisplay}
                 onClick={handleElementDelete}
                 variant="contained"
                 color="secondary"
-                startIcon={<DeleteIcon />}
-                >
+                startIcon={<DeleteIcon/>}
+            >
                 Delete
-                </Button>
+            </Button>
 
         </ListItem>);
 };

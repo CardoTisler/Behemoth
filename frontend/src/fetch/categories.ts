@@ -1,52 +1,61 @@
 import {Category} from "../../@types/CategoryTypes/category";
+import {handleResponse} from "./common";
 
 // CategoryForm.tsx
-interface ICategoryAddRes {
+interface CategoryAddRes {
     status: number;
     statusText: string;
-    addedItem?: Category;
+    addedItem: Category;
 }
-interface IFormPayload {
+
+interface FormPayload {
     name: string;
-    budget: string | number;
-    isIncomeCategory: boolean;
+    budget: number;
+    type: string;
 }
-interface ITextResponse {
+
+interface TextResponse {
     statusText: string;
 }
-export const addToDatabase = async (url: string, data: IFormPayload): Promise<ICategoryAddRes> =>
-    await fetch(url, {
+
+export const addToDatabase = async (data: FormPayload): Promise<CategoryAddRes> =>
+    await fetch("/categories/new", {
+        body: JSON.stringify(data),
         headers: {
             "Content-Type": "application/json",
             "x-access-token": localStorage.getItem("token") as string,
         },
         method: "POST",
         mode: "cors",
-        body: JSON.stringify(data),
-    }).then((res) => {
-        if (res.status === 200) {
-            return res.json();
-        }
-        throw new Error(res.statusText);
-    });
+    }).then(handleResponse)
+        .then((res: any) => res)
+        .catch((err: Error) => {
+            throw new Error(err.message);
+        });
 
 // ListRow.tsx
-export const removeFromDatabase = async (url: string): Promise<ITextResponse> => {
-    return await fetch(url, {
-        method: "DELETE",
-        mode: "cors",
+export const removeFromDatabase = async (categoryId: string): Promise<TextResponse> => {
+    return await fetch(`categories/delete/${categoryId}`, {
         headers: {
             "Content-Type": "application/json",
             "x-access-token": localStorage.getItem("token") as string,
         },
-    }).then((res) => {
-
-        if (res.status === 200) {
-            return res;
-        } else if (res.status === 404 || res.status === 400) {
-            throw new Error(res.statusText);
-        } else {
-            throw new Error(`Couldn't read server response.`);
-        }
-    });
+        method: "DELETE",
+        mode: "cors",
+    }).then(handleResponse)
+        .then((res: any) => res)
+        .catch((err: Error) => {
+            throw new Error(err.message);
+        });
 };
+
+export const getData = async () =>
+    await fetch("categories/show", {
+        headers: {
+            "x-access-token": localStorage.getItem("token") as string,
+        },
+    }).then(handleResponse)
+        .then((res: any) => res)
+        .catch((err: Error) => {
+            throw new Error(err.message);
+        });

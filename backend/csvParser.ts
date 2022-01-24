@@ -4,10 +4,8 @@ import {Map} from "mongodb";
 const csv = require('csv-parse')
 const fs = require('fs')
 const Category = require('./db/models/category')
-//const verifyDataAmount
 
 // TODO: Add unit tests for csvParser
-
 export async function parseFromFile(pathToFolder: string, fileName: string): Promise<void> {
     let results: any = [];
     await new Promise<void>((resolve) => {
@@ -59,7 +57,6 @@ export async function arrayToTransactions(results: string[][], userId: string): 
     .catch((err: Error) => {
         return err;
     })
-    //FIXME: Make sure this errorMessage isnt ignored in frontend
     if(results.length === transactions.length){
         return {transactions, errorMessage: null}
     } else {
@@ -101,9 +98,9 @@ const handleExportedCsv = async (results: string[][], userId: string): Promise<p
     let noneCategory: CategoryItem = {type:'NONE', name:'NONE', _id:'x', budget:0}
     await Category.find({user: userId}).then((foundItemsArray: CategoryItem[]) => {
         for (const category of foundItemsArray){
-            if(category.type === 'Income'){
+            if(category.type.toUpperCase() === 'INCOME'){
                 incomeCategories.push(category)
-            } else if (category.type === 'Expense'){
+            } else if (category.type.toUpperCase() === 'EXPENSE'){
                 expenseCategories.push(category)
             } else {
                 noneCategory._id = category._id
@@ -120,14 +117,14 @@ const handleExportedCsv = async (results: string[][], userId: string): Promise<p
             category: '',
             user: userId
         }
-        if(row[5] === 'Income'){
+        if(row[5].toUpperCase() === 'INCOME'){
             for(const category of incomeCategories){
                 if(category.name === row[4]){
                     transaction.category = category._id
                     break
                 }
             }
-        } else if (row[5] === 'Expense') {
+        } else if (row[5].toUpperCase() === 'EXPENSE') {
             for(const category of expenseCategories){
                 if(category.name === row[4]){
                     transaction.category = category._id

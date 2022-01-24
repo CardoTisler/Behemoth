@@ -6,12 +6,11 @@ import App from "./App";
 import Login from "./components/user/Login";
 import {setUserLoggedIn} from "./redux/actions/userActions";
 import {RootState} from "./redux/reducers";
-import {useState} from "react";
+
 interface CheckUserAuth {
     tokenValid: boolean;
     username: string;
 }
-
 const isTokenValid = (): Promise<CheckUserAuth> => {
     const token = (localStorage.getItem("token")) as string;
     const result = fetch("/isUserAuth", {
@@ -39,7 +38,6 @@ const isTokenValid = (): Promise<CheckUserAuth> => {
 };
 
 const AuthWrapper = () => {
-    console.log("Authwrapper rendered.");
     const dispatch = useDispatch();
     const history = useHistory();
     const {isLoggedIn} = useSelector((state: RootState) => state.userReducer);

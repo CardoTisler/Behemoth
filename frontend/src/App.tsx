@@ -1,5 +1,5 @@
 import {makeStyles} from "@material-ui/core";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
 import {BrowserRouter as Router, Route, Switch, useHistory} from "react-router-dom";
@@ -15,14 +15,12 @@ import Reports from "./components/reports/Reports";
 import Transactions from "./components/transactions/Transactions";
 import Banner from "./components/window/Banner";
 import NavigationBar from "./components/window/NavigationBar";
-import {useCheckUserAuth} from "./hooks/useCheckUserAuth";
 import {useFetchCategories} from "./hooks/useFetchCategories";
 import {useFetchTransactions} from "./hooks/useFetchTransactions";
 import {loadCategories} from "./redux/actions/categoryActions";
 import {loadTransactions} from "./redux/actions/transactionActions";
 import {RootState} from "./redux/reducers";
-import {setUserLoggedIn, setUserLoggedOut} from "./redux/actions/userActions";
-// TODO: Store current tab for Banner in redux store
+
 const useStyles = makeStyles({
     root: {
         boxSizing: "border-box",
@@ -40,11 +38,6 @@ function App() {
     useTitle("Categorizer");
     const classes = useStyles();
     const history = useHistory();
-    // TODO: Receive value from redux store, default empty string probably
-    const [bannerTitle, setBannerTitle] = useState("Dashboard");
-    const handleBannerText = (componentName: string) => {
-        setBannerTitle(componentName);
-    };
     const dispatch = useDispatch();
     const {isLoggedIn} = useSelector((state: RootState) => state.userReducer);
     const {incomeCategories, expenseCategories, noneCategory, categoryError} = useFetchCategories();
@@ -59,15 +52,15 @@ function App() {
             }));
             dispatch(loadTransactions(transactionsList));
         }
-    }, [incomeCategories, expenseCategories, noneCategory, transactionsList]);
+    }, [expenseCategories, incomeCategories, transactionsList]);
 
     return (
         <div className={classes.root}>
-            {isLoggedIn && <Banner title={bannerTitle}/>}
+            {isLoggedIn && <Banner/>}
             <div className={classes.content}>
                 {isLoggedIn
                     ? <Router>
-                        <NavigationBar onButtonClick={handleBannerText}/>
+                        <NavigationBar />
                         <div className={classes.frameStyles}>
                             <ErrorToolbar/>
                             <SuccessToolbar/>

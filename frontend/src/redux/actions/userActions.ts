@@ -1,14 +1,5 @@
-// TODO: Action type and Payload types to @types
+import {Action, Payload} from "../../../@types/UserTypes";
 
-interface Action {
-    type: string;
-    payload: Payload;
-}
-
-interface Payload {
-    username: string;
-    isLoggedIn: boolean;
-}
 export const getUserStatus = (): Action => {
     return {
         type: "GET_USER_STATUS",
