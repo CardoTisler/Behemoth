@@ -9,7 +9,7 @@ const Transaction = require('../db/models/transaction');
 const Category = require('../db/models/category');
 const {parseFromFile, arrayToTransactions} = require('../csvParser');
 const stringify = require('csv-stringify');
-const {newTransactionSchema, checkedTransactionsSchema} = require("../validation/transactionsAPI");
+const {newTransactionSchema, checkedTransactionsSchema, transactionAmountSchema} = require("../validation/transactionsAPI");
 const {itemIdSchema} = require("../validation/categoriesAPI");
 
 const multer = require('multer')
@@ -26,6 +26,7 @@ const upload = multer({storage: storage})
 router.post('/transactions/new', verifyJWT, async (req: AuthRequest, res: Response) => {
     try {
         await newTransactionSchema.validateAsync(req.body)
+        await transactionAmountSchema.validateAsync(req.body.amount, {convert: false});
     } catch (err: any) {
         return res.status(422).send({
             statusText: "Can not add new Transaction.",

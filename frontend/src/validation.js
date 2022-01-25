@@ -10,11 +10,7 @@ export const transactionFormSchema = yup.object({
         .test(
             "Decimal",
             "Amount must be int or decimal with max precision 2",
-            // (amount) => amount.match(new RegExp("\\d{1,5}|\\d{0,5}\\.\\d{1,2}"))
-            (amount) => {
-                const regex = new RegExp("\\d{1,5}|\\d{0,5}\\.\\d{1,2}")
-                return regex.test(amount);
-            }
+            (amount) => /^\d+(\.\d{1,2})?$/.test(amount)
         ),
     date: yup.date().required(),
     description: yup.string().min(1).max(60).required(),

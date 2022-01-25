@@ -23,10 +23,9 @@ interface IProps {
 const TransactionsRow: React.FC<IProps> = (props) => {
     const {date, name, description, amount, category, _id} = props.data;
     const classes = useStyles();
-    const [currentCategoryId, setCurrentCategoryId] = useState("0");
+    const [currentCategoryId, setCurrentCategoryId] = useState("1");
     const [isThisChecked, setIsThisChecked] = useState(false);
     const dispatch = useDispatch();
-    // FIXME: This duplicates solution in RowDropdown
     useEffect(() => {
         // Unpopulated (Mongoose population) Transactions SHOULD NOT arrive here but if they
         // do then this logic avoids unneccesary crash.

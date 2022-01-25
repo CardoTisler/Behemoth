@@ -1,13 +1,13 @@
 import {Button, Grid, makeStyles, TextField} from "@material-ui/core";
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {showError} from "src/redux/actions/errorActions";
+import {hideError, showError} from "src/redux/actions/errorActions";
 import {hideSuccess, showSuccess} from "src/redux/actions/successActions";
 import {appendTransaction} from "src/redux/actions/transactionActions";
 import {addTransactionToDatabase} from "../../fetch/transactions";
 import {RootState} from "../../redux/reducers";
-import RowDropdown from "./RowDropdown";
 import {transactionFormSchema} from "../../validation";
+import RowDropdown from "./RowDropdown";
 
 const useStyles = makeStyles({
     dropdown: {
@@ -38,15 +38,8 @@ const TransactionsForm: React.FC<any> = () => {
         name: "",
     });
     const {date, name, description, amount} = state;
+    const [showInputError, setShowInputError] = useState(false);
     const [currentCategoryId, setCurrentCategoryId] = useState(noneCategory._id);
-    const [showDateError, setShowDateError] = useState(false);
-    const [dateErrorMessage, setDateErrorMessage] = useState("");
-    const [showErrorName, setShowErrorName] = useState(false);
-    const [nameErrorMessage, setNameErrorMessage] = useState("");
-    const [showErrorDesc, setShowErrorDesc] = useState(false);
-    const [descErrorMessage, setDescErrorMessage] = useState("");
-    const [showErrorAmount, setShowErrorAmount] = useState(false);
-    const [amountErrorMessage, setAmountErrorMessage] = useState("");
     const classes = useStyles();
     const handleInput = (e: { target: { name: string; value: string } }) => {
         setState({
@@ -62,105 +55,32 @@ const TransactionsForm: React.FC<any> = () => {
         }
     };
 
-    const validateNameField = (nameInput: string): boolean => {
-        if (nameInput.length > 40) {
-            setNameErrorMessage("Name is too long, max 40 characters.");
-            return false;
-        }
-        if (nameInput.length === 0) {
-            setNameErrorMessage("Name field can not be empty");
-            return false;
-        }
-        return true;
-    };
-
-    const validateDate = (dateInput: string): boolean => {
-        try {
-            new Date(dateInput).toISOString();
-        } catch (err: any) {
-            setDateErrorMessage("Can not convert date to Date object.");
-            return false;
-        }
-        return true;
-    };
-
-    const validateDescription = (desc: string): boolean => {
-        if (desc.length > 60) {
-            setDescErrorMessage("Description too long!");
-            return false;
-        }
-        return true;
-    };
-
-    const validateAmount = (amountInput: string): boolean => {
-        let amountV;
-        try {
-            if (amountInput.split(".")[1].length > 2) {
-                setAmountErrorMessage("Amount must have max 2 decimal places.");
-                return false;
-            }
-            amountV = Number(amountInput);
-        } catch (err: any) {
-            setAmountErrorMessage("Input is not a number.");
-            return false;
-        }
-        if (amountV < 0) {
-            setAmountErrorMessage("Amount must be positive!");
-            return false;
-        }
-
-        return true;
-    };
-
-    const validateTransactionData = (): boolean => {
-        // date must be convertable to Date object
-        // Amount must be convertable to float
-        let validationPassed = true;
-        if (!validateDate(date)) {
-            setShowDateError(true);
-            validationPassed = false;
-        }
-        if (!validateDescription(description)) {
-            setShowErrorDesc(true);
-            validationPassed = false;
-        }
-        if (!validateNameField(name)) {
-            setShowErrorName(true);
-            validationPassed = false;
-        }
-        if (!validateAmount(amount)) {
-            setShowErrorAmount(true);
-            validationPassed = false;
-        }
-        return validationPassed;
-    };
-
     const onSubmit = async (e: any): Promise<void> => {
         e.preventDefault();
-        // if (!validateTransactionData()) {
-        //     return;
-        // }
+        let parsedAmount = -1;
         try {
+            parsedAmount = parseFloat(amount);
             await transactionFormSchema.validate({
-                amount,
+                amount: parsedAmount,
                 category: currentCategoryId,
                 date,
                 description,
                 name,
             });
         } catch (err: any) {
-            console.error(err.message);
+            setShowInputError(true);
+            dispatch(showError(`Could not add new Transaction`, err.message));
+            setTimeout(() => { dispatch(hideError()); }, 4000);
             return;
         }
         const convertedDate = new Date(date).toISOString();
-        const newTransaction = {
-            amount,
+        await addTransactionToDatabase({
+            amount: parsedAmount,
             category: currentCategoryId,
             date: convertedDate,
             description,
             name,
-        };
-        await addTransactionToDatabase(newTransaction)
+        })
             .then((res: any) => {
                 dispatch(showSuccess(res.statusText));
                 dispatch(appendTransaction({...res.addedItem}));
@@ -169,11 +89,10 @@ const TransactionsForm: React.FC<any> = () => {
                 }, 4000);
 
                 setState({name: "", description: "", amount: "", date: ""});
-                setCurrentCategoryId("0");
+                setCurrentCategoryId(noneCategory._id);
             }).catch((err: Error) => {
                 dispatch(showError(`Could not add new transaction to database`, err.message));
             });
-
     };
 
     return (
@@ -184,8 +103,7 @@ const TransactionsForm: React.FC<any> = () => {
                 onSubmit={onSubmit}>
                 <Grid item xs={2} className={classes.gridItem}>
                     <TextField
-                        error={showDateError}
-                        helperText={showDateError && dateErrorMessage}
+                        error={showInputError}
                         label="Date ( DD/MM/YYYY )"
                         name="date"
                         className={classes.field}
@@ -194,8 +112,7 @@ const TransactionsForm: React.FC<any> = () => {
                 </Grid>
                 <Grid item xs={2} className={classes.gridItem}>
                     <TextField
-                        error={showErrorName}
-                        helperText={showErrorName && nameErrorMessage}
+                        error={showInputError}
                         label="Name"
                         name="name"
                         className={classes.field}
@@ -204,8 +121,7 @@ const TransactionsForm: React.FC<any> = () => {
                 </Grid>
                 <Grid item xs={5} className={classes.gridItem}>
                     <TextField
-                        error={showErrorDesc}
-                        helperText={showErrorDesc && descErrorMessage}
+                        error={showInputError}
                         label="Description"
                         name="description"
                         className={classes.field}
@@ -214,8 +130,7 @@ const TransactionsForm: React.FC<any> = () => {
                 </Grid>
                 <Grid item xs={1} className={classes.gridItem}>
                     <TextField
-                        error={showErrorAmount}
-                        helperText={showErrorAmount && amountErrorMessage}
+                        error={showInputError}
                         label="Amount"
                         name="amount"
                         className={classes.field}
@@ -223,6 +138,7 @@ const TransactionsForm: React.FC<any> = () => {
                         onChange={handleInput}/>
                 </Grid>
                 <Grid item xs={1} className={classes.dropdown}>
+                    {console.log(currentCategoryId)}
                     <RowDropdown currentCategory={currentCategoryId} handleChange={handleChange}/>
                 </Grid>
                 <Grid item xs={1} className={classes.gridItem}>
