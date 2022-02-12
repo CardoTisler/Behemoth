@@ -12,12 +12,16 @@ const stringify = require('csv-stringify');
 const {newTransactionSchema, checkedTransactionsSchema, transactionAmountSchema} = require("../validation/transactionsAPI");
 const {itemIdSchema} = require("../validation/categoriesAPI");
 import { logger } from "../logger";
+import * as fs from "fs";
 
 logger.defaultMeta = {service: "Transactions API"};
 
 const multer = require('multer')
 const storage = multer.diskStorage({
     destination: (req: Request, file: any, cb: (ifError: null, fileSavePath: string) => void) => {
+        if(!fs.existsSync('csvData')){
+            fs.mkdirSync('csvData');
+        }
         cb(null, 'csvData')
     },
     filename: (req: Request, file: any, cb: (ifError: null, fileName: string) => void) => {
