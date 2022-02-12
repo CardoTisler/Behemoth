@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import type { Category } from "../../@types/CategoryTypes/category";
 import { getData } from "../fetch/categories";
 import { showError } from "../redux/actions/errorActions";
+import {logger} from "../logger";
 
 interface FetchCategories {
     incomeCategories: Category[];
@@ -17,7 +18,7 @@ export const useFetchCategories = (): FetchCategories => {
     const [noneCategory, setNoneCategory] = useState<Category>({
         _id: "",
         budget: 0,
-        name: "",
+        name: "defaultNone",
         type: "",
     });
     let error = false;
@@ -25,7 +26,7 @@ export const useFetchCategories = (): FetchCategories => {
 
     useEffect( () => {
         async function fetch() {
-            await getData().then((res) => {
+            await getData().then((res: any) => {
                 setIncomeCategories([...res.incomeCategories]);
                 setExpenseCategories([...res.expenseCategories]);
                 setNoneCategory(res.noneCategory);
