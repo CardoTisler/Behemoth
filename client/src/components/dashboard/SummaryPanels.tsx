@@ -5,10 +5,10 @@ import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import TrendingDownIcon from "@material-ui/icons/TrendingDown";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import { useDispatch, useSelector } from "react-redux";
-import { showError } from "src/redux/actions/errorActions";
-import { RootState } from "src/redux/reducers";
 import {Category} from "../../../@types/CategoryTypes/category";
 import { Transaction } from "../../../@types/TransactionTypes/Transaction";
+import { showError } from "../../redux/actions/errorActions";
+import { RootState } from "../../redux/reducers";
 import SummaryElement from "./SummaryElement";
 import {getSummaryData} from "./summaryParse";
 

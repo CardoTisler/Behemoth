@@ -1,10 +1,10 @@
 import {Button, Grid, makeStyles, TextField} from "@material-ui/core";
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {hideError, showError} from "src/redux/actions/errorActions";
-import {hideSuccess, showSuccess} from "src/redux/actions/successActions";
-import {appendTransaction} from "src/redux/actions/transactionActions";
 import {addTransactionToDatabase} from "../../fetch/transactions";
+import {hideError, showError} from "../../redux/actions/errorActions";
+import {hideSuccess, showSuccess} from "../../redux/actions/successActions";
+import {appendTransaction} from "../../redux/actions/transactionActions";
 import {RootState} from "../../redux/reducers";
 import {transactionFormSchema} from "../../validation";
 import RowDropdown from "./RowDropdown";

@@ -4,7 +4,7 @@ import {DateRangePicker} from "react-date-range";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { useDispatch } from "react-redux";
-import { changeDateRange } from "src/redux/actions/dateFilterActions";
+import { changeDateRange } from "../../redux/actions/dateFilterActions";
 import {ITransactionState, Transaction} from "../../../@types/TransactionTypes/Transaction";
 import {useFetchTransactions} from "../../hooks/useFetchTransactions";
 import useUpdateEffect from "../../hooks/useUpdateEffect";

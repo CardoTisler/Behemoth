@@ -3,9 +3,9 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const categoriesAPI = require('./API/categoriesAPI.ts')
-const transactionsAPI = require('./API/transactionsAPI.ts')
-const usersAPI = require("./API/usersAPI.ts")
+const categoriesAPI = require('./API/categoriesAPI')
+const transactionsAPI = require('./API/transactionsAPI')
+const usersAPI = require("./API/usersAPI")
 
 app.use(express.json())
 app.use(express.urlencoded({

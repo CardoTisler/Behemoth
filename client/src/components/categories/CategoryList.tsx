@@ -1,6 +1,6 @@
 import { Box, Divider, List, ListItem, ListItemText, makeStyles } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import { hideInfo, showInfo } from "src/redux/actions/infoActions";
+import { hideInfo, showInfo } from "../../redux/actions/infoActions";
 import { Category } from "../../../@types/CategoryTypes/category";
 import {hideError, showError} from "../../redux/actions/errorActions";
 import ListRow from "./ListRow";

@@ -2,10 +2,10 @@ import {Grid} from "@material-ui/core";
 import { Checkbox, makeStyles } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { showError } from "src/redux/actions/errorActions";
-import { updateTransactionsCategory } from "src/redux/actions/transactionActions";
 import { Transaction } from "../../../@types/TransactionTypes/Transaction";
 import {handleCategoryUpdate} from "../../fetch/transactions";
+import { showError } from "../../redux/actions/errorActions";
+import { updateTransactionsCategory } from "../../redux/actions/transactionActions";
 import {checkTransaction, unCheckTransaction} from "../../redux/actions/transactionCheckboxActions";
 import RowDropdown from "./RowDropdown";
 
