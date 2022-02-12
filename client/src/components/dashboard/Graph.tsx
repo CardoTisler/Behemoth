@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { showError } from "src/redux/actions/errorActions";
-import { RootState } from "src/redux/reducers";
+import { showError } from "../../redux/actions/errorActions";
+import { RootState } from "../../redux/reducers";
 import { getDataForGraph } from "./graphParse";
 
 const Graph: React.FC = () => {

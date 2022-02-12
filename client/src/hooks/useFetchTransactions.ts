@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import { useDispatch } from "react-redux";
-import {hideInfo, showInfo} from "src/redux/actions/infoActions";
 import { Transaction } from "../../@types/TransactionTypes/Transaction";
+import {hideInfo, showInfo} from "../redux/actions/infoActions";
 
 const getData = async (): Promise<FetchReturn> =>
     await fetch("transactions/show", {
