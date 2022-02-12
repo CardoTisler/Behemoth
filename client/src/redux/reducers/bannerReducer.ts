@@ -6,7 +6,7 @@ interface BannerAction {
     payload: BannerState;
 }
 const initialState = {
-    bannerTitle: "",
+    bannerTitle: "Dashboard",
 };
 
 export const bannerReducer = (state: BannerState = initialState, action: BannerAction): BannerState => {
