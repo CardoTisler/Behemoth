@@ -3,6 +3,7 @@
 
 Categorizer is a tool that helps you categorize your financial statements and visualize them. The end goal for this project is to be able to import a large amount of transactions via .CSV file, categorize them into similar groups based on Transaction name and then export the categorized file for personal storage. This tool is not meant for storing large amounts of data for a long time.
 
+
 #### Current stack
 
 React + Redux + Material UI 
