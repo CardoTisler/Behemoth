@@ -70,7 +70,7 @@ Run  `npm install` in categorizer/frontend and categorizer/backend separately
 To Start Server:
 
 Run `npm start` in categorizer/frontend
-Run `node app.ts` or `nodemon server.js` in categorizer/backend
+Run `node app.ts` or `nodemon server.ts` in categorizer/backend
 
 To Visit App:
 

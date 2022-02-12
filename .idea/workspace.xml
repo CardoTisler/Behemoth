@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="7e76d7fa-d4d0-483b-ab85-50f88890ca28" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/@types/Auth.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/@types/CategoryTypes/Category.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/@types/TransactionTypes/Transaction.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/@types/UserTypes/User.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/categoriesAPI.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/transactionsAPI.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/usersAPI.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/.babelrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/@types/CategoryTypes/category.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/@types/Info/Error.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/@types/Info/Success.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/@types/TransactionTypes/Transaction.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/@types/UserTypes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/build/asset-manifest.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/build/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/build/manifest.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/build/robots.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/build/static/css/2.c2e18bb2.chunk.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/build/static/css/2.c2e18bb2.chunk.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/build/static/css/main.c502bc05.chunk.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/build/static/css/main.c502bc05.chunk.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/build/static/js/2.251ef5e1.chunk.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/build/static/js/2.251ef5e1.chunk.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/build/static/js/2.251ef5e1.chunk.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/build/static/js/3.44185250.chunk.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/build/static/js/3.44185250.chunk.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/build/static/js/main.e3a17a14.chunk.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/build/static/js/main.e3a17a14.chunk.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/build/static/js/runtime-main.eaeefc85.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/build/static/js/runtime-main.eaeefc85.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/public/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/public/manifest.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/public/robots.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/server.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/App.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/AuthWrapper.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/categories/Categories.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/categories/CategoryForm.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/categories/CategoryList.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/categories/ListRow.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dashboard/Dashboard.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dashboard/DateFilter.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dashboard/Graph.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dashboard/SummaryElement.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dashboard/SummaryPanels.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dashboard/graphParse.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dashboard/summaryParse.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/info/ErrorToolbar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/info/InfoToolbar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/info/SuccessToolbar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/reports/Reports.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/transactions/RowDropdown.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/transactions/TransactionButtons.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/transactions/Transactions.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/transactions/TransactionsForm.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/transactions/TransactionsHeader.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/transactions/TransactionsList.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/transactions/TransactionsRow.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/transactions/TransactionsSearch.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/user/Login.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/user/Register.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/window/Banner.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/window/NavButton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/window/NavigationBar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/fetch/categories.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/fetch/common.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/fetch/transactions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/fetch/user.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/hooks/useCheckUserAuth.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/hooks/useFetchCategories.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/hooks/useFetchTransactions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/hooks/useUpdateEffect.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/react-app-env.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/actions/bannerActions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/actions/categoryActions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/actions/dateFilterActions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/actions/errorActions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/actions/infoActions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/actions/loadingAction.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/actions/successActions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/actions/transactionActions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/actions/transactionCheckboxActions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/actions/userActions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/reducers/bannerReducer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/reducers/categoryReducer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/reducers/dateFilterReducer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/reducers/errorReducer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/reducers/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/reducers/infoReducer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/reducers/loadingReducer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/reducers/successReducer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/reducers/transactionCheckboxReducer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/reducers/transactionReducer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/redux/reducers/userReducer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/reportWebVitals.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/setupTests.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/validation.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/test/TransactionButtons.test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/tslint.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/csvParser.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/models/category.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/models/transaction.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/models/user.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jest.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/middleware/auth.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/API/categoriesAPI.test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/API/transactionsAPI.test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/API/usersAPI.test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/server.test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/validation/categoriesAPI.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/validation/transactionsAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/categorizer.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/@types/Auth.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/@types/CategoryTypes/Category.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/@types/TransactionTypes/Transaction.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/@types/UserTypes/User.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/API/categoriesAPI.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/API/transactionsAPI.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/API/usersAPI.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/csvParser.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/db/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/db/models/category.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/db/models/transaction.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/db/models/user.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/jest.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/middleware/auth.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/server.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/test/API/categoriesAPI.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/test/API/transactionsAPI.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/test/API/usersAPI.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/test/server.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/validation/categoriesAPI.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/validation/transactionsAPI.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.babelrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/@types/CategoryTypes/category.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/@types/Info/Error.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/@types/Info/Success.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/@types/TransactionTypes/Transaction.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/@types/UserTypes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/robots.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/AuthWrapper.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/categories/Categories.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/categories/CategoryForm.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/categories/CategoryList.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/categories/ListRow.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dashboard/Dashboard.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dashboard/DateFilter.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dashboard/Graph.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dashboard/SummaryElement.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dashboard/SummaryPanels.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dashboard/graphParse.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dashboard/summaryParse.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/info/ErrorToolbar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/info/InfoToolbar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/info/SuccessToolbar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/reports/Reports.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/transactions/RowDropdown.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/transactions/TransactionButtons.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/transactions/Transactions.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/transactions/TransactionsForm.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/transactions/TransactionsHeader.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/transactions/TransactionsList.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/transactions/TransactionsRow.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/transactions/TransactionsSearch.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/user/Login.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/user/Register.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/window/Banner.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/window/NavButton.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/window/NavigationBar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/fetch/categories.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/fetch/common.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/fetch/transactions.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/fetch/user.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/useCheckUserAuth.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/useFetchCategories.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/useFetchTransactions.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/useUpdateEffect.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/react-app-env.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/bannerActions.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/categoryActions.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/dateFilterActions.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/errorActions.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/infoActions.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/loadingAction.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/successActions.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/transactionActions.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/transactionCheckboxActions.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/userActions.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/bannerReducer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/categoryReducer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/dateFilterReducer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/errorReducer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/infoReducer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/loadingReducer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/successReducer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/transactionCheckboxReducer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/transactionReducer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/userReducer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/reportWebVitals.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/setupTests.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/validation.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/test/TransactionButtons.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/tslint.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedIndex" value="2" />
+  </component>
+  <component name="ProjectId" id="1z3dlyn4cizYFu0twbXyxfVRuI6" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ASKED_MARK_IGNORED_FILES_AS_EXCLUDED" value="true" />
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="TODO_SCOPE" value="All Places" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/react-scripts" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="project.scopes" />
+    <property name="ts.external.directory.path" value="C:\Users\cardo\AppData\Local\JetBrains\Toolbox\apps\WebStorm\ch-0\213.5744.224\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="ts.rename.search.for.dynamic.occurrences" value="true" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Dev\WebDev\categorizer\frontend\dist\src" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Dev\WebDev\categorizer\backend" />
+      <recent name="C:\Dev\WebDev\categorizer\frontend\src" />
+      <recent name="C:\Dev\WebDev\categorizer\backend\validation" />
+      <recent name="C:\Dev\WebDev\categorizer\backend\db" />
+      <recent name="C:\Dev\WebDev\categorizer\backend\test" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Transactions API Integration Tests" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/react-scripts" />
+      <working-dir value="$PROJECT_DIR$/backend" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/backend/test/server.test.js" />
+      <test-names>
+        <test-name value="Transactions API Integration Tests" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Jest.Transactions API Integration Tests" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7e76d7fa-d4d0-483b-ab85-50f88890ca28" name="Changes" comment="" />
+      <created>1633380862388</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1633380862388</updated>
+      <workItem from="1633380865033" duration="347000" />
+      <workItem from="1633381230499" duration="1750000" />
+      <workItem from="1633414495649" duration="94000" />
+      <workItem from="1633443322159" duration="18011000" />
+      <workItem from="1633529288826" duration="21353000" />
+      <workItem from="1633589851985" duration="40000" />
+      <workItem from="1633589905549" duration="7104000" />
+      <workItem from="1633803994310" duration="19950000" />
+      <workItem from="1633938930530" duration="27567000" />
+      <workItem from="1634053008979" duration="10790000" />
+      <workItem from="1634226264665" duration="2694000" />
+      <workItem from="1634398892724" duration="7117000" />
+      <workItem from="1634414703758" duration="2163000" />
+      <workItem from="1634417325318" duration="7763000" />
+      <workItem from="1634454863368" duration="318000" />
+      <workItem from="1634597029827" duration="760000" />
+      <workItem from="1634597938142" duration="372000" />
+      <workItem from="1634664719808" duration="355000" />
+      <workItem from="1634745088257" duration="8637000" />
+      <workItem from="1634829418622" duration="10304000" />
+      <workItem from="1634999473460" duration="59000" />
+      <workItem from="1635353292026" duration="7166000" />
+      <workItem from="1635785253499" duration="971000" />
+      <workItem from="1635870594186" duration="954000" />
+      <workItem from="1635879815043" duration="616000" />
+      <workItem from="1635953163407" duration="77000" />
+      <workItem from="1636099818096" duration="3926000" />
+      <workItem from="1636135623013" duration="643000" />
+      <workItem from="1636395600501" duration="35000" />
+      <workItem from="1636395652015" duration="268000" />
+      <workItem from="1636711190364" duration="32000" />
+      <workItem from="1636718566459" duration="300000" />
+      <workItem from="1636720091753" duration="747000" />
+      <workItem from="1636733638225" duration="20000" />
+      <workItem from="1637088461297" duration="6903000" />
+      <workItem from="1637178058596" duration="2758000" />
+      <workItem from="1637417813283" duration="6000" />
+      <workItem from="1638389052205" duration="313000" />
+      <workItem from="1638462466892" duration="33000" />
+      <workItem from="1638570687437" duration="988000" />
+      <workItem from="1638622697292" duration="45000" />
+      <workItem from="1638633626442" duration="1340000" />
+      <workItem from="1638693554100" duration="4000" />
+      <workItem from="1638728834883" duration="1507000" />
+      <workItem from="1641036293894" duration="1209000" />
+      <workItem from="1641387489941" duration="615000" />
+      <workItem from="1641564422422" duration="829000" />
+      <workItem from="1641636641830" duration="4437000" />
+      <workItem from="1641641141183" duration="290000" />
+      <workItem from="1641641448536" duration="10312000" />
+      <workItem from="1641660882952" duration="9938000" />
+      <workItem from="1641801250412" duration="1000000" />
+      <workItem from="1641820823792" duration="222000" />
+      <workItem from="1641825946924" duration="7962000" />
+      <workItem from="1641885606679" duration="13260000" />
+      <workItem from="1641904744428" duration="2683000" />
+      <workItem from="1641907464618" duration="8122000" />
+      <workItem from="1641975218686" duration="9019000" />
+      <workItem from="1642054782840" duration="22913000" />
+      <workItem from="1642148316592" duration="2419000" />
+      <workItem from="1642151942873" duration="8392000" />
+      <workItem from="1642170283774" duration="5103000" />
+      <workItem from="1642177929772" duration="5222000" />
+      <workItem from="1642194274583" duration="1402000" />
+      <workItem from="1642237107128" duration="5717000" />
+      <workItem from="1642263560757" duration="1778000" />
+      <workItem from="1642342988309" duration="669000" />
+      <workItem from="1642434139552" duration="128000" />
+      <workItem from="1642436080149" duration="15000" />
+      <workItem from="1642531479373" duration="5731000" />
+      <workItem from="1642584953599" duration="157000" />
+      <workItem from="1642602167063" duration="4904000" />
+      <workItem from="1642661993697" duration="4400000" />
+      <workItem from="1642681997123" duration="8162000" />
+      <workItem from="1642763463819" duration="15934000" />
+      <workItem from="1642840592056" duration="12882000" />
+      <workItem from="1642941052272" duration="696000" />
+      <workItem from="1643020776595" duration="23701000" />
+      <workItem from="1643095073465" duration="17574000" />
+      <workItem from="1643292200846" duration="3853000" />
+      <workItem from="1643664442777" duration="2475000" />
+      <workItem from="1644602755128" duration="470000" />
+      <workItem from="1644645556188" duration="7215000" />
+      <workItem from="1644655202883" duration="6497000" />
+      <workItem from="1644665514619" duration="65000" />
+      <workItem from="1644665593207" duration="2088000" />
+      <workItem from="1644667772017" duration="70000" />
+      <workItem from="1644667845056" duration="20000" />
+      <workItem from="1644667875903" duration="84000" />
+      <workItem from="1644667971799" duration="51000" />
+      <workItem from="1644668040494" duration="35000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>
