@@ -1,8 +1,6 @@
 import {Box, makeStyles} from "@material-ui/core";
 import Button from "@mui/material/Button";
-import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {useHistory} from "react-router-dom";
 import {setUserLoggedOut} from "../../redux/actions/userActions";
 import {RootState} from "../../redux/reducers";
 

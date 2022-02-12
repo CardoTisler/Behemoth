@@ -4,12 +4,16 @@ import {Map} from "mongodb";
 const csv = require('csv-parse')
 const fs = require('fs')
 const Category = require('./db/models/category')
+import {logger} from "./logger";
 
 // TODO: Add unit tests for csvParser
 export async function parseFromFile(pathToFolder: string, fileName: string): Promise<void> {
     let results: any = [];
+    const pathToCSVFile = pathToFolder.concat(fileName);
+    logger.info(`Creating read stream to file with path: ${pathToCSVFile}`)
+
     await new Promise<void>((resolve) => {
-        fs.createReadStream(pathToFolder.concat(fileName))
+        fs.createReadStream(pathToCSVFile)
         .pipe(csv({
             delimiter: ';'
         }))
@@ -17,11 +21,14 @@ export async function parseFromFile(pathToFolder: string, fileName: string): Pro
             await results.push(data)
         })
         .on('end', () => {
+            logger.info(`Received data from CSV file.`)
             resolve();
         })
     }).catch((err: Error) => {
+        logger.error(`Could not get data from CSV file. Reason: ${err.message}`)
         throw new Error(err.message)
     })
+    logger.info(`Data parsed from file: ${results}`)
     return results;
 }
 
@@ -32,6 +39,7 @@ interface parserPayload {
 export async function arrayToTransactions(results: string[][], userId: string): Promise<parserPayload>{
     // if true then added csv file was previously exported from Categorizer
     if(results[0][5] === 'category.type'){
+        logger.info(`Given CSV file has headers that suggest the file was previously exported from this app.`)
         return handleExportedCsv(results, userId)
     }
     const headersIndex: Map<string, number> = mapValuesToIndex(results[0])
@@ -57,6 +65,7 @@ export async function arrayToTransactions(results: string[][], userId: string): 
     .catch((err: Error) => {
         return err;
     })
+    logger.info(`Parsed ${transactions.length} Transactions.`)
     return {transactions, errorMessage: null}
     // TODO: This check is pointless due to CSV file having summary rows in it
     // if(results.length === transactions.length){
@@ -92,13 +101,15 @@ const validateDataForTransaction = (array: string[], headersMap: Map<string, num
 
 }
 
-const handleExportedCsv = async (results: string[][], userId: string): Promise<parserPayload> => {
+const handleExportedCsv = async (rowsInCSVFile: string[][], userId: string): Promise<parserPayload> => {
+    logger.info(`Handling exported CSV. File has ${rowsInCSVFile.length} rows.`);
     let transactions: TransactionItem[] = []
     //remove headers
-    results = results.slice(1, results.length)
+    rowsInCSVFile = rowsInCSVFile.slice(1, rowsInCSVFile.length)
     let incomeCategories: CategoryItem[] = []
     let expenseCategories: CategoryItem[] = []
     let noneCategory: CategoryItem = {type:'NONE', name:'NONE', _id:'x', budget:0, user:''}
+    logger.info(`Finding categories that belong to user.`)
     await Category.find({user: userId}).then((foundItemsArray: CategoryItem[]) => {
         for (const category of foundItemsArray){
             if(category.type.toUpperCase() === 'INCOME'){
@@ -110,8 +121,9 @@ const handleExportedCsv = async (results: string[][], userId: string): Promise<p
             }
         }
     })
-
-    for(const row of results){
+    logger.info(`Found ${incomeCategories.length} IncomeCategories and ${expenseCategories.length} ExpenseCategories`)
+    logger.info(`Attempting to match existing categories with categories defined in CSV file for each transaction.`)
+    for(const row of rowsInCSVFile){
         const transaction: TransactionItem = {
             date: row[0],
             name: row[1],
@@ -139,10 +151,11 @@ const handleExportedCsv = async (results: string[][], userId: string): Promise<p
         }
         transactions.push(transaction)
     }
-    const errorMessage = results.length === transactions.length ? null : 'Some data was lost during parsing'
+    const errorMessage = rowsInCSVFile.length === transactions.length ? null : 'Some data was lost during parsing'
     return {transactions, errorMessage}
 }
 const mapValuesToIndex = (headersArray: string[]): Map<string, number> => {
+    logger.info(`Mapping column header values to their corresponding index`)
     const requiredHeaders = ['Reatüüp', 'Kuupäev', 'Saaja/Maksja', 'Selgitus', 'Summa', 'Deebet/Kreedit']
     let map: Map<string, number> = new Map<string, number>();
     for (let i = 0; i < headersArray.length; i++) {
@@ -151,11 +164,12 @@ const mapValuesToIndex = (headersArray: string[]): Map<string, number> => {
             map.set(header, i); //set header and its corresponding index in results array
         }
     }
+    logger.info(`Mapped values: ${map}`)
     return map;
 }
 
-// FIXME: Need to pass user token here
 const addCategoriesToNewTransactions = async (transactions: TransactionItem[], userId: string): Promise<any> => {
+    logger.info(`Adding NONE category to new Transactions`);
     //find the NONE category _id from db
     await Category.findOne({'type':"NONE", user: userId}).then((noneCategory: TransactionItem) => {
         transactions = transactions.map((newTransaction: TransactionItem) => {
@@ -164,6 +178,7 @@ const addCategoriesToNewTransactions = async (transactions: TransactionItem[], u
     }).catch((err: Error) => {
         throw new Error(err.message);
     });
+    logger.info(`Added NONE category to ${transactions.length} Transactions.`);
     return transactions;
 }
 

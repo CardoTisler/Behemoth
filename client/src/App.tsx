@@ -2,9 +2,9 @@ import {makeStyles} from "@material-ui/core";
 import {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
-import {BrowserRouter as Router, Route, Switch, useHistory} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {useTitle} from "react-use";
-import Login from "../src/components/user/Login";
+import Login from "./components/user/Login";
 import "./App.css";
 import Categories from "./components/categories/Categories";
 import Dashboard from "./components/dashboard/Dashboard";
@@ -20,6 +20,8 @@ import {useFetchTransactions} from "./hooks/useFetchTransactions";
 import {loadCategories} from "./redux/actions/categoryActions";
 import {loadTransactions} from "./redux/actions/transactionActions";
 import {RootState} from "./redux/reducers";
+
+import {logger} from "./logger";
 
 const useStyles = makeStyles({
     root: {
@@ -37,14 +39,16 @@ const useStyles = makeStyles({
 function App() {
     useTitle("Categorizer");
     const classes = useStyles();
-    const history = useHistory();
     const dispatch = useDispatch();
     const {isLoggedIn} = useSelector((state: RootState) => state.userReducer);
     const {incomeCategories, expenseCategories, noneCategory, categoryError} = useFetchCategories();
     const {transactionsList, error} = useFetchTransactions();
 
+    logger.info(`Fetched noneCategory in App.tsx: ${noneCategory.name}`)
+
     useEffect(() => {
         if (!categoryError && !error && isLoggedIn) {
+            logger.info(`Dispatching Categories and Transactions to Redux.`)
             dispatch(loadCategories({
                 expenseCategories,
                 incomeCategories,
@@ -52,7 +56,7 @@ function App() {
             }));
             dispatch(loadTransactions(transactionsList));
         }
-    }, [expenseCategories, incomeCategories, transactionsList]);
+    }, [expenseCategories, incomeCategories, noneCategory, transactionsList]);
 
     return (
         <div className={classes.root}>

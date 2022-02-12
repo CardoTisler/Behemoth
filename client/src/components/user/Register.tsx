@@ -13,11 +13,6 @@ import {useState} from "react";
 import {Link, useHistory} from "react-router-dom";
 import {sendRegisterRequest} from "../../fetch/user";
 
-interface User {
-    username: string;
-    password: string;
-}
-
 const theme = createTheme();
 const Register = () => {
     const history = useHistory();

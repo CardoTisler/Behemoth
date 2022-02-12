@@ -11,11 +11,14 @@ const {parseFromFile, arrayToTransactions} = require('../csvParser');
 const stringify = require('csv-stringify');
 const {newTransactionSchema, checkedTransactionsSchema, transactionAmountSchema} = require("../validation/transactionsAPI");
 const {itemIdSchema} = require("../validation/categoriesAPI");
+import { logger } from "../logger";
+
+logger.defaultMeta = {service: "Transactions API"};
 
 const multer = require('multer')
 const storage = multer.diskStorage({
     destination: (req: Request, file: any, cb: (ifError: null, fileSavePath: string) => void) => {
-        cb(null, '../csvData')
+        cb(null, 'csvData')
     },
     filename: (req: Request, file: any, cb: (ifError: null, fileName: string) => void) => {
         cb(null, Date.now() +'_'+ file.originalname)
@@ -25,9 +28,12 @@ const upload = multer({storage: storage})
 
 router.post('/transactions/new', verifyJWT, async (req: AuthRequest, res: Response) => {
     try {
+        logger.info(`Attempting to validate Transaction data: ${{...req.body}}`)
         await newTransactionSchema.validateAsync(req.body)
+        logger.info(`Attempting to validate Transaction amount: ${req.body.amount}`)
         await transactionAmountSchema.validateAsync(req.body.amount, {convert: false});
     } catch (err: any) {
+        logger.error(`Can not add new Transaction due to ${err.message}`)
         return res.status(422).send({
             statusText: "Can not add new Transaction.",
             error: err.message
@@ -36,8 +42,10 @@ router.post('/transactions/new', verifyJWT, async (req: AuthRequest, res: Respon
 
     Transaction.insertMany([{...req.body, user: req.user.id}])
     .then((addedItems: TransactionItem[]) => {
+        logger.info(`Added new Transaction: ${addedItems[0]}`)
         res.status(201).send({statusText: 'Added new transaction', addedItem: addedItems[0]})
     }).catch((err: Error) => {
+        logger.error(`Could not add new transaction due to: ${err.message}`)
         res.status(500).send({statusText: 'Database error when trying to add new transaction', error: err.message})
     })
 })
@@ -47,9 +55,15 @@ router.post('/transactions/addcsv', verifyJWT, upload.single('csvUpload'), async
     //if there is an error in uploading the file, multer will throw an error and it will be caught in app.ts
     //if the code reaches here then middleware has succeeded and we can send back OK
     let results: any = [];
-    if(req.file?.filename){
-        results = await parseFromFile('../csvData/', req.file?.filename)
-        .catch((err: Error) => res.status(500).send({statusText: `Could not parse data from file`, error: err.message}))
+    const { filename } = req.file;
+
+    if(filename){
+        logger.info(`Received file with name: ${filename}`)
+        results = await parseFromFile('csvData/', filename)
+        .catch((err: Error) => {
+            logger.error(`Could not parse data from file. Reason: ${err.message}`)
+            res.status(500).send({statusText: `Could not parse data from file`, error: err.message})
+        })
 
         if(results.length === 0) {
             return res.status(204).send({statusText: `Did not find any results from the file`})
@@ -131,19 +145,21 @@ router.put('/transactions/update/:id', verifyJWT, async (req: AuthRequest, res: 
 router.put('/transactions/updatecategories/:id', verifyJWT, async(req: AuthRequest, res: Response) => {
     const oldCategoryId = req.params.id
     const { newCategoryId } = req.body
+    logger.info(`Update all Transactions with category Id: ${oldCategoryId} to have new Category Id: ${newCategoryId}`)
     try{
         await itemIdSchema.validateAsync(req.params);
         await itemIdSchema.validateAsync({id: newCategoryId});
     } catch (err: any) {
+        logger.error(`Id validation failed. Reason: ${err.message}`)
         return res.status(422).send({
             statusText: "Can not update Transaction(s)",
             error: err.message
         })
     }
-    //verify that newCategory exists in user's category list
     await Category.findOne({user: req.user.id, _id: newCategoryId})
         .then((foundItem: CategoryItem) => {
             if(!foundItem){
+                logger.error(`New category does not exist in user's category list.`)
                 return res.status(400).send({
                     statusText: `Can not update categories of transactions'`,
                     error: `New category does not exist in user's categories.`
@@ -151,10 +167,12 @@ router.put('/transactions/updatecategories/:id', verifyJWT, async(req: AuthReque
             }
         })
     await Transaction.updateMany({category: oldCategoryId, user: req.user.id}, {$set: {category: newCategoryId}})
-    .then(() => {
+    .then((updatedTransactions: TransactionItem[]) => {
+        logger.info(`Updated ${updatedTransactions.length} Transactions.`);
         res.status(200).send({statusText: `Updated Transaction(s) successfully!`})
     })
     .catch((err: any) => {
+        logger.error(`Could not update Transactions. Reason: ${err.message}`)
         res.status(500).send({statusText: `Could not update transactions.`, error: err.message})
     })
 })

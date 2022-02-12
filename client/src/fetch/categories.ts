@@ -1,6 +1,8 @@
 import {Category} from "../../@types/CategoryTypes/category";
 import {handleResponse} from "./common";
+import {logger} from "../logger";
 
+logger.defaultMeta = {service: "Fetch Categories"};
 // CategoryForm.tsx
 interface CategoryAddRes {
     status: number;
@@ -18,8 +20,9 @@ interface TextResponse {
     statusText: string;
 }
 
-export const addToDatabase = async (data: FormPayload): Promise<CategoryAddRes> =>
-    await fetch("/categories/new", {
+export const addToDatabase = async (data: FormPayload): Promise<CategoryAddRes> => {
+    logger.info(`Creating new category with data: ${data}`)
+    return await fetch("/categories/new", {
         body: JSON.stringify(data),
         headers: {
             "Content-Type": "application/json",
@@ -32,9 +35,10 @@ export const addToDatabase = async (data: FormPayload): Promise<CategoryAddRes> 
         .catch((err: Error) => {
             throw new Error(err.message);
         });
-
+}
 // ListRow.tsx
 export const removeFromDatabase = async (categoryId: string): Promise<TextResponse> => {
+    logger.info(`Removing category with id: ${categoryId} from database.`)
     return await fetch(`categories/delete/${categoryId}`, {
         headers: {
             "Content-Type": "application/json",
@@ -49,13 +53,17 @@ export const removeFromDatabase = async (categoryId: string): Promise<TextRespon
         });
 };
 
-export const getData = async () =>
-    await fetch("categories/show", {
+export const getData = async () => {
+    logger.info(`Fetching categories from database.`)
+    return await fetch("categories/show", {
         headers: {
             "x-access-token": localStorage.getItem("token") as string,
         },
     }).then(handleResponse)
-        .then((res: any) => res)
+        .then((res: any) => {
+            return res
+        })
         .catch((err: Error) => {
             throw new Error(err.message);
         });
+}
