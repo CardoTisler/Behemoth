@@ -1,16 +1,20 @@
 import { Grid } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
-import { RootState } from "../../redux/reducers";
 import CategoryForm from "./CategoryForm";
 import CategoryList from "./CategoryList";
 import {useEffect} from "react";
 import {setBannerTitle} from "../../redux/actions/bannerActions";
+import {loadCategories} from "../../redux/actions/categoryActions";
+import {useFetchCategories} from "../../hooks/useFetchCategories";
+import {logger} from "../../logger"
+import {RootState} from "../../redux/reducers";
+
+logger.defaultMeta = {service: "Categories.tsx"}
 
 const Categories: React.FC = () => {
-    const {
-        incomeCategories,
-        expenseCategories } = useSelector((state: RootState) => state.categoryReducer);
     const dispatch = useDispatch();
+
+    const {incomeCategories, expenseCategories, noneCategory} = useSelector((root: RootState) => root.categoryReducer);
     useEffect(() => {
         dispatch(setBannerTitle({bannerTitle: "Categories"}));
     }, []);

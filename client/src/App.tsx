@@ -36,6 +36,7 @@ const useStyles = makeStyles({
         flexDirection: "row",
     },
 });
+// TODO: Redirect to /dashboard after mount
 function App() {
     useTitle("Categorizer");
     const classes = useStyles();
@@ -44,8 +45,7 @@ function App() {
     const {incomeCategories, expenseCategories, noneCategory, categoryError} = useFetchCategories();
     const {transactionsList, error} = useFetchTransactions();
 
-    logger.info(`Fetched noneCategory in App.tsx: ${noneCategory.name}`)
-
+    // logger.info(`Fetched noneCategory in App.tsx: ${noneCategory.name}`)
     useEffect(() => {
         if (!categoryError && !error && isLoggedIn) {
             logger.info(`Dispatching Categories and Transactions to Redux.`)
@@ -56,7 +56,7 @@ function App() {
             }));
             dispatch(loadTransactions(transactionsList));
         }
-    }, [expenseCategories, incomeCategories, noneCategory, transactionsList]);
+    }, [incomeCategories, expenseCategories, noneCategory, transactionsList]);
 
     return (
         <div className={classes.root}>

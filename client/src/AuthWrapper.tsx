@@ -1,4 +1,3 @@
-import {Router} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {Route, Switch, useHistory} from "react-router-dom";
 import Register from "../src/components/user/Register";

@@ -1,4 +1,6 @@
 import type { Action, Category, categoryState } from "../../../@types/CategoryTypes/category";
+import {logger} from "../../logger";
+logger.defaultMeta = {service: "categoryReducer.ts"}
 
 const defaultCategory: Category = {
     _id: "",
@@ -13,6 +15,7 @@ const initialState: categoryState = {
 };
 
 export const categoryReducer = (state: categoryState = {...initialState}, action: Action): categoryState => {
+    logger.info(`Action=${action.type} with payload=${action.payload}`)
     switch (action.type) {
         default:
             return {...state};

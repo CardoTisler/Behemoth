@@ -2,21 +2,18 @@ import {useEffect, useState} from "react";
 import { useDispatch } from "react-redux";
 import { Transaction } from "../../@types/TransactionTypes/Transaction";
 import {hideInfo, showInfo} from "../redux/actions/infoActions";
+import {handleResponse} from "../fetch/common";
 
 const getData = async (): Promise<FetchReturn> =>
     await fetch("transactions/show", {
         headers: {
             "x-access-token": localStorage.getItem("token") as string,
         },
-    })
-        .then((res: any) => {
-            if (res.status === 200) {
-                return res.json();
-            } else if (res.status === 500) {
-                throw new Error(res.error);
-            }
-            throw new Error("Unknown request status code.");
-        }).catch((err) => { throw new Error(err.message); });
+    }).then(handleResponse)
+        .then(res => res)
+        .catch((err: any) => {
+            throw new Error(err.message)
+        });
 
 interface FetchReturn {
     transactionsList: Transaction[];
