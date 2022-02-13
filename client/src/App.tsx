@@ -48,7 +48,6 @@ function App() {
     // logger.info(`Fetched noneCategory in App.tsx: ${noneCategory.name}`)
     useEffect(() => {
         if (!categoryError && !error && isLoggedIn) {
-            logger.info(`Dispatching Categories and Transactions to Redux.`)
             dispatch(loadCategories({
                 expenseCategories,
                 incomeCategories,

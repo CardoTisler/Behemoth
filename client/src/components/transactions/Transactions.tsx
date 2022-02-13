@@ -23,20 +23,9 @@ const useStyles = makeStyles({
 const Transactions: React.FC = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const {isLoggedIn} = useSelector((state: RootState) => state.userReducer);
-    const {incomeCategories, expenseCategories, noneCategory, categoryError} = useFetchCategories();
-    const {transactionsList, error} = useFetchTransactions();
     useEffect(() => {
-        if(isLoggedIn && !error && !categoryError) {
-            dispatch(setBannerTitle({bannerTitle: "Transactions"}));
-            dispatch(loadCategories({
-                expenseCategories,
-                incomeCategories,
-                noneCategory,
-            }));
-            dispatch(loadTransactions(transactionsList));
-        }
-    }, [transactionsList, isLoggedIn]);
+        dispatch(setBannerTitle({bannerTitle: "Transactions"}));
+    }, []);
     return (
         <Box boxShadow={2} className={classes.root}>
             <Grid container spacing={1}>
