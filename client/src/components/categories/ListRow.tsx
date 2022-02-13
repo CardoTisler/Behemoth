@@ -30,7 +30,6 @@ const ListRow: React.FC<IProps> = (props) => {
     const dispatch = useDispatch();
     const {name, _id} = props.element;
     const {noneCategory} = useSelector((state: RootState) => state.categoryReducer);
-    logger.info(`Rendered listrow with noneCategory: ${noneCategory._id}`)
     const handleElementDelete = async () => {
         await updateTransactionCategories(noneCategory._id, _id)
             .then(async () => {

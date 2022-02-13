@@ -9,7 +9,7 @@
   "scripts": {
     "test": "SET NODE_ENV=test&& mocha --check-leaks -r tsconfig-paths/register -r ts-node/register \"test/**/*.test.js\" --exit",
     "dev": "concurrently \"SET NODE_ENV=development&& nodemon server.ts\" \"cd client && npm start\"",
-    "start": "node dist/server.js",
+    "start": "SET NODE_ENV=production&& node dist/server.js",
     "build": "cd client && npm run build && cd .. && rimraf ./dist && tsc",
     "install-client": "cd client && npm install",
     "heroku-postbuild": "npm install & npm run install-client && npm run build"

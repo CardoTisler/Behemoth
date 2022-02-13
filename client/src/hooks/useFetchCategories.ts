@@ -4,6 +4,7 @@ import type { Category } from "../../@types/CategoryTypes/category";
 import { getData } from "../fetch/categories";
 import { showError } from "../redux/actions/errorActions";
 import {logger} from "../logger";
+import {loadCategories} from "../redux/actions/categoryActions";
 
 interface FetchCategories {
     incomeCategories: Category[];
