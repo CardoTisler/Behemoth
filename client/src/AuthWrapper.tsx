@@ -5,24 +5,24 @@ import App from "./App";
 import Login from "./components/user/Login";
 import {setUserLoggedIn} from "./redux/actions/userActions";
 import {RootState} from "./redux/reducers";
+import {handleResponse} from "./fetch/common";
+import {logger} from "./logger";
+
+logger.defaultMeta = {service: "AuthWrapper.tsx"}
 
 interface CheckUserAuth {
     tokenValid: boolean;
     username: string;
 }
 const isTokenValid = (): Promise<CheckUserAuth> => {
+    logger.info(`Checking if existing token is valid.`)
     const token = (localStorage.getItem("token")) as string;
     const result = fetch("/isUserAuth", {
         headers: {
             "x-access-token": token,
         },
-    }).then((resp) => {
-        if (resp.status === 200) {
-            return resp.json();
-        } else {
-            throw new Error();
-        }
-    }).then((data: any) => {
+    }).then(handleResponse)
+        .then((data: any) => {
         return {
             tokenValid: true,
             username: data.username,
@@ -56,7 +56,7 @@ const AuthWrapper = () => {
     return (
         <>
             <Switch>
-                <Route exact path="/" component={App} />
+                {isLoggedIn && <Route exact path="/" component={App} />}
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
             </Switch>
