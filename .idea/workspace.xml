@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7e76d7fa-d4d0-483b-ab85-50f88890ca28" name="Changes" comment="" />
+    <list default="true" id="7e76d7fa-d4d0-483b-ab85-50f88890ca28" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/AuthWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/AuthWrapper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/categories/ListRow.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/categories/ListRow.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,7 +45,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Pipedrive" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -48,7 +53,7 @@
     <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/react-scripts" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="project.scopes" />
-    <property name="ts.external.directory.path" value="C:\Users\cardo\AppData\Local\JetBrains\Toolbox\apps\WebStorm\ch-0\213.5744.224\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="ts.external.directory.path" value="C:\Dev\WebDev\categorizer\node_modules\typescript\lib" />
     <property name="ts.rename.search.for.dynamic.occurrences" value="true" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -57,11 +62,11 @@
       <recent name="C:\Dev\WebDev\categorizer\frontend\dist\src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Dev\WebDev\categorizer" />
+      <recent name="C:\Dev\WebDev\categorizer\client\src" />
       <recent name="C:\Dev\WebDev\categorizer\backend" />
       <recent name="C:\Dev\WebDev\categorizer\frontend\src" />
       <recent name="C:\Dev\WebDev\categorizer\backend\validation" />
-      <recent name="C:\Dev\WebDev\categorizer\backend\db" />
-      <recent name="C:\Dev\WebDev\categorizer\backend\test" />
     </key>
   </component>
   <component name="RunManager">
@@ -183,6 +188,10 @@
       <workItem from="1644667875903" duration="84000" />
       <workItem from="1644667971799" duration="51000" />
       <workItem from="1644668040494" duration="35000" />
+      <workItem from="1644671654493" duration="39947000" />
+      <workItem from="1644785753224" duration="305000" />
+      <workItem from="1644831040244" duration="326000" />
+      <workItem from="1644835954376" duration="19000" />
     </task>
     <servers />
   </component>

@@ -9,7 +9,6 @@ import {deleteCategory} from "../../redux/actions/categoryActions";
 import {showError} from "../../redux/actions/errorActions";
 import {hideSuccess, showSuccess} from "../../redux/actions/successActions";
 import {RootState} from "../../redux/reducers";
-import {logger} from "../../logger"
 
 const useStyles = makeStyles({
     display: {
