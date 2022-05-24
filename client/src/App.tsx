@@ -1,7 +1,6 @@
 import {makeStyles} from "@material-ui/core";
 import {useEffect} from "react";
-import {useDispatch} from "react-redux";
-import {useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {useTitle} from "react-use";
 import Login from "./components/user/Login";
@@ -15,37 +14,37 @@ import Reports from "./components/reports/Reports";
 import Transactions from "./components/transactions/Transactions";
 import Banner from "./components/window/Banner";
 import NavigationBar from "./components/window/NavigationBar";
-import {useFetchCategories} from "./hooks/useFetchCategories";
-import {useFetchTransactions} from "./hooks/useFetchTransactions";
-import {loadCategories} from "./redux/actions/categoryActions";
-import {loadTransactions} from "./redux/actions/transactionActions";
-import {RootState} from "./redux/reducers";
-
-import {logger} from "./logger";
+import { useFetchCategories } from "./hooks/useFetchCategories";
+import { useFetchTransactions } from "./hooks/useFetchTransactions";
+import { loadCategories } from "./redux/actions/categoryActions";
+import { loadTransactions } from "./redux/actions/transactionActions";
+import { RootState } from "./redux/reducers";
+import { Colors } from './utils';
 
 const useStyles = makeStyles({
     root: {
         boxSizing: "border-box",
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
+        backgroundColor: Colors.lightGray,
     }, frameStyles: {
         margin: "3rem",
-        width: "100%",
+        width: "90%",
     }, content: {
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "column",
+        width: '100%',
     },
 });
 // TODO: Redirect to /dashboard after mount
 function App() {
-    useTitle("Categorizer");
+    useTitle('Categorizer');
     const classes = useStyles();
     const dispatch = useDispatch();
     const {isLoggedIn} = useSelector((state: RootState) => state.userReducer);
     const {incomeCategories, expenseCategories, noneCategory, categoryError} = useFetchCategories();
     const {transactionsList, error} = useFetchTransactions();
 
-    // logger.info(`Fetched noneCategory in App.tsx: ${noneCategory.name}`)
     useEffect(() => {
         if (!categoryError && !error && isLoggedIn) {
             dispatch(loadCategories({
@@ -59,32 +58,32 @@ function App() {
 
     return (
         <div className={classes.root}>
-            {isLoggedIn && <Banner/>}
-            <div className={classes.content}>
-                {isLoggedIn
-                    ? <Router>
-                        <NavigationBar />
-                        <div className={classes.frameStyles}>
-                            <ErrorToolbar/>
-                            <SuccessToolbar/>
-                            <InfoToolbar/>
+            <Router>
+                {isLoggedIn && <NavigationBar/>}
+                <div className={classes.content}>
+                    {isLoggedIn
+                        ? <>
+                            <Banner/>
+                            <div className={classes.frameStyles}>
+                                <ErrorToolbar/>
+                                <SuccessToolbar/>
+                                <InfoToolbar/>
 
+                                <Switch>
+                                    <Route exact path="/dashboard" component={Dashboard}/>
+                                    <Route exact path="/transactions" component={Transactions}/>
+                                    <Route exact path="/categories" component={Categories}/>
+                                    <Route exact path="/reports" component={Reports}/>
+                                </Switch>
+                            </div>
+                        </>
+                        :
                             <Switch>
-                                <Route exact path="/dashboard" component={Dashboard}/>
-                                <Route exact path="/transactions" component={Transactions}/>
-                                <Route exact path="/categories" component={Categories}/>
-                                <Route exact path="/reports" component={Reports}/>
+                                <Route exact path="/login" component={Login}/>
                             </Switch>
-                        </div>
-                    </Router>
-                    :
-                    <Router>
-                        <Switch>
-                            <Route exact path="/login" component={Login}/>
-                        </Switch>
-                    </Router>
-                }
-            </div>
+                    }
+                </div>
+            </Router>
         </div>
     );
 

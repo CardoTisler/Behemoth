@@ -1,27 +1,29 @@
-import {Box, makeStyles} from "@material-ui/core";
-import Button from "@mui/material/Button";
-import {useDispatch, useSelector} from "react-redux";
-import {setUserLoggedOut} from "../../redux/actions/userActions";
-import {RootState} from "../../redux/reducers";
+import {Box, makeStyles} from '@material-ui/core';
+import Button from '@mui/material/Button';
+import {useDispatch, useSelector} from 'react-redux';
+import {setUserLoggedOut} from '../../redux/actions/userActions';
+import {RootState} from '../../redux/reducers';
+import { Colors, FontSize, Padding } from '../../utils';
 
 const useStyles = makeStyles({
     root: {
-        backgroundColor: "#3f51b5",
-        textAlign: "left",
-        padding: "20px",
-        fontSize: 20,
-        color: "whitesmoke",
-        justifyContent: "space-between",
-        display: "flex",
-        flexDirection: "row",
+        backgroundColor: Colors.lightGray,
+        textAlign: 'right',
+        padding: Padding.m,
+        fontSize: FontSize.m,
     },
     buttons: {
-        display: "flex",
-        flexDirection: "row",
-        width: "12%",
-        marginRight: "2%",
-        justifyContent: "space-between",
-        fontSize: "16px",
+        display: 'flex',
+        flexDirection: 'row',
+        width: '12%',
+        marginRight: '2%',
+        justifyContent: 'space-between',
+        fontSize: FontSize.s,
+        float: 'right',
+    },
+    text: {
+        fontSize: FontSize.m,
+        marginRight: '2%',
     },
 });
 
@@ -29,21 +31,21 @@ const Banner = () => {
     const dispatch = useDispatch();
     const classes = useStyles();
     const {username} = useSelector((state: RootState) => state.userReducer);
-    const {bannerTitle} = useSelector((state: RootState) => state.bannerReducer);
     const handleLogout = () => {
-        localStorage.removeItem("token");
+        localStorage.removeItem('token');
         dispatch(setUserLoggedOut());
     };
     return (
-        <Box className={classes.root} boxShadow={4}>
-            {bannerTitle}
+        <Box className={classes.root} boxShadow={0}>
             <div className={classes.buttons}>
-                <div><Button
-                    variant="contained"
+                <div className={classes.text}>
+                    {username}
+                </div>
+                <Button
+                    variant="outlined"
                     onClick={handleLogout}>
                     Log out
-                </Button></div>
-                <div><p>{username}</p></div>
+                </Button>
             </div>
         </Box>
     );

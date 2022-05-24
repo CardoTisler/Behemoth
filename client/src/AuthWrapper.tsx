@@ -3,12 +3,12 @@ import {Route, Switch, useHistory} from "react-router-dom";
 import Register from "../src/components/user/Register";
 import App from "./App";
 import Login from "./components/user/Login";
-import {setUserLoggedIn} from "./redux/actions/userActions";
-import {RootState} from "./redux/reducers";
-import {handleResponse} from "./fetch/common";
-import {logger} from "./logger";
+import { setUserLoggedIn } from "./redux/actions/userActions";
+import { RootState } from "./redux/reducers";
+import { handleResponse } from "./fetch/common";
+import { logger } from "./logger";
 
-logger.defaultMeta = {service: "AuthWrapper.tsx"}
+logger.defaultMeta = { service: "AuthWrapper.tsx" }
 
 interface CheckUserAuth {
     tokenValid: boolean;
@@ -17,23 +17,22 @@ interface CheckUserAuth {
 const isTokenValid = (): Promise<CheckUserAuth> => {
     logger.info(`Checking if existing token is valid.`)
     const token = (localStorage.getItem("token")) as string;
-    const result = fetch("/isUserAuth", {
+    return fetch('/isUserAuth', {
         headers: {
-            "x-access-token": token,
+            'x-access-token': token,
         },
     }).then(handleResponse)
         .then((data: any) => {
-        return {
-            tokenValid: true,
-            username: data.username,
-        };
-    }).catch((err: Error) => {
-        return {
-            tokenValid: false,
-            username: "",
-        };
-    });
-    return result;
+            return {
+                tokenValid: true,
+                username: data.username,
+            };
+        }).catch(() => {
+            return {
+                tokenValid: false,
+                username: '',
+            };
+        });
 };
 
 const AuthWrapper = () => {

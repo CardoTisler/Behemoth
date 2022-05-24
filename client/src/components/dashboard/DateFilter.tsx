@@ -1,14 +1,18 @@
-import {addDays} from "date-fns/esm";
-import { useState } from "react";
-import {DateRangePicker} from "react-date-range";
-import "react-date-range/dist/styles.css"; // main style file
-import "react-date-range/dist/theme/default.css"; // theme css file
-import { useDispatch } from "react-redux";
-import { changeDateRange } from "../../redux/actions/dateFilterActions";
-import {ITransactionState, Transaction} from "../../../@types/TransactionTypes/Transaction";
-import {useFetchTransactions} from "../../hooks/useFetchTransactions";
-import useUpdateEffect from "../../hooks/useUpdateEffect";
-import {loadTransactions} from "../../redux/actions/transactionActions";
+import {addDays} from 'date-fns/esm';
+import { useState } from 'react';
+import {DateRangePicker} from 'react-date-range';
+import './DateFilter.css';
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
+import { useDispatch } from 'react-redux';
+import { changeDateRange } from '../../redux/actions/dateFilterActions';
+import {ITransactionState, Transaction} from '../../../@types/TransactionTypes/Transaction';
+import {useFetchTransactions} from '../../hooks/useFetchTransactions';
+import useUpdateEffect from '../../hooks/useUpdateEffect';
+import {loadTransactions} from '../../redux/actions/transactionActions';
+import { makeStyles } from '@material-ui/core';
+import { Box } from '@mui/material';
+import { BorderRadius } from '../../utils';
 
 /**
  * Predicate function that checks if given transactiondate is in between startDate and endDate
@@ -39,14 +43,21 @@ function filterTransactions(transactions: ITransactionState, startDate: Date, en
             isInDateRange(transaction.date, startDateMs, endDateMs));
 }
 
+const useStyles = makeStyles({
+    root: {
+        borderRadius: BorderRadius.s,
+    },
+});
+
 const DateFilter: React.FC = () => {
     const dispatch = useDispatch();
+    const classes = useStyles();
     const {transactionsList, error} = useFetchTransactions();
 
     const [state, setState] = useState([
         {
             endDate: addDays(new Date(), 7),
-            key: "selection",
+            key: 'selection',
             startDate: new Date(),
         },
     ]);
@@ -64,11 +75,14 @@ const DateFilter: React.FC = () => {
     }, [state]);
 
     return (
-        <DateRangePicker
-        weekStartsOn={1}
-        ranges={state}
-        onChange={(item: any) => setState([item.selection])} />
-     );
+        <Box boxShadow={4} className={ classes.root }>
+            <DateRangePicker
+                weekStartsOn={1}
+                ranges={state}
+                onChange={(item: any) => setState([item.selection])}
+                className={ classes.root }/>
+        </Box>
+    )
 };
 
 export default DateFilter;

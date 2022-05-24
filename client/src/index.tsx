@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import {BrowserRouter as Router, Link} from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { createStore } from "redux";
 import AuthWrapper from "./AuthWrapper";
 import "./index.css";
@@ -11,7 +11,7 @@ import reportWebVitals from "./reportWebVitals";
 const store = createStore(allReducers);
 
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={ store }>
     <React.StrictMode>
         <Router>
             <AuthWrapper />

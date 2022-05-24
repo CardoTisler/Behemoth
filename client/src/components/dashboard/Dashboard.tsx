@@ -12,9 +12,6 @@ const useStyles = makeStyles({
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-evenly",
-        border: "solid",
-        borderWidth: "1px",
-        borderColor: "white",
         textAlign: "center",
         width: "100%",
         padding: "20px",
@@ -32,7 +29,7 @@ const Dashboard: React.FC = () => {
         dispatch(setBannerTitle({bannerTitle: "Dashboard"}));
     }, []);
     return (
-        <Box className={classes.root} boxShadow={4}>
+        <Box className={classes.root} >
             <div className={classes.header}>
                 <SummaryPanels />
                 <DateFilter />

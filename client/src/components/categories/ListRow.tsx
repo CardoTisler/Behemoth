@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 
 interface IProps {
     element: Category;
-    key: string; // for React list rendering purposes
+    key: string;
 }
 
 const ListRow: React.FC<IProps> = (props) => {

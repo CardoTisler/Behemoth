@@ -17,7 +17,7 @@ const useStyles = makeStyles({
         alignContent: "center",
         marginRight: "5%",
         padding: 10,
-        width: "25%",
+        width: "40%",
     },
 });
 
