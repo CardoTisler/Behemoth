@@ -47,11 +47,11 @@ bar graph about expenses by visualizing each expense category alongside the plan
 
 #### Example:   
 
-![Dashboard](https://i.ibb.co/g6YQ5Kx/dashboard.png)
+![Dashboard](https://i.ibb.co/619jxwS/Dashboard.png)
 
-![Transactions](https://i.ibb.co/VSTM2Xj/transactions.png)
+![Transactions](https://i.ibb.co/m8kwH5Z/Transactions.png)
 
-![Categories](https://i.ibb.co/SmXwjTL/categories.png)
+![Categories](https://i.ibb.co/vVHxnds/Categories.png)
 
 ## Installation and Setup Instructions
 
