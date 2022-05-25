@@ -23,7 +23,8 @@ export enum Margin {
 export enum Colors {
     lightGray = 'rgb(248, 249, 250)',
     darkGray = 'rgb(38, 42, 43)',
-    white = 'whitesmoke',
+    white2 = 'whitesmoke',
+    white = 'rgb(234,232,232)'
 }
 
 export enum BorderRadius {

@@ -1,12 +1,12 @@
 import { Box, Divider, List, ListItem, ListItemText, makeStyles } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import { hideInfo, showInfo } from "../../redux/actions/infoActions";
 import { Category } from "../../../@types/CategoryTypes/category";
 import {hideError, showError} from "../../redux/actions/errorActions";
 import ListRow from "./ListRow";
+import { Colors } from '../../utils';
 const useStyles = makeStyles({
     root: {
-        background: "linear-gradient(180deg , #3f51b5 30%, rgb(0 0 0 / 0%) 100%)",
+        background: `linear-gradient(180deg , ${Colors.white} 30%, rgb(0 0 0 / 0%) 100%)`,
         width: "100%",
     },
 });

@@ -17,7 +17,7 @@ const useStyles = makeStyles({
         flexDirection: 'column',
         width: '12%',
         height: '100vh',
-        backgroundColor: Colors.white,
+        background: `linear-gradient(180deg , ${Colors.white} 30%, rgb(0 0 0 / 0%) 100%)`
     },
     text: {
         textAlign: 'center',

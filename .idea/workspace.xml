@@ -2,20 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7e76d7fa-d4d0-483b-ab85-50f88890ca28" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/dashboard/DateFilter.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/utils.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/AuthWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/AuthWrapper.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/categories/ListRow.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/categories/ListRow.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dashboard/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dashboard/Dashboard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dashboard/DateFilter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dashboard/DateFilter.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dashboard/SummaryElement.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dashboard/SummaryElement.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dashboard/SummaryPanels.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dashboard/SummaryPanels.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/window/Banner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/window/Banner.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/window/NavButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/window/NavButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/window/NavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/window/NavigationBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/categories/CategoryList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/categories/CategoryList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dashboard/DateFilter.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dashboard/DateFilter.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/utils.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -218,7 +208,7 @@
       <workItem from="1653400487895" duration="255000" />
       <workItem from="1653400763070" duration="59000" />
       <workItem from="1653400842595" duration="8638000" />
-      <workItem from="1653427337478" duration="8414000" />
+      <workItem from="1653427337478" duration="9083000" />
     </task>
     <servers />
   </component>
